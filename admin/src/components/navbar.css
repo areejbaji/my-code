@@ -1,0 +1,32 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: 15px 60px;
+  box-shadow: 0 1px 3px -2px #0000;
+  background: white;
+}
+
+.logo-container {
+  display: flex;          /* logo + name side by side */
+  align-items: center;
+  gap: 8px;  
+  text-decoration: bold;             /* space between img and name */
+}
+
+.nav-logo {
+  width: 60px;            /* optional: size for logo image */
+}
+
+@media (max-width: 800px) {
+  .navbar {
+    padding: 15px 30px;   /* smaller padding for mobile */
+  }
+  
+  .logo-container {
+    gap: 4px;             /* smaller gap for mobile */
+  }
+  
+  .nav-logo {
+    width: 40px;          /* smaller logo size for mobile */
+  }
+}
