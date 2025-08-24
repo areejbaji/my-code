@@ -15,3 +15,13 @@ const getConnection = () => {
   }
 };
 module.exports = getConnection;
+// const mongoose = require('mongoose');
+
+// const getConnection = () => {
+//   return mongoose.connect(process.env.MONGO_URI, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   });
+// };
+
+// module.exports = getConnection;
