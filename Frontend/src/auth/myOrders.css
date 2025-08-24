@@ -1,0 +1,53 @@
+.myOrders_main {
+  padding: 2rem;
+}
+
+.myOrders_container {
+  margin-top: 1rem;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+th {
+  background-color: #f5f5f5;
+}
+
+.status {
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+  color: white;
+  font-weight: bold;
+}
+
+.status.pending { background-color: #ffc107; }
+.status.processing { background-color: #90e0ef; }
+.status.return { background-color: #17a2b8; }
+.status.delivered { background-color: #28a745; }
+.status.cancel { background-color: #dc3545; }
+
+button a {
+  text-decoration: none;
+  color: white;
+}
+
+button {
+  background-color: #060918;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #333;
+}

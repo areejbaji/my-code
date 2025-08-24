@@ -1,0 +1,235 @@
+
+ 
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+
+        body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background-color: #ffffff;
+          color: #333333;
+        }
+        .back-button {
+  background-color: #111; /* Dark background */
+  color: #fff;            /* White text */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.back-button:hover {
+  background-color: #e50914; /* Red Netflix-style hover */
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+        nav {
+          background: #f2f2f2;
+          padding: 20px 40px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 2px solid #e0e0e0;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+          color: #00bcd4;
+          font-size: 1.8rem;
+          font-weight: bold;
+        }
+
+        .nav-links a {
+          margin-left: 20px;
+          text-decoration: none;
+          color: #555;
+          font-weight: 500;
+          transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+          color: #00bcd4;
+        }
+
+        .contact-section {
+          min-height: 100vh;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 40px 20px;
+          background-color: #f9f9f9;
+        }
+
+        .contact-form-container {
+          width: 100%;
+          margin-top: 20px;
+          margin-left: 200px;
+          max-width: 600px;
+          padding: 30px;
+          border-radius: 12px;
+          background: #ffffff;
+          border: 1px solid #e0e0e0;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-title {
+          text-align: center;
+          color: #00bcd4;
+          font-size: 2.2rem;
+          margin-bottom: 30px;
+        }
+
+        .contact-form {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .form-group {
+          display: flex;
+          flex-direction: column;
+        }
+
+        label {
+          margin-bottom: 6px;
+          font-size: 1rem;
+          color: #444;
+        }
+
+        .required {
+          color: #e53935;
+        }
+
+        .form-input,
+        .form-textarea {
+          padding: 12px;
+          font-size: 1rem;
+          border: 1.5px solid #cccccc;
+          border-radius: 8px;
+          background: #fafafa;
+          color: #333;
+          transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+          outline: none;
+          border-color: #00bcd4;
+          background-color: #ffffff;
+          box-shadow: 0 0 5px #00bcd433;
+        }
+
+        .submit-btn {
+          padding: 14px;
+          font-size: 1.1rem;
+          color: #ffffff;
+          background: #00bcd4;
+          border: none;
+          border-radius: 10px;
+          cursor: pointer;
+          text-transform: uppercase;
+          font-weight: bold;
+          box-shadow: 0 4px 10px rgba(0, 188, 212, 0.3);
+          transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .submit-btn:hover {
+          background: #00acc1;
+          transform: scale(1.03);
+        }
+
+        footer {
+          text-align: center;
+          padding: 20px;
+          background-color: #f2f2f2;
+          border-top: 1px solid #e0e0e0;
+          color: #777;
+          font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+          nav {
+            flex-direction: column;
+            text-align: center;
+          }
+
+          .nav-links {
+            margin-top: 10px;
+          }
+
+          .form-title {
+            font-size: 1.8rem;
+          }
+
+          .contact-form-container {
+            margin: 0 10px;
+          }
+        }
+    
+/* 
+      <nav>
+        <div className="logo">NeonContact</div>
+        <div className="nav-links">
+          <a href="#">Home</a>
+          <a href="#">About</a>
+          <a href="#">Services</a>
+          <a href="#">Contact</a>
+        </div>
+      </nav>
+
+      <div className="contact-section">
+        <div className="contact-form-container">
+          <h1 className="form-title">Contact Us</h1>
+          <form className="contact-form">
+            <div className="form-group">
+              <label htmlFor="name">Name</label>
+              <input type="text" id="name" className="form-input" placeholder="Enter your name" />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="email">
+                Email <span className="required">*</span>
+              </label>
+              <input type="email" id="email" className="form-input" required placeholder="Enter your email" />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="phone">Phone Number</label>
+              <input type="tel" id="phone" className="form-input" placeholder="Enter your phone number" />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="comment">Comment</label>
+              <textarea
+                id="comment"
+                className="form-textarea"
+                rows="4"
+                placeholder="Write your message here..."
+              ></textarea>
+            </div>
+
+            <button type="submit" className="submit-btn">
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <footer>
+        &copy; 2025 NeonContact. All rights reserved.
+      </footer>
+    </>
+  );
+};
+
+export default ContactPage; */
