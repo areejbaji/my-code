@@ -12,17 +12,25 @@ const router = express.Router();
 const Order = require("../models/Order");
 
 // Create new order
+// POST /api/orders
 router.post("/", async (req, res) => {
-  console.log("Received order:", req.body); // <-- add this
+  console.log("Received order:", req.body); // request debug ke liye
+
   try {
+    if (!req.body.items || req.body.items.length === 0) {
+      return res.status(400).json({ message: "Cart is empty" });
+    }
+
     const newOrder = new Order(req.body);
     const savedOrder = await newOrder.save();
+
     res.status(201).json(savedOrder);
   } catch (err) {
-    console.error("Order save error:", err); // <-- exact error dekhne ke liye
+    console.error("Order save error:", err);
     res.status(500).json({ message: "Failed to save order", error: err.message });
   }
 });
+
 
 // router.post("/", async (req, res) => {
 //   try {

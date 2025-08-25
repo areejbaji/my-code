@@ -1,102 +1,4 @@
 
-// import React, { useState, useEffect, useRef } from "react";
-// import { Link } from "react-router-dom";
-// import "./Men.css";
-// import "./WomenPage.css";
-// import { useNavigate } from "react-router-dom";
-// import axios from "axios";
-
-// const Men = () => {
-//   const [products, setProducts] = useState([]);
-//   const suitRef = useRef(null);
-//   const kurtaRef = useRef(null);
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     // Backend se men products fetch karna
-//     axios
-//       .get("http://localhost:4000/product/category/men") // backend API endpoint
-//       .then((res) => {
-//         setProducts(res.data);
-//       })
-//       .catch((err) => console.log(err));
-//   }, []);
-
-//   // Safe filter
-//   const suits = products?.filter((p) => p.subCategory === "suit") || [];
-//   const kurtas = products?.filter((p) => p.subCategory === "kurta") || [];
-
-//   const scrollToSection = (ref) => {
-//     ref.current.scrollIntoView({ behavior: "smooth" });
-//   };
-
-//   if (!products) return <p>Loading...</p>;
-
-//   return (
-//     <div>
-//       {/* Back Button */}
-//       <button onClick={() => navigate(-1)} className="back-button">
-//         ← Back
-//       </button>
-
-//       {/* Hero Section */}
-//       <section className="hero-container">
-//         <div className="hero-content">
-//           <h1>Welcome to Our Men’s Collection</h1>
-//           <p>Discover the latest trends and style with our handpicked collection</p>
-//           <button className="hero-btn">Shop Now</button>
-//         </div>
-//       </section>
-
-//       {/* Categories */}
-//       <h2 className="category-title">Categories</h2>
-//       <div className="categories">
-//         <div onClick={() => scrollToSection(suitRef)}>
-//           <img src="/assets/mensuit1.webp" alt="Suit" />
-//           <p>Suit</p>
-//         </div>
-//         <div onClick={() => scrollToSection(kurtaRef)}>
-//           <img src="/assets/kurta1.webp" alt="Kurta" />
-//           <p>Kurta</p>
-//         </div>
-//       </div>
-
-//       {/* Suit Collection */}
-//       <div className="product-section" ref={suitRef}>
-//         <h2>Suit Collection</h2>
-//         <div className="product-grid">
-//           {suits.map((item) => (
-//             <Link to={`/product/${item._id}`} key={item._id} state={item}>
-//               <div className="product-card">
-//                 <img src={item.images[0]} alt={item.name} />
-//                 <h4>{item.name.replace(/"/g, "")}</h4>
-//                 <p>₨ {item.new_price}</p>
-//               </div>
-//             </Link>
-//           ))}
-//         </div>
-//       </div>
-
-//       {/* Kurta Collection */}
-//       <div className="product-section" ref={kurtaRef}>
-//         <h2>Kurta Collection</h2>
-//         <div className="product-grid">
-//           {kurtas.map((item) => (
-//             <Link to={`/product/${item._id}`} key={item._id} state={item}>
-//               <div className="product-card">
-//                 <img src={item.images[0]} alt={item.name} />
-//                 <h4>{item.name.replace(/"/g, "")}</h4>
-//                 <p>₨ {item.new_price}</p>
-//               </div>
-//             </Link>
-//           ))}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Men;
 import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import "./Men.css";
@@ -131,12 +33,12 @@ const Men = () => {
   return (
     <div>
       {/* Hero Section */}
-      <button onClick={() => navigate(-1)} className="back-button">← Back</button>
+      {/* <button onClick={() => navigate(-1)} className="back-button">← Back</button> */}
       <section className="hero-container">
         <div className="hero-content">
           <h1>Welcome to Our Men’s Collection</h1>
           <p>Discover the latest trends and style with our handpicked collection</p>
-          <button className="hero-btn">Shop Now</button>
+          {/* <button className="hero-btn">Shop Now</button> */}
         </div>
       </section>
 

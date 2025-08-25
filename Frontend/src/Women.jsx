@@ -202,15 +202,22 @@ const Women = () => {
   return (
     <div>
       {/* Hero Section */}
-      <button onClick={() => navigate(-1)} className="back-button">← Back</button>
-      <section className="hero-container">
+      {/* <button onClick={() => navigate(-1)} className="back-button">← Back</button> */}
+      {/* <section className="hero-container">
         <div className="hero-content">
+          
           <h1>Welcome to Our Women’s Collection</h1>
           <p>Explore the latest Suits & Frocks crafted with elegance</p>
           <button className="hero-btn">Shop Now</button>
           
         </div>
-      </section>
+      </section> */}
+      <div
+        className="hero"
+        style={{ backgroundImage: `url("/assets/Women.jpeg")` }}
+      >
+        
+      </div>
 
       {/* Categories */}
       <h2 className="category-title">Categories</h2>

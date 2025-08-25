@@ -1,10 +1,11 @@
-/* .categories-container {
+.categories-container {
   display: flex;
   flex-wrap: wrap;        
   gap: 25px;
   padding: 20px 0;
   justify-content: center;
   align-items: center;
+  list-style: none;
 }
 
 .category-card {
@@ -21,7 +22,7 @@
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  /* border: 4px solid #1b1a1a; 
+  /* border: 4px solid #1b1a1a; */
   cursor: pointer;
   transition: transform 0.3s ease;
   margin-bottom: 10px;
@@ -43,241 +44,8 @@
   text-align: center;
   font-size: 3rem;
   margin-bottom: 40px;
+  list-style: none;
   color: #3b4344;
   font-weight: 700;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-} */
- .cart-container {
-  max-width: 1100px;
-  margin: 25px auto;
-  padding: 15px;
-  font-family: 'Arial', sans-serif;
-  color: #333;
-}
-
-.back-btn {
-  background: #eee;
-  border: none;
-  padding: 6px 14px;
-  margin-bottom: 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #222;
-}
-
-.cart-content {
-  display: flex;
-  gap: 25px;
-  flex-wrap: wrap;
-}
-
-.cart-items {
-  flex: 2;
-}
-
-.cart-item {
-  display: flex;
-  gap: 15px;
-  padding: 15px;
-  border-radius: 12px;
-  border: 1px solid #e0e0e0;
-  margin-bottom: 20px;
-  background: #fff;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
-  align-items: flex-start;
-}
-
-.cart-img {
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-}
-
-.cart-details {
-  flex: 1;
-}
-
-.cart-details h3 {
-  margin: 0 0 6px 0;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.cart-details p {
-  margin: 4px 0;
-  font-size: 13px;
-  color: #555;
-}
-
-.size-box {
-  display: inline-block;
-  background: #28a745;
-  color: white;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  text-align: center;
-  line-height: 28px;
-  font-weight: bold;
-  font-size: 13px;
-  margin-left: 4px;
-}
-
-.measurement-section {
-  margin-top: 8px;
-}
-
-.measurement-section h4 {
-  margin: 6px 0 4px 0;
-  font-size: 14px;
-  font-weight: bold;
-  color: #444;
-}
-
-.measurements-boxes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-bottom: 6px;
-}
-
-.measure-box {
-  background: #f0f0f0;
-  border-radius: 50px;
-  padding: 4px 8px;
-  font-size: 11px;
-  font-weight: 500;
-  color: #333;
-  border: 1px solid #ccc;
-}
-
-.quantity-control {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 8px 0;
-}
-
-.quantity-control button {
-  width: 28px;
-  height: 28px;
-  border: 1px solid #888;
-  background: #f5f5f5;
-  cursor: pointer;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-.quantity-control span {
-  font-weight: bold;
-  min-width: 22px;
-  text-align: center;
-}
-
-.remove-btn {
-  background: #ff4d4d;
-  color: #fff;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.price-details {
-  flex: 1;
-  border-radius: 12px;
-  padding: 20px;
-  border: 1px solid #e0e0e0;
-  background: #f9f9f9;
-  height: fit-content;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
-}
-
-.price-details h3 {
-  margin-top: 0;
-  font-size: 18px;
-}
-.quantity-remove-row {
-  display: flex;
-  align-items: center;
-  gap: 12px; /* distance between quantity and remove button */
-  margin: 8px 0;
-}
-
-.remove-btn {
-  background: #ff4d4d;
-  color: #fff;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: 0.3s;
-}
-
-.remove-btn:hover {
-  background: #e04343;
-}
-
-
-.price-details p {
-  margin: 6px 0;
-  font-size: 14px;
-}
-
-.price-details h4 {
-  margin-top: 15px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #222;
-}
-
-.checkout-btn {
-  margin-top: 15px;
-  width: 100%;
-  padding: 12px;
-  background: #28a745;
-  color: white;
-  font-size: 15px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.checkout-btn:hover {
-  background: #218838;
-}
-
-@media (max-width: 900px) {
-  .cart-content {
-    flex-direction: column;
-  }
-
-  .cart-item {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .cart-img {
-    width: 100%;
-    height: auto;
-  }
-
-  .cart-details {
-    text-align: center;
-  }
-
-  .price-details {
-    width: 100%;
-  }
 }
