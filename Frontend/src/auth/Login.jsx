@@ -1,0 +1,189 @@
+ import React, { useState } from 'react';
+import './Login.css';
+import Button from './Button';
+import { Link, useNavigate } from 'react-router-dom';
+import { SlLogin } from "react-icons/sl";
+import toast from 'react-hot-toast';
+import apis from '../utils/apis';
+import LoadingButton from './LoadingButton';
+
+export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // ✅ React Router navigation hook
+
+  const emailChange = (e) => setEmail(e.target.value);
+  const passwordChange = (e) => setPassword(e.target.value);
+// const submitHandler = async (event) => {
+//   event.preventDefault();
+//   console.clear();
+//   console.log("🚀 submitHandler TRIGGERED");
+//   console.log("📤 Sending payload:", { email, password });
+
+//   if (!email || !password) {
+//     toast.error("Please fill all required fields");
+//     return;
+//   }
+
+//   try {
+//     setLoading(true);
+
+//     const response = await fetch(apis().loginUser, {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify({ email, password })
+//     });
+
+//     const result = await response.json();
+
+//     if (!response.ok) {
+//       throw new Error(result?.message || "Login failed");
+//     }
+
+//     if (result?.status) {
+//       toast.success(result.message);
+
+//       // ✅ Save user info in localStorage
+//       localStorage.setItem("user", JSON.stringify({
+//         name: result.user.name,   // backend must return user object
+//         email: result.user.email,
+//         token: result.token
+//       }));
+
+//       // ✅ Save token separately if needed
+//       localStorage.setItem('accessToken', result.token);
+
+//       // ✅ Redirect based on role
+//       if (result.role === 'admin') {
+//         navigate('/admin');
+//       } else {
+//         navigate('/'); // normal user goes to home
+//       }
+//     } else {
+//       throw new Error(result?.message || "Login failed");
+//     }
+
+//   } catch (error) {
+//     console.error("🔥 Error in submitHandler:", error);
+//     toast.error(error.message || "Something went wrong");
+//   } finally {
+//     setLoading(false);
+//   }
+// };
+
+  const submitHandler = async (event) => {
+    event.preventDefault();
+    console.clear();
+    console.log("🚀 submitHandler TRIGGERED");
+    console.log("📤 Sending payload:", { email, password });
+
+    if (!email || !password) {
+      toast.error("Please fill all required fields");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const apiUrl = apis().loginUser;
+      console.log("🌐 API Endpoint:", apiUrl);
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      console.log("📩 Response status:", response.status, response.statusText);
+
+      const rawText = await response.text();
+      console.log("📜 Raw Response Text:", rawText);
+
+      let result;
+      try {
+        result = JSON.parse(rawText);
+      } catch (parseError) {
+        console.error("❌ JSON Parse Error:", parseError);
+        throw new Error("Invalid JSON from server");
+      }
+
+      console.log("✅ Parsed JSON:", result);
+
+      if (!response.ok) {
+        throw new Error(result?.message || "Login failed");
+      }
+
+      if (result?.status) {
+        toast.success(result.message);
+        localStorage.setItem('accessToken', result.token);
+
+        if (result.role === 'admin') {
+          console.log("👑 Admin user — redirecting to /admin");
+          navigate('/admin'); // ✅ Navigate without page reload
+        } else {
+          console.log("👤 Normal user — redirecting to /");
+          navigate('/'); // ✅ Navigate without page reload
+        }
+      } else {
+        throw new Error(result?.message || "Login failed");
+      }
+
+    } catch (error) {
+      console.error("🔥 Error in submitHandler:", error);
+      toast.error(error.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className='auth_main'>
+      <form onSubmit={submitHandler}>
+        <div className='auth_container'>
+          <div className='auth_header'>
+            <SlLogin size={24} color="#060918ff" />
+            <p className='auth_heading'>Welcome Back</p>
+            <p className='auth_title'>Login to continue</p>
+          </div>
+
+          <div className='auth_item'>
+            <label>Email *</label>
+            <input
+              type="email"
+              autoComplete="off"
+              value={email}
+              onChange={emailChange}
+              placeholder="enter your email"
+              className="ui_Input"
+              required
+            />
+          </div>
+
+          <div className='auth_item'>
+            <label>Password *</label>
+            <input
+              type="password"
+              autoComplete="new-password"
+              value={password}
+              onChange={passwordChange}
+              placeholder="enter your password"
+              className="ui_Input"
+              required
+            />
+          </div>
+
+          <div className='auth_action'>
+            <Button type="submit">
+              <LoadingButton loading={loading} title="Login" />
+            </Button>
+            <div className='auth_option'>
+              <Link to='/register'>Create new account?</Link>
+              <Link to='/forget/password'>Forget password</Link>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+}

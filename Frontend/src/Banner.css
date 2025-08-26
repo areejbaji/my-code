@@ -1,0 +1,107 @@
+/* Main banner wrapper */
+.promo-banner {
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  animation: zoomIn 12s ease-in-out infinite alternate;
+  width: 100%; /* Keeps full width */
+  max-width: 100%;
+}
+
+/* Zoom animation */
+@keyframes zoomIn {
+  0% {
+    background-size: 100%;
+  }
+  100% {
+    background-size: 110%;
+  }
+}
+
+/* Dark overlay on image */
+.promo-overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* Text content styling */
+.promo-content {
+  text-align: center;
+  color: white;
+  padding: 1.5rem 2.5rem;
+  max-width: 800px;
+}
+
+.promo-content h1 {
+  font-size: 3.2rem;
+  margin-bottom: 1rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.promo-content p {
+  font-size: 1.3rem;
+  margin-bottom: 1.8rem;
+  font-weight: 400;
+}
+
+/* Button style */
+.shop-btn {
+  padding: 0.8rem 2rem;
+  font-size: 1.05rem;
+  background-color: #ff4d6d;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+}
+
+.shop-btn:hover {
+  background-color: #e0315b;
+  transform: translateY(-2px);
+}
+
+/* Responsive (tablet & mobile) */
+@media (max-width: 768px) {
+  .promo-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .promo-content p {
+    font-size: 1rem;
+  }
+
+  .shop-btn {
+    font-size: 0.95rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+/* Mobile extra small screens */
+@media (max-width: 480px) {
+  .promo-content {
+    padding: 1rem;
+  }
+
+  .promo-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .promo-content p {
+    font-size: 0.95rem;
+  }
+}

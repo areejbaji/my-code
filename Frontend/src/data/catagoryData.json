@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "img": "/assets/130.webp",
+    "heading": "Men",
+    "link": "/men"
+  },
+  {
+    "id": 2,
+    "img": "/assets/132.jpg",
+    "heading": "Women",
+    "link": "/women"
+  }
+]

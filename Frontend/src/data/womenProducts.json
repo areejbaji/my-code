@@ -1,0 +1,324 @@
+{
+  "categories": [
+    {
+      "name": "Suit",
+      "slug": "suit",
+      "image": "/assets/mensuit1.webp"
+    },
+    {
+      "name": "Frock",
+      "slug": "frock",
+      "image": "/assets/kurta1.jpg"
+    }
+  ],
+  "suits": [
+    {
+      "id": 1,
+      "name": "Teal Serenity",
+        "description":[
+  "Lawn Front & Side Panels",
+  "Borer Embroidered Lawn Sleeves",
+  "Borer Embroidered Lawn Front Border (1 Yard)",
+  "Borer Embroidered Lawn Back Border (1 Yard)",
+  "Embroidered LAWN TROUSER BORDER (1.4 YARDS)",
+  "Plain Lawn Back (1 Yard)",
+  "Embroidered Chiffon Dupatta (2.5 Yards)",
+  "Dyed Cotton Trouser (2.75 Yards)"
+],
+      "price": 4800,
+      "images":[
+        "/assets/suit1.1.webp",
+        "/assets/suit1.2.webp",
+        "/assets/suit1.3.webp",
+        "/assets/suit1.4.webp"
+      ],
+      "slug": "elegant-maroon-suit"
+    },
+    {
+      "id": 2,
+      "name": "3 Piece - Embroidered Suit - 42519215",
+      "description": [
+        "Let every thread reflect your individuality and poise with this beautifully embroidered three-piece suit from the latest Inara Ready-to-Stitch Summer Collection.",
+        "SHIRT: Embroidered Cambric Front + Sleeves: 1.5 MeterPlain Cambric Shirt Back: 1 MeterFabric: Cambric Color: Mustard",
+        "DUPATTA :   Embroidered Poly Net Dupatta: 2.5 Meter",
+        "Embroidered Cambric Trouser: 1.8 Meter"
+
+      ],
+      "price": 16500,
+      "images": [
+        "/assets/suit2.1.webp",
+        "/assets/suit2.4.webp",
+        "/assets/suit2.3.webp",
+        "/assets/suit2.2.webp"
+      ],
+      "slug": "soft-pink-suit"
+    },
+    {
+      "id": 3,
+      "name": "Fuchsia Flare",
+      "description": [
+     "   Digital Printed Lawn Shirt & Trouser (4.10 Yards)",
+"Borer Embroidered Organza Neckline Patch",
+"Embroidered Organza Sleeves Patch (04)",
+"Embroidered Organza Front Patch (02)",
+"Embroidered Organza Front, Back & Side Border (6.5 Yards)",
+"Digital Printed Silk Dupatta (2.70 Yards)"
+      ],
+      "price": 12500,
+      "images": [
+        "/assets/suit3.1.webp",
+        "/assets/suit3.2.webp",
+        "/assets/suit3.3.webp",
+        "/assets/suit3.4.webp"
+      ],
+      "slug": "luxury-silk-suit"
+    },
+    {
+      "id": 4,
+      "name": "3 Piece Lawn Suit-Embroidered (Pret)",
+      "description": [
+        "ShirtDyed   Embroidered shirt crafted from premium. Fabric: Lawn",
+        "Dupatta  Printed dupatta  Fabric: Yarn Dyed",
+        "TrouserDyed narrow-leg trousers with elasticized waistband  Fabric: Cambric"
+      ],
+      "price": "9,599",
+      "images": [
+        "/assets/suit4.4.webp",
+        "/assets/suit4.2.webp",
+         "/assets/suit4.1.jpg","/assets/suit4.3.webp"
+       
+      ],
+      "slug": "peach-designer-suit"
+    },
+    {
+      "id": 5,
+      "name": "Printed - 3 Pc Cambric Suit",
+      "description": [
+        "Elevate your style with our bright printed ensemble, featuring a 3 - Piece Suit - Cambric Printed shirt paired with a printed lawn dupatta and dyed cambric trousers.",
+  
+        "Shirt :Digital Printed Cambric Shirt",  "Dupatta: Digital Printed Lawn Dupatta",
+        "Trouser: Dyed Cambric Trouser"
+      ],
+      "price": "9,599",
+      "images": [
+        "/assets/suit5.1.webp","/assets/suit5.2.webp","/assets/suit5.3.webp","/assets/suit5.4.webp"
+      ],
+      "slug": "midnight-black-suit"
+    },
+    {
+      "id": 6,
+      "name": "3 Piece Silk Suit-Embroidered (Pret)",
+      "description": [
+        "Shirt : Dyed embroidered shirt Embroidery and sequin work on the placket  Fabric: Silk",
+        "Dupatta: Printed dupatta Fabric: Silk",
+        "Touser: Dyed narrow-leg trouser with elasticised waistband.   Fabric: Silk",
+        "color: Green Weight :500g",
+        "Note: Model is wearing size S"
+      ],
+      "price": "10,999",
+      "images": [
+        "/assets/suit6.1.webp",
+        "/assets/suit6.2.webp",
+        "/assets/suit6.3.webp",
+        "/assets/suit6.4.webp"
+      ],
+      "slug": "turquoise-lawn-suit"
+    },
+      {
+      "id": 7,
+      "name": "RANG-E-KHIZAN – 3PC LAWN & CHIFFON LUXURY PRET",
+      "description": [
+        "SHIRT:STYLE KURTA (LAWN) Digitally printed kurtaEmbroidered neckline. Embroidered and hand embellished motif spray on front panels . Heavy lace work on front panles, hem and slitsGathered sleeves with lace details",
+        "SHALWAR: Digitally printed shalwar with embroidery",
+        "DUPATTA: Digitally printed chiffon dupatta with embroidered border"
+      ],
+      "price": 4000,
+      "images": [
+        "/assets/suit7.1.webp",
+        "/assets/suit7.2.webp",
+        "/assets/suit7.3.webp",
+        "/assets/suit7.4.webp"
+      ],
+      "slug": "turquoise-lawn-suit"
+    },
+    {
+      "id": 9,
+       "name":"3 Piece - Embroidered Suit - 42519414",
+       "description":"Embrace effortless elegance with this embroidered three-piece from the latest onora ready to stitch summer collection.",
+       "price:7000",
+       "shirt":["Embroidered Cambric Front + Embroidered Front Hem Patti: 1 Meter Plain Cambric Shirt Back: 1 MeterEmbroidered Cambric Sleeves: 0.64 Meter",
+       "fabric:cambric",
+       "color:Black",
+       "dupatta:Embroidered Poly Net Dupatta: 2.5 Meter",
+       "trouser:Plain Cambric Trousers: 1.75 Meter"],
+       "image": "/assets/suit10-front.webp",
+       "images":[
+       "/assets/suit10-front.webp",
+       "/assets/suit10clos.webp",
+       "/assets/suit10side.webp",
+       "/assets/suit10-full.webp"
+
+       
+       ],
+      "slug": "embroidered-suit-42519414"
+
+    },
+     {
+  "id": 8,
+  "name": "3 Piece - Digital Printed Suit",
+  "description": [
+    "Embrace effortless elegance with this embroidered three-piece from the latest onora ready to stitch summer collection.",
+    "SHIRT: Embroidered Cambric Front + Embroidered Front Hem Patti: 1 Meter. Plain Cambric Shirt Back: 1 Meter. Embroidered Cambric Sleeves: 0.64 Meter. Fabric: Cambric. Color: Black",
+    "DUPATTA:Embroidered Poly Net Dupatta: 2.5 Meter Fabric: Poly NetColor: Black",
+    "TROUSERS: Plain Cambric Trousers: 1.75 Meter Fabric: Cambric Color: Black",
+    "Note:Product color may slightly vary due to photographic lighting sources or your device settings."
+ ],
+  "price": 4800,
+  "images": [
+    "/assets/women1-front.jpg",
+    "/assets/women1-closeup.jpg",
+    "/assets/women1side.jpg",
+    "/assets/women1-back.jpg"
+  ],
+  "slug": "elegant-maroon-suit"
+}
+
+
+
+  ],
+  "frocks": [
+    {
+      "id": 2,
+      "name": "Anarkali Green Frock",
+      "description": "Flowy frock with heavy embroidery and traditional look.",
+      "price": 5500,
+      
+     "images":[
+         "/assets/frock1.1.webp",
+         "/assets/frock1.2.webp",
+         "/assets/frock1.3.webp",
+         "/assets/frock1.4.webp"
+     ],
+      "slug": "anarkali-peach-frock"
+    },
+    {
+      "id": 3,
+      "name": "Layered Peach Frock",
+      "description": ["Peach silk frock with layered bottom and net sleeves.",
+      "SHIRT LENGTH: 56",
+       "SHIRT BOTTOM: 115",
+      "LEHENGA LENGTH: 42",
+       "LEHENGA BOTTOM: 100"],
+      "price": 4700,
+      "images": [
+        "/assets/frock2.1.webp",
+        "/assets/frock2.2.webp",
+        "/assets/frock2.3.webp",
+        "/assets/frock2.4.webp"
+      ],
+      "slug": "layered-blue-frock"
+    },
+     
+    {
+      "id": 4,
+      "name": "3 Piece - Printed Loose Fabric - 42503344",
+      "description": [
+        "Wear your power, wear your pride this printed three-piece from the Freedom to Buy Summer Collection blends bold expression with timeless elegance and breezy sophistication.",
+        "SHIRT DETAIL:Shirt: 3 Meter (RS 850/-Mtr) Fabric: Lawn Color: Dark Purple",
+        "Dupatta: 2.5 Meter (RS 850/-Mtr) Fabric: Voile Color: Dark Purple",
+        "TROUSERSTrousers: 2.5 Meter (RS 780/-Mtr) Fabric: Cambric Color: Dark Purple",
+        "Note: Product color may slightly vary due to photographic lighting sources or your device settings."
+      ],
+      "price": "9,950",
+      "images": [
+        "/assets/frock3.1.webp","/assets/frock3.2.webp","/assets/frock3.3.webp","/assets/frock3.4.webp"
+      ],
+      "slug": "royal-green-maxi-frock"
+    },
+    {
+      "id": 5,
+      "name": "NAVY BLUE 3Pcs",
+      "description": [
+        "This frock style luxury three-piece staple comes with palatial embroidery and embellishments of shirt and dupatta",
+        "⁃ Fabric is khaddi net.",
+        "This information is for three-piece design only.",
+        "Model is wearing size S"
+      ],
+      "price": "17,900.00",
+      "images": [
+        "/assets/frock4.1.webp",
+        "/assets/frock4.2.webp",
+        "/assets/frock4.3.webp",
+        "/assets/frock4.4.webp"
+      ],
+      "slug": "NAVY-BLUE-3Pcs"
+    },
+    {
+      "id": 6,
+      "name": "Black chiffon frock",
+      "description": [
+        "FROCK:Plain Chiffon Frock With Neckline And Sleeves Patch ",
+        "DUPATTA:Embroidered Chiffon Dupatta ",
+        "Trouser:Dyed Silk Trousers",
+        "Note:The actual colour may vary from the image shown. Unstitched Fabric Only. Stitched will be as shown in the image."
+      ],
+      "price": "14,500",
+      "images": [
+        "/assets/frock5.1.webp","/assets/frock5.2.webp","/assets/frock5.3.webp","/assets/frock5.4.webp"
+      ],
+      "slug": "pink-formal-frock"
+    },
+    {
+      "id": 7,
+      "name": "White Lawn Shirt-Printed (Pret)",
+      "description": [
+        "Frock: Printed frock Fabric: Viscose Lawn",
+        "Other Details:  Color: Off WhiteWeight: 190 g",
+        "Note: Model is wearing size S"
+      ],
+      "price": 4600,
+      "images": [
+        "/assets/frock6.1.webp",
+        "/assets/frock6.2.webp",
+        "/assets/frock6.3.webp",
+        "/assets/frock6.4.webp"
+      ],
+      "slug": "stylish-grey-frock"
+    },
+     {
+      "id": 7,
+      "name": "Plain chiffon gown",
+      "description": [
+        "Frock: Embroidered front/back border",
+        "Embroidered net dupatta",
+        "Dyed silk trousers",
+        "Note: Model is wearing size S"
+      ],
+      "price": 4600,
+      "images": [
+        "/assets/frock7.1.jpg",
+        "/assets/frock7.2.jpg",
+        "/assets/frock7.3.jpg",
+        "/assets/frock7.4.jpg"
+      ],
+      "slug": "stylish-grey-frock"
+    },
+      {
+      "id": 7,
+      "name": "Off White Printed frock",
+      "description": [
+        "Frock: Printed frock Fabric: Viscose Lawn",
+        "Other Details:  Color: Off WhiteWeight: 190 g",
+        "Note: Model is wearing size S"
+      ],
+      "price": 4600,
+      "images": [
+        "/assets/frock8.1.webp",
+        "/assets/frock8.2.webp",
+        "/assets/frock8.3.webp",
+        "/assets/frock8.4.jpg"
+      ],
+      "slug": "stylish-grey-frock"
+    }
+  ]
+}
