@@ -15,62 +15,7 @@ export default function Login() {
 
   const emailChange = (e) => setEmail(e.target.value);
   const passwordChange = (e) => setPassword(e.target.value);
-// const submitHandler = async (event) => {
-//   event.preventDefault();
-//   console.clear();
-//   console.log("🚀 submitHandler TRIGGERED");
-//   console.log("📤 Sending payload:", { email, password });
 
-//   if (!email || !password) {
-//     toast.error("Please fill all required fields");
-//     return;
-//   }
-
-//   try {
-//     setLoading(true);
-
-//     const response = await fetch(apis().loginUser, {
-//       method: 'POST',
-//       headers: { 'Content-Type': 'application/json' },
-//       body: JSON.stringify({ email, password })
-//     });
-
-//     const result = await response.json();
-
-//     if (!response.ok) {
-//       throw new Error(result?.message || "Login failed");
-//     }
-
-//     if (result?.status) {
-//       toast.success(result.message);
-
-//       // ✅ Save user info in localStorage
-//       localStorage.setItem("user", JSON.stringify({
-//         name: result.user.name,   // backend must return user object
-//         email: result.user.email,
-//         token: result.token
-//       }));
-
-//       // ✅ Save token separately if needed
-//       localStorage.setItem('accessToken', result.token);
-
-//       // ✅ Redirect based on role
-//       if (result.role === 'admin') {
-//         navigate('/admin');
-//       } else {
-//         navigate('/'); // normal user goes to home
-//       }
-//     } else {
-//       throw new Error(result?.message || "Login failed");
-//     }
-
-//   } catch (error) {
-//     console.error("🔥 Error in submitHandler:", error);
-//     toast.error(error.message || "Something went wrong");
-//   } finally {
-//     setLoading(false);
-//   }
-// };
 
   const submitHandler = async (event) => {
     event.preventDefault();

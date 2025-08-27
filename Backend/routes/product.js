@@ -45,7 +45,41 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// 
+// DELETE PRODUCT
+router.delete("/:id", async (req, res) => {
+  try {
+    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+    if (!deletedProduct) {
+      return res.status(404).json({ success: false, message: "Product not found" });
+    }
+    res.json({ success: true, message: "Product deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting product:", err.message);
+    res.status(500).json({ success: false, message: "Server Error", error: err.message });
+  }
+});
+
+// router.get("/", async (req, res) => {
+//   try {
+//     const searchQuery = req.query.search || "";
+
+//     const products = await Product.find({
+//       $or: [
+//         { name: { $regex: searchQuery, $options: "i" } },
+//         { category: { $regex: searchQuery, $options: "i" } },
+//         { subCategory: { $regex: searchQuery, $options: "i" } },
+//       ],
+//     }).select("name category subCategory  new_price old_price images"); // images array
+
+//     const uniqueProducts = Array.from(new Map(products.map(p => [p._id.toString(), p])).values());
+
+//     res.json(uniqueProducts); // agar empty array bhi return hoga agar match nahi hua
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// });
+
+// GET ALL PRODUCTS
 router.get("/", async (req, res) => {
   try {
     const searchQuery = req.query.search || "";
@@ -54,18 +88,15 @@ router.get("/", async (req, res) => {
       $or: [
         { name: { $regex: searchQuery, $options: "i" } },
         { category: { $regex: searchQuery, $options: "i" } },
-        { subcategory: { $regex: searchQuery, $options: "i" } },
+        { subCategory: { $regex: searchQuery, $options: "i" } }, // FIXED "subCategory"
       ],
-    }).select("name category subcategory price images"); // images array
+    }).select("name category subCategory new_price old_price images available"); // FIXED field names
 
-    const uniqueProducts = Array.from(new Map(products.map(p => [p._id.toString(), p])).values());
-
-    res.json(uniqueProducts); // agar empty array bhi return hoga agar match nahi hua
+    res.json(products);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
-
 
 
 
@@ -80,6 +111,37 @@ router.get("/category/:category", async (req, res) => {
   } catch (err) {
     console.error("Error fetching category products:", err.message);
     res.status(500).json({ success: false, message: "Server Error", error: err.message });
+  }
+});
+// UPDATE PRODUCT
+router.put("/:id", parser.array("images", 5), async (req, res) => {
+  try {
+    const description = req.body.description ? JSON.parse(req.body.description) : [];
+    let updateData = {
+      name: req.body.name,
+      category: req.body.category,
+      subCategory: req.body.subCategory,
+      new_price: req.body.new_price,
+      old_price: req.body.old_price,
+      description: description,
+      sizeChart: req.body.sizeChart,
+    };
+
+    // अगर नई images upload हुई हैं
+    if (req.files && req.files.length > 0) {
+      updateData.images = req.files.map(file => file.path);
+    }
+
+    const product = await Product.findByIdAndUpdate(req.params.id, updateData, { new: true });
+
+    if (!product) {
+      return res.status(404).json({ success: false, message: "Product not found" });
+    }
+
+    res.json({ success: true, product });
+  } catch (err) {
+    console.error("Error updating product:", err.message);
+    res.status(400).json({ success: false, message: err.message });
   }
 });
 

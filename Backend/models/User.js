@@ -4,6 +4,23 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true, lowercase: true },
   password: { type: String, required: true },
+   measurements: {
+    Shirt: {
+      Length: Number,
+      Shoulder: Number,
+      Chest: Number,
+      Waist: Number,
+      Hip: Number,
+      Sleeve: Number
+    },
+    Trouser: {
+      Length: Number,
+      Waist: Number,
+      Hip: Number,
+      Thigh: Number,
+      Bottom: Number
+    }
+  },
   role: { type: String, enum: ['user', 'admin'], default: 'user' },
   otp: {
     otp: { type: String },

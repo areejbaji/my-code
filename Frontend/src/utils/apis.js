@@ -7,15 +7,16 @@ const apis = () => {
     forgetPassword: `${local}user/forget/password`, // Forget password endpoint
     verifyOTP: `${local}user/verify/otp`,           // OTP verification endpoint
     getOTPTime: `${local}user/get/otp/time`, 
+      getMeasurements: `${local}user/`,
     // geyAccess:`${local}user\get\access`,       // OTP time fetch
     passwordUpdate: `${local}user/password/update`  // Password update endpoint
     ,
     // Admin endpoints
-    adminMe: `${local}admin/me`,
-    adminUsers: `${local}admin/users`,
-    adminProducts: `${local}admin/products`,
-    adminOrders: `${local}admin/orders`,
-     myOrders: `${local}orders/my-orders`
+    // adminMe: `${local}admin/me`,
+    // adminUsers: `${local}admin/users`,
+    // adminProducts: `${local}admin/products`,
+    // adminOrders: `${local}admin/orders`,
+    //  myOrders: `${local}orders/my-orders`
   };
 
   return list;

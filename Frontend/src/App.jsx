@@ -21,6 +21,18 @@ import ForgetPassword from './auth/ForgetPassword';
 import MyOrders from './auth/myOrders';
 import CheckoutPage from './Checkout';
 import SearchResults from './SearchResults';
+import Receipt from './Receipt';
+
+
+import AdminDashboard from './admin/AdminDashboard';
+import AdminLayout from './admin/AdminLayout';
+import User from './admin/User';
+import Product from './admin/ViewAllProducts';
+
+import OrderDetailPage from './admin/OrderDetail';
+import OrdersPage from './admin/OrdersPage';
+import ViewAllProducts from './admin/ViewAllProducts';
+
 // import Super from './auth/Super';
 
 const App = () => {
@@ -30,7 +42,8 @@ const App = () => {
     '/register',
     '/forget/password',
     '/verifyotp',
-    '/updatepassword'
+    '/updatepassword',
+    '/admin'
   ];
 
   // Hide Navbar + Footer on auth routes
@@ -52,6 +65,7 @@ const App = () => {
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/deliverydetail" element={<DeliveryDetails />} />
+          <Route path="/receipt" element={<Receipt/>} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
          <Route path="/checkout" element={<CheckoutPage/>} />
@@ -63,6 +77,14 @@ const App = () => {
          <Route path="/Updatepassword" element={<UpdatePassword />} />
         <Route path="/VerifyOTP" element={<VerifyOTP />} />
          {/* </Route> */}
+            <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="users" element={<User/>} />
+           <Route path="products" element={<ViewAllProducts />} />
+
+          <Route path="orders" element={<OrdersPage />} /> {/* Admin orders list */}
+          <Route path="orders/:orderId" element={<OrderDetailPage />} />
+        </Route>
 
       </Routes>
       {showLayout && <Footer />}

@@ -2,8 +2,8 @@
  .footer {
   position: relative;
   z-index: 2;
-  background-color: rgb(71, 144, 180);
-  color: #ffffff;
+  background-color: rgb(255, 255, 255);
+  color: #050404;
   padding: 1.5rem 0 0;
   font-family: 'Arial', sans-serif;
 }
@@ -28,7 +28,7 @@
 .footer-description {
   font-size: 0.9rem;
   line-height: 1.6;
-  color: #f2f6fc;
+  color: #000000;
 }
 
 .footer-subtitle {
@@ -52,7 +52,7 @@
 
 .footer-quick-links a,
 .footer-support a {
-  color: #fff2f2;
+  color: #000000;
   text-decoration: none;
   font-size: 0.9rem;
   transition: all 0.3s;
@@ -69,7 +69,7 @@
 
 .social-icons a {
   font-size: 1.25rem;
-  color: #fefdfd;
+  color: #000000;
   transition: all 0.3s;
 }
 
