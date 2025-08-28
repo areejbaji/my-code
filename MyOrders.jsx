@@ -30,35 +30,39 @@ const MyOrders = () => {
   return (
     <div className="orders-container">
       <h2>📦 My Orders</h2>
-      {orders.map((order, index) => (
-        <div key={index} className="order-card">
-          <p><b>Order ID:</b> {order._id}</p>
-          <p><b>Date:</b> {new Date(order.createdAt).toLocaleString()}</p>
-          <p><b>Name:</b> {order.shipping.name}</p>
-          <p><b>Phone:</b> {order.shipping.phone}</p>
-          <p><b>Address:</b> {order.shipping.address}, {order.shipping.city}, {order.shipping.country}</p>
-
-          <h4>Items:</h4>
-          <ul>
-            {order.items.map((item, idx) => (
-              <li key={idx}>
-                {item.name} ({item.size}) x {item.quantity} = Rs {item.price * item.quantity}
-              </li>
-            ))}
-          </ul>
-
-          <p><b>Total:</b> Rs {order.totalAmount}</p>
-          <p><b>Payment:</b> {order.paymentMethod}</p>
-          <p className={`status ${order.status.toLowerCase()}`}><b>Status:</b> {order.status}</p>
-
-          {/* Cancel button only for pending orders */}
-          {order.status === "Pending" && (
-            <button className="cancel-btn" onClick={() => cancelOrder(order._id)}>
-              ❌ Cancel Order
-            </button>
-          )}
-        </div>
-      ))}
+      <table className="orders-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order, index) => (
+            <tr key={index}>
+              <td>{order._id}</td>
+              <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+              <td>Rs {order.totalAmount}</td>
+              <td className={`status ${order.status.toLowerCase()}`}>{order.status}</td>
+              <td>
+                {order.status === "Pending" ? (
+                  <button
+                    className="cancel-btn"
+                    onClick={() => cancelOrder(order._id)}
+                  >
+                    ❌ Cancel
+                  </button>
+                ) : (
+                  "-"
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
