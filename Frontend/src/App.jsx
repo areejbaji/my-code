@@ -3,9 +3,11 @@ import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Home from './Home';
 import Navbar from './Navbar';
+import MyProfile from './MyProfile';
 import TermsAndConditions from './Footer/Termsandcondition';
 import ShippingPolicy from './Footer/Shippingpolicy';
 import Footer from './Footer/Footer';
+import  Faq from './Footer/Faq';
 import ContactForm from './Footer/Contactus';
 import WomenPage from './Women';
 import ProductDetailPage from './ProductDetailPage';
@@ -18,11 +20,10 @@ import Login from './auth/Login';
 import UpdatePassword from './auth/UpdatePassword';
 import VerifyOTP from './auth/VerifyOTP';
 import ForgetPassword from './auth/ForgetPassword';
-import MyOrders from './auth/myOrders';
 import CheckoutPage from './Checkout';
 import SearchResults from './SearchResults';
 import Receipt from './Receipt';
-
+import MyOrders from './MyOrders';
 
 import AdminDashboard from './admin/AdminDashboard';
 import AdminLayout from './admin/AdminLayout';
@@ -32,6 +33,7 @@ import Product from './admin/ViewAllProducts';
 import OrderDetailPage from './admin/OrderDetail';
 import OrdersPage from './admin/OrdersPage';
 import ViewAllProducts from './admin/ViewAllProducts';
+
 
 // import Super from './auth/Super';
 
@@ -58,7 +60,9 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/termsandcondition" element={<TermsAndConditions />} />
         <Route path="/shippingpolicy" element={<ShippingPolicy />} />
-        <Route path="/contactus" element={<ContactForm />} />
+        {/* <Route path="/contactus" element={<ContactForm />} /> */}
+        <Route path="/faq" element={<Faq/>}/>
+        <Route path="/myprofile" element={<MyProfile />} />
         <Route path="/women" element={<WomenPage />} />
         <Route path="/men" element={<Men />} />
         <Route path="/product/:id" element={<ProductDetailPage />} />
@@ -70,12 +74,10 @@ const App = () => {
         <Route path="/login" element={<Login />} />
          <Route path="/checkout" element={<CheckoutPage/>} />
         <Route path="/forget/password" element={<ForgetPassword />} />
-         {/* <Route path="myOrders" element={<MyOrders/>} /> */}
-        <Route path="/myOrders" element={<MyOrders />} />
-              <Route path="/search" element={<SearchResults />} />
-         {/* <Route element={<Super/>}> */}
+        <Route path="/search" element={<SearchResults />} />
          <Route path="/Updatepassword" element={<UpdatePassword />} />
         <Route path="/VerifyOTP" element={<VerifyOTP />} />
+        <Route path="/MyOrders" element={<MyOrders />} />
          {/* </Route> */}
             <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />

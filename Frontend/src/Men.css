@@ -20,7 +20,7 @@
 }
 
 .hero-container { 
-    background-image: url("./assets/meno.jpg");
+  background-image: url("./assets/baner men.webp");
   display: flex;
   flex-direction: column;
   padding: 60px 5% 30px;
@@ -35,21 +35,51 @@
   justify-content: center;
  
 }
-.hero-content h1 {
+.hero-content h3 {
   font-size: 3rem;
   font-weight: bold;
   margin: 0;
-}
-.hero-content p {
+  color: white;
+ }
+/* .hero-content p {
   font-size: 1.5rem;
   margin: 10px 0;
-}
+} */ 
 
 
 /*  */
 
 .hero-image img {
   max-width: 100%;
+}
+.category-title {
+  text-align: center;
+  font-size: 3rem;
+  margin: 20px 0;
+  color: #333;
+}
+
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 2rem 0;
+  
+}
+.categories div {
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+.categories div:hover {
+  transform: scale(1.05);
+}
+.categories img {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: none;
 }
 .hero-btn {
   background-color: #e91e63;

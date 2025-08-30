@@ -212,15 +212,24 @@ const Women = () => {
           
         </div>
       </section> */}
-      <div
+      {/* <div
         className="hero"
-        style={{ backgroundImage: `url("/assets/Women.jpeg")` }}
+        style={{ backgroundImage: `url("/assets/banar pages.webp")` }}
+
       >
-        
-      </div>
+       
+      
+      </div> */}
+      <section className="hero-section" >
+        <div className="hero-content">
+          <h3>Welcome to Our Women's Collection</h3>
+          {/* <p>Discover the latest trends and style with our handpicked collection</p> */}
+          {/* <button className="hero-btn">Shop Now</button> */}
+        </div>
+      </section>
 
       {/* Categories */}
-      <h2 className="category-title">Categories</h2>
+      <h2 className="category-title">Sub Categories</h2>
       <div className="categories">
         <div onClick={() => scrollToSection(suitRef)}>
           <img src="/assets/womenc.webp" alt="Suit" />

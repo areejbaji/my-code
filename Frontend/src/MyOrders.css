@@ -1,0 +1,60 @@
+.orders-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.orders-table th,
+.orders-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+.orders-table th {
+  background-color: #f4f4f4;
+}
+
+.status.pending {
+  color: orange;
+  font-weight: bold;
+}
+.status.cancelled {
+  color: red;
+  font-weight: bold;
+}
+.status.completed {
+  color: green;
+  font-weight: bold;
+}
+
+.cancel-btn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.cancel-btn:hover {
+  background: darkred;
+}
+
+.empty {
+  text-align: center;
+  color: gray;
+  margin-top: 50px;
+}

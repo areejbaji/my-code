@@ -34,16 +34,16 @@ const Men = () => {
     <div>
       {/* Hero Section */}
       {/* <button onClick={() => navigate(-1)} className="back-button">← Back</button> */}
-      <section className="hero-container">
+     <section className="hero-container">
         <div className="hero-content">
-          <h1>Welcome to Our Men’s Collection</h1>
-          <p>Discover the latest trends and style with our handpicked collection</p>
+          <h3>Welcome to Our Men's Collection</h3>
+          {/* <p>Discover the latest trends and style with our handpicked collection</p> */}
           {/* <button className="hero-btn">Shop Now</button> */}
         </div>
-      </section>
+      </section> 
 
       {/* Categories */}
-      <h2 className="category-title">Categories</h2>
+      <h2 className="category-title">Sub Categories</h2>
       <div className="categories">
         <div onClick={() => scrollToSection(suitRef)}>
           <img src="/assets/mensuit1.webp" alt="Suit" />

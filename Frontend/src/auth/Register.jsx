@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+ import React, { useState } from 'react';
 import './auth.css';
 import './Button.css';
 import Button from './Button';
@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import LoadingButton from './LoadingButton';
 import Input from './ui/Input';
 import Spinner from './Spinner';
+
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -32,6 +33,11 @@ const Register = () => {
       setLoading(false);
 
       if (response.ok && result.status) {
+        // ✅ Save userId in localStorage
+        if (result.user && result.user._id) {
+          localStorage.setItem("userId", result.user._id);
+        }
+
         toast.success(result.message || 'Registered successfully');
         navigate('/');
       } else {
@@ -99,7 +105,6 @@ const Register = () => {
             <div>
               <BackToLogin />
               <div></div>
-             
             </div>
           </div>
         </div>

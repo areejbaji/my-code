@@ -20,7 +20,7 @@ const Footer = () => {
           <h3 className="footer-subtitle">QUICK LINKS</h3>
           <ul>
             <li><a href="/">Home</a></li>
-            <li><a href="/mens">Mens</a></li>
+            <li><a href="/men">Men</a></li>
             <li><a href="/Womens">Women</a></li>
             <li><a href="/AboutUs">About Us</a></li>
           </ul>
@@ -30,21 +30,21 @@ const Footer = () => {
         <div className="footer-support">
           <h3 className="footer-subtitle">SUPPORT</h3>
           <ul>
-            <li>
+            {/* <li>
               <a href="/contactus">
                 <MdContactPage style={{ marginRight: '8px', verticalAlign: 'middle' }} />
                 Contact Us
               </a>
-            </li>
+            </li> */}
             
-            <li><a href="/Faq">FAQS</a></li>
+            <li><a href="/Faq">Faq</a></li>
             <li><a href="/termsandcondition">Terms and condition</a></li>
             <li><a href="/shippingpolicy">Shipping Policy</a></li>
           </ul>
         </div>
 
         {/* Follow Us Section */}
-        <div className="footer-social">
+        {/* <div className="footer-social">
           <h3 className="footer-subtitle">FOLLOW US</h3>
           <div className="social-icons">
             <a href="https://facebook.com" target="_blank" rel="noreferrer">
@@ -57,7 +57,7 @@ const Footer = () => {
               <FaTwitter />
             </a>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Footer Bottom */}

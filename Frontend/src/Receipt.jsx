@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Receipt.css";
 
@@ -7,6 +6,14 @@ const Receipt = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const order = state?.order;
+
+  // ✅ Save order into localStorage so it appears in MyOrders page
+  useEffect(() => {
+    if (order) {
+      const existingOrders = JSON.parse(localStorage.getItem("myOrders")) || [];
+      localStorage.setItem("myOrders", JSON.stringify([...existingOrders, order]));
+    }
+  }, [order]);
 
   if (!order) {
     return <h2>No receipt data found</h2>;
@@ -33,12 +40,14 @@ const Receipt = () => {
       
       <h3>Total: Rs {order.totalAmount}</h3>
       <p><b>Payment:</b> {order.paymentMethod}</p>
-        <p><strong>Status:</strong> {order.status}</p>
+      <p><strong>Status:</strong> {order.status}</p>
+      
       <button onClick={() => window.print()}>🖨 Print Receipt</button>
       <button onClick={() => navigate("/")}>🏠 Go Home</button>
+      
       <div className="receipt-footer">
-           <p>✅ Thank you for shopping with StyleHub!</p>
-        </div>
+        <p>✅ Thank you for shopping with StyleHub!</p>
+      </div>
     </div>
   );
 };

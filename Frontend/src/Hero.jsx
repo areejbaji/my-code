@@ -18,7 +18,7 @@ const Hero = () => {
 
   return (
     <div
-      className="hero-section"
+      className="hero-sections"
       style={{ backgroundImage: `url(${current.img})` }}
     >
       <div className="overlay">
@@ -28,9 +28,10 @@ const Hero = () => {
           <p>{current.paragraph}</p>
           
           
-          <button className="shop-btn" onClick={() => navigate("/shop")}>
-            Shop Now
-          </button>
+         <button className="shop-btn" onClick={() => navigate("/searchresults")}>
+           Shop Now
+             </button>
+
 
           {/* Dot Navigation */}
           <div className="dots">

@@ -1,7 +1,7 @@
 
 /* Hero */
-.hero {
- height: 90vh;
+/* .hero {
+ height: 80vh;
   margin-top: 10px;
   background-size: cover;
   background-position: center;
@@ -13,11 +13,45 @@
   font-size: 3rem;
   font-weight: bold;
 }
+.hero h3 {
+ font-size: 3rem;
+  font-weight: bold;
+  margin: 0;
+  color: white;
+} */
+ .hero-section { 
+    background-image: url("./assets/banar pages.webp");
 
+  display: flex;
+  flex-direction: column;
+  padding: 60px 5% 30px;
+  height: 80vh;
+  margin-top: 10px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ 
+}
+.hero-content h3 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 0;
+  color: white;
+  text-align: center;
+ }
+ .hero p {
+  color: rgb(19, 18, 18);
+  padding: 20px;
+  border-radius: 10px;
+}
 /* Categories */
 .category-title {
   text-align: center;
-  font-size: 2rem;
+  font-size: 3rem;
   margin: 20px 0;
   color: #333;
 }
@@ -27,6 +61,7 @@
   justify-content: center;
   gap: 2rem;
   margin: 2rem 0;
+  
 }
 .categories div {
   cursor: pointer;
@@ -37,11 +72,11 @@
   transform: scale(1.05);
 }
 .categories img {
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #e91e63;
+  border: none;
 }
 
 /* Product Section */

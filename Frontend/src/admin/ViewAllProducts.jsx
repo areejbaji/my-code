@@ -35,13 +35,14 @@
 //       <table className="products-table">
 //         <thead>
 //           <tr>
+               <th>Sr#</th>
 //             <th>Image</th>
 //             <th>Name</th>
 //             <th>Category / SubCategory</th>
-//             <th>Old Price</th>
+//             <th> Price</th>
 //             <th>New Price</th>
 //             <th>Status</th>
-//             <th>Date Added</th>
+
 //             <th>Actions</th>
 //           </tr>
 //         </thead>
@@ -149,6 +150,7 @@ const ViewAllProducts = () => {
           {products.length > 0 ? (
             products.map((product, index) => (
               <tr key={product._id}>
+                
                 <td>{index + 1}</td>
                 <td>{product.name}</td>
                 <td>{product.category}</td>
