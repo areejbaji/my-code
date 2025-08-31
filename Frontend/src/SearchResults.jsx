@@ -26,9 +26,9 @@ const SearchResults = () => {
       {products.length === 0 ? (
         <p>No products match your search.</p> // ✅ if nothing found
       ) : (
-        <div className="products-grid">
+        <div className="products-container">
           {products.map(p => (
-            <div key={p._id} className="product-card">
+            <div key={p._id} className="search-product">
               {p.images && p.images.length > 0 && (
                    <img src={p.images[0]} alt={p.name} /> 
                 // <img src={`http://localhost:4000/${p.images[0]}`} alt={p.name} />

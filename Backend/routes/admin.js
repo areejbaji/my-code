@@ -1,91 +1,33 @@
 
-// const express = require("express");
-// const router = express.Router();
-// const { verifyTokenAndAdmin } = require("../middlewares/authMiddleware");
-// const User = require("../models/User");
-// const Product = require("../models/Product");
-// const Order = require("../models/Order");
-
-// // Admin dashboard
-// router.get("/dashboard", verifyTokenAndAdmin, (req, res) => {
-//   res.json({ message: "Welcome to Admin Dashboard", user: req.user });
-// });
-
-// // Stats
-// router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
-//   try {
-//     const usersCount = await User.countDocuments();
-//     const productsCount = await Product.countDocuments();
-//     const ordersCount = await Order.countDocuments();
-//     const categoriesCount = await Product.distinct("category");
-//     const subcategoriesCount = await Product.distinct("subCategory");
-
-//     res.json({
-//       users: usersCount,
-//       products: productsCount,
-//       orders: ordersCount,
-//       categories: categoriesCount.length,
-//       subcategories: subcategoriesCount.length
-//     });
-//   } catch (error) {
-//     res.status(500).json({ message: "Error fetching stats" });
-//   }
-// });
-
-// // Get all users
-// router.get("/users", verifyTokenAndAdmin, async (req, res) => {
-//   try {
-//     const users = await User.find();
-//     res.status(200).json(users);
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// });
-
-// // Delete a user
-// router.delete("/users/:id", verifyTokenAndAdmin, async (req, res) => {
-//   try {
-//     await User.findByIdAndDelete(req.params.id);
-//     res.status(200).json({ message: "User deleted successfully" });
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// });
-
-// // Orders routes
-// router.get("/orders", verifyTokenAndAdmin, async (req, res) => {
-//   try {
-//     const orders = await Order.find().populate("user", "name email");
-//     res.status(200).json(orders);
-//   } catch (err) {
-//     res.status(500).json({ message: "Error fetching orders" });
-//   }
-// });
-
-// router.get("/orders/:id", verifyTokenAndAdmin, async (req, res) => {
-//   try {
-//     const order = await Order.findOne({ orderId: req.params.id }).populate("user", "name email");
-//     if (!order) return res.status(404).json({ message: "Order not found" });
-//     res.status(200).json(order);
-//   } catch (err) {
-//     res.status(500).json({ message: "Error fetching order details" });
-//   }
-// });
-
-// module.exports = router;
 const express = require("express");
 const router = express.Router();
 const { verifyTokenAndAdmin } = require("../middlewares/authMiddleware");
 const User = require("../models/User");
 const Product = require("../models/Product");
 const Order = require("../models/Order");
+const upload = require("../config/multer");
+const cloudinary = require("../config/cloudinary");
+const { getAdminProfile, updateAdminProfile } = require('../controllers/adminProfile');
 
-// Admin dashboard
+
+
+
+router.get("/profile", verifyTokenAndAdmin, getAdminProfile);
+router.put("/profile/update", verifyTokenAndAdmin, upload.single("avatar"), updateAdminProfile);
+// router.get("/profile", (req, res) => {
+//   res.json({ message: "Admin profile fetched" });
+// });
+
+// // Admin Profile UPDATE
+// router.put("/profile/update", (req, res) => {
+//   res.json({ message: "Admin profile updated" });
+// });
+// ---------------- DASHBOARD ----------------
 router.get("/dashboard", verifyTokenAndAdmin, (req, res) => {
   res.json({ message: "Welcome to Admin Dashboard", user: req.user });
 });
 
-// Stats
+// ---------------- STATS ----------------
 router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
   try {
     const usersCount = await User.countDocuments();
@@ -106,7 +48,7 @@ router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
-// Get all users
+// ---------------- USERS ----------------
 router.get("/users", verifyTokenAndAdmin, async (req, res) => {
   try {
     const users = await User.find();
@@ -116,7 +58,6 @@ router.get("/users", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
-// Delete a user
 router.delete("/users/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
@@ -127,8 +68,6 @@ router.delete("/users/:id", verifyTokenAndAdmin, async (req, res) => {
 });
 
 // ---------------- ORDERS ----------------
-
-// Get all orders
 router.get("/orders", verifyTokenAndAdmin, async (req, res) => {
   try {
     const orders = await Order.find().sort({ createdAt: -1 }).lean();
@@ -138,7 +77,6 @@ router.get("/orders", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
-// Get single order by orderId
 router.get("/orders/:orderId", verifyTokenAndAdmin, async (req, res) => {
   try {
     const order = await Order.findOne({ orderId: req.params.orderId }).lean();
@@ -149,7 +87,6 @@ router.get("/orders/:orderId", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
-// Update order status
 router.put("/orders/:orderId/status", verifyTokenAndAdmin, async (req, res) => {
   try {
     const { status } = req.body;
@@ -170,7 +107,6 @@ router.put("/orders/:orderId/status", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
-// Update return status
 router.put("/orders/:orderId/return", verifyTokenAndAdmin, async (req, res) => {
   try {
     const { returnStatus } = req.body;
@@ -191,5 +127,156 @@ router.put("/orders/:orderId/return", verifyTokenAndAdmin, async (req, res) => {
     res.status(500).json({ status: false, message: "Error updating return status" });
   }
 });
+
+// ---------------- PRODUCTS ----------------
+// ---------------- PRODUCTS ----------------
+router.get("/products/stock", verifyTokenAndAdmin, async (req, res) => {
+  try {
+    const products = await Product.find().sort({ dateAdded: -1 });
+
+    // Compute availability based on stock and customStock
+    const productsWithStatus = products.map((p) => {
+      const totalStock = Object.values(p.stock || {}).reduce((acc, val) => acc + val, 0) + (p.customStock || 0);
+      return {
+        ...p._doc,
+        available: totalStock > 0
+      };
+    });
+
+    res.json(productsWithStatus);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.put("/products/:id/stock", verifyTokenAndAdmin, async (req, res) => {
+  try {
+    const { size, quantity, type } = req.body;
+    let updateQuery;
+
+    if (type === 'custom') {
+      updateQuery = { $set: { customStock: Math.max(0, quantity) } };
+    } else {
+      updateQuery = { $set: { [`stock.${size}`]: Math.max(0, quantity) } };
+    }
+
+    const product = await Product.findByIdAndUpdate(req.params.id, updateQuery, { new: true });
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// GET single product by ID
+router.get("/products/:id", verifyTokenAndAdmin, async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ message: "Product not found" });
+    res.json(product);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to fetch product" });
+  }
+});
+
+// ✅ Update product (name, price, description, image)
+// ✅ Update product (with new_price & old_price support)
+// Update product
+router.put("/products/:id", verifyTokenAndAdmin, upload.array("images", 5), async (req, res) => {
+  try {
+    const { name, old_price, new_price, description, existingImages } = req.body;
+
+    const updateData = {
+      name,
+      old_price: old_price ? Number(old_price) : 0,
+      new_price: new_price ? Number(new_price) : 0,
+      description: description ? description.split("\n").filter(line => line.trim()) : [],
+    };
+
+    // Upload new files if any
+    let newImages = [];
+    if (req.files && req.files.length > 0) {
+      const results = await Promise.all(req.files.map(file =>
+        cloudinary.uploader.upload(file.path, { folder: "stylehub/products" })
+      ));
+      newImages = results.map(r => r.secure_url);
+    }
+
+    // Merge old + new images
+    let oldImages = [];
+    if (existingImages) {
+      oldImages = JSON.parse(existingImages);
+    }
+
+    updateData.images = [...oldImages, ...newImages];
+
+    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, updateData, { new: true });
+    if (!updatedProduct) return res.status(404).json({ message: "Product not found" });
+
+    res.json({ message: "Product updated successfully", product: updatedProduct });
+  } catch (error) {
+    console.error("Update product error:", error);
+    res.status(500).json({ error: "Something went wrong while updating the product" });
+  }
+});
+
+// ✅ Add New Product
+router.post("/products", verifyTokenAndAdmin, upload.array("images", 5), async (req, res) => {
+  try {
+    console.log("REQ.BODY:", req.body);
+    console.log("REQ.FILES:", req.files);
+
+    const { name, category, subCategory, new_price, old_price, description, stock, customStock } = req.body;
+
+    if (!name || !category || !subCategory || !new_price) {
+      return res.status(400).json({ message: "Name, category, subCategory, and new_price are required." });
+    }
+
+    // Upload images to Cloudinary
+    let imageUrls = [];
+    if (req.files && req.files.length > 0) {
+      const results = await Promise.all(
+        req.files.map(file =>
+          cloudinary.uploader.upload(file.path, { folder: "stylehub/products" })
+        )
+      );
+      imageUrls = results.map(r => r.secure_url);
+    }
+
+    // Parse stock
+    let parsedStock = { S: 0, M: 0, L: 0, XL: 0, XXL: 0 };
+    if (stock) parsedStock = JSON.parse(stock);
+    Object.keys(parsedStock).forEach(key => parsedStock[key] = Number(parsedStock[key]));
+
+    const parsedCustomStock = Number(customStock || 0);
+    const newPriceNum = Number(new_price);
+    const oldPriceNum = old_price ? Number(old_price) : 0;
+    const descriptionArr = description ? description.split("\n").map(l => l.trim()).filter(l => l) : [];
+
+    const product = new Product({
+      name,
+      category,
+      subCategory,
+      images: imageUrls,
+      new_price: newPriceNum,
+      old_price: oldPriceNum,
+      description: descriptionArr,
+      stock: parsedStock,
+      customStock: parsedCustomStock,
+      available: true,
+      dateAdded: new Date()
+    });
+
+    await product.save();
+    console.log("Product saved successfully:", product.name);
+    res.status(201).json({ message: "Product added successfully", product });
+  } catch (error) {
+    console.error("Failed to add product:", error);
+    res.status(500).json({ message: "Failed to add product", error: error.message });
+  }
+});
+
+
+
 
 module.exports = router;

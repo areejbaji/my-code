@@ -108,8 +108,8 @@
 
 .arrival-item img {
   width: 100%;
-  height: 400px; /* bigger images */
-  object-fit: cover;
+  height: 510px; /* bigger images */
+  object-fit: contain;
   border-radius: 8px;
   margin-bottom: 0.5rem;
 }

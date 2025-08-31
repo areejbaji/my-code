@@ -35,7 +35,11 @@ const CheckoutPage = () => {
       return alert("⚠️ Please fill all required fields!");
     }
     if (cartItems.length === 0) return alert("⚠️ Cart is empty!");
-
+     for (let item of cartItems) {
+    if (item.quantity > item.stock) {
+      return alert(`⚠️ Only ${item.stock} items available for ${item.name} (${item.size})`);
+    }
+  }
     try {
       const order = {
         items: cartItems.map((item) => ({

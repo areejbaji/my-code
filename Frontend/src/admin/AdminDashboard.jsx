@@ -8,7 +8,7 @@ import { AiOutlineAppstoreAdd, AiOutlineClockCircle, AiOutlineStop } from "react
 import { BiArrowBack } from "react-icons/bi";
 import "./AdminDashboard.css";
 
-const Dashboard = () => {
+const AdminDashboard = () => {
   const [stats, setStats] = useState({
     users: 0,
     products: 0,
@@ -24,7 +24,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const token = localStorage.getItem("accessToken");
+        const token = localStorage.getItem("adminToken");
         const res = await axios.get("http://localhost:4000/api/admin/stats", {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -68,5 +68,5 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default AdminDashboard;
 

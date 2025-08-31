@@ -62,14 +62,21 @@ export default function Login() {
       if (result?.status) {
         toast.success(result.message);
         localStorage.setItem('accessToken', result.token);
+          if (result.role === 'admin') {
+              localStorage.setItem('adminToken', result.token);
+             navigate('/admin');
+                } else {
+                localStorage.setItem('userToken', result.token);
+            navigate('/');
+              }
 
-        if (result.role === 'admin') {
-          console.log("👑 Admin user — redirecting to /admin");
-          navigate('/admin'); // ✅ Navigate without page reload
-        } else {
-          console.log("👤 Normal user — redirecting to /");
-          navigate('/'); // ✅ Navigate without page reload
-        }
+        // if (result.role === 'admin') {
+        //   console.log("👑 Admin user — redirecting to /admin");
+        //   navigate('/admin'); // ✅ Navigate without page reload
+        // } else {
+        //   console.log("👤 Normal user — redirecting to /");
+        //   navigate('/'); // ✅ Navigate without page reload
+        // }
       } else {
         throw new Error(result?.message || "Login failed");
       }

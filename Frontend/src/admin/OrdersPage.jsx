@@ -15,7 +15,7 @@ const OrdersPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const token = localStorage.getItem("accessToken");
+        const token = localStorage.getItem("adminToken");
         if (!token) throw new Error("Admin not logged in");
 
         const res = await axios.get(
