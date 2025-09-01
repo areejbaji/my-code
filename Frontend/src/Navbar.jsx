@@ -1,20 +1,67 @@
-
-
-
 // import React, { useState, useEffect } from 'react';
 // import { Link, useNavigate } from 'react-router-dom';
-// import { FaUserCircle, FaShoppingCart, FaUser, FaLock, FaTruck, FaSignOutAlt } from 'react-icons/fa';
+// import { FaUserCircle, FaShoppingCart, FaUser, FaLock, FaTruck, FaSignOutAlt, FaBell } from 'react-icons/fa';
 // import { AiOutlineSearch } from 'react-icons/ai';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { fetchProducts } from './redux/productsSlice';
+// import axios from 'axios';
 // import './Navbar.css';
 // import logo from './assets/logo.png';
+
+// const Notifications = ({ userId }) => {
+//   const [notifications, setNotifications] = useState([]);
+//   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+//   useEffect(() => {
+//     if (!userId) return;
+//     const fetchNotifications = async () => {
+//       try {
+//         const res = await axios.get(`http://localhost:4000/api/notifications/${userId}`);
+//         setNotifications(res.data);
+//       } catch (err) {
+//         console.error(err);
+//       }
+//     };
+//     fetchNotifications();
+//   }, [userId]);
+
+//   const markAsRead = async (id) => {
+//     try {
+//       await axios.put(`http://localhost:4000/api/notifications/read/${id}`);
+//       setNotifications(prev => prev.map(n => n._id === id ? { ...n, read: true } : n));
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   };
+
+//   return (
+//     <div className="notifications-wrapper">
+//       <FaBell className="bell-icon" onClick={() => setDropdownOpen(!dropdownOpen)} />
+//       {dropdownOpen && (
+//         <div className="notifications-dropdown">
+//           {notifications.length === 0 ? <p>No notifications</p> :
+//             notifications.map(n => (
+//               <div
+//                 key={n._id}
+//                 className={`notification-item ${n.read ? 'read' : 'unread'}`}
+//                 onClick={() => markAsRead(n._id)}
+//               >
+//                 {n.message}
+//                 <small>{new Date(n.createdAt).toLocaleString()}</small>
+//               </div>
+//             ))
+//           }
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
 
 // const Navbar = () => {
 //   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 //   const [searchText, setSearchText] = useState('');
 //   const [showDropdown, setShowDropdown] = useState(false);
-//   const [user, setUser] = useState(null);  // ✅ add user state
+//   const [user, setUser] = useState(null);
 
 //   const dispatch = useDispatch();
 //   const navigate = useNavigate();
@@ -24,20 +71,15 @@
 
 //   const products = useSelector((state) => state.products?.items || []);
 
-  
-
-//   // ✅ Check user from localStorage
 //   useEffect(() => {
 //     const storedUser = localStorage.getItem("user");
-//     if (storedUser) {
-//       setUser(JSON.parse(storedUser));
-//     }
+//     if (storedUser) setUser(JSON.parse(storedUser));
 //   }, []);
 
 //   const handleLogout = () => {
 //     localStorage.removeItem('user');
 //     localStorage.removeItem('accessToken');
-//     setUser(null);   // ✅ reset user state
+//     setUser(null);
 //     navigate('/login');
 //   };
 
@@ -45,9 +87,7 @@
 //     if (searchText.trim() !== '') {
 //       dispatch(fetchProducts(searchText));
 //       setShowDropdown(true);
-//     } else {
-//       setShowDropdown(false);
-//     }
+//     } else setShowDropdown(false);
 //   }, [searchText, dispatch]);
 
 //   const handleSearch = () => {
@@ -64,13 +104,11 @@
 
 //   return (
 //     <nav className="navbar">
-//       {/* Logo */}
 //       <div className="nav-logo">
 //         <img src={logo} alt="Logo" />
 //         <h1>StyleHub</h1>
 //       </div>
 
-//       {/* Links */}
 //       <ul className="nav-links">
 //         <li><Link to="/">Home</Link></li>
 //         <li><Link to="/women">Women</Link></li>
@@ -78,7 +116,6 @@
 //         <li><Link to="/aboutus">About Us</Link></li>
 //       </ul>
 
-//       {/* Search */}
 //       <div className="search-container">
 //         <AiOutlineSearch className="search-icon" onClick={handleSearch} />
 //         <input
@@ -95,14 +132,11 @@
 //                 {p.image && <img src={p.image} alt={p.name} />}
 //                 <span>{p.name}</span>
 //               </Link>
-//             )) : (
-//               <div className="search-item">No products found</div>
-//             )}
+//             )) : <div className="search-item">No products found</div>}
 //           </div>
 //         )}
 //       </div>
 
-//       {/* Icons */}
 //       <div className="nav-icons">
 //         {/* Cart */}
 //         <Link to="/cart" className="cart-link">
@@ -110,7 +144,10 @@
 //           {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
 //         </Link>
 
-//         {/* ✅ Profile/User */}
+//         {/* Notifications */}
+//         {user && <Notifications userId={user._id} />}
+
+//         {/* Profile */}
 //         <div className="user-wrapper">
 //           <FaUserCircle onClick={() => setUserDropdownOpen(!userDropdownOpen)} />
 //           {userDropdownOpen && (
@@ -134,14 +171,15 @@
 //             </div>
 //           )}
 //         </div>
-
-//         {/* Deliver / Currency */}
-//         <div className="deliver-currency-wrapper">
+        
+//       </div>
+//        {/* Deliver / Currency */}
+//     <div className="deliver-currency-wrapper">
 //           <div className="deliver-to">
-//             <span className="label">Deliver To</span>
-//             <div className="flag-with-code">
-//               <div className="flag-circle">
-//                 <img
+//            <span className="label">Deliver To</span>
+//              <div className="flag-with-code">
+//                <div className="flag-circle">
+//                  <img
 //                   src="https://upload.wikimedia.org/wikipedia/commons/3/32/Flag_of_Pakistan.svg"
 //                   alt="Pakistan Flag"
 //                 />
@@ -155,13 +193,11 @@
 //             <span className="code">PKR</span>
 //           </div>
 //         </div>
-//       </div>
 //     </nav>
 //   );
 // };
 
 // export default Navbar;
-
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaUserCircle, FaShoppingCart, FaUser, FaLock, FaTruck, FaSignOutAlt, FaBell } from 'react-icons/fa';
@@ -235,11 +271,24 @@ const Navbar = () => {
 
   const products = useSelector((state) => state.products?.items || []);
 
+  // ---------------- Safe User State Handling ----------------
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    if (storedUser) setUser(JSON.parse(storedUser));
+    if (storedUser && storedUser !== "undefined") {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error("Failed to parse stored user:", error);
+        localStorage.removeItem("user");
+        setUser(null);
+      }
+    } else {
+      setUser(null);
+    }
   }, []);
 
+  // ---------------- Safe Logout ----------------
   const handleLogout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('accessToken');
@@ -309,7 +358,7 @@ const Navbar = () => {
         </Link>
 
         {/* Notifications */}
-        {user && <Notifications userId={user._id} />}
+        {user?._id && <Notifications userId={user._id} />}
 
         {/* Profile */}
         <div className="user-wrapper">
@@ -335,28 +384,28 @@ const Navbar = () => {
             </div>
           )}
         </div>
-        
       </div>
-       {/* Deliver / Currency */}
-    <div className="deliver-currency-wrapper">
-          <div className="deliver-to">
-           <span className="label">Deliver To</span>
-             <div className="flag-with-code">
-               <div className="flag-circle">
-                 <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/3/32/Flag_of_Pakistan.svg"
-                  alt="Pakistan Flag"
-                />
-              </div>
-              <span className="code">PK</span>
+
+      {/* Deliver / Currency */}
+      <div className="deliver-currency-wrapper">
+        <div className="deliver-to">
+          <span className="label">Deliver To</span>
+          <div className="flag-with-code">
+            <div className="flag-circle">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/3/32/Flag_of_Pakistan.svg"
+                alt="Pakistan Flag"
+              />
             </div>
-          </div>
-          <div className="divider"></div>
-          <div className="currency">
-            <span className="label">Currency</span>
-            <span className="code">PKR</span>
+            <span className="code">PK</span>
           </div>
         </div>
+        <div className="divider"></div>
+        <div className="currency">
+          <span className="label">Currency</span>
+          <span className="code">PKR</span>
+        </div>
+      </div>
     </nav>
   );
 };
