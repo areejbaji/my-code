@@ -126,6 +126,154 @@
   display: block;
   margin-top: 0.2rem;
 }
+/* ---------- USER / PROFILE DROPDOWN ---------- */
+.user-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* icon (click area) styling */
+.user-wrapper .fa-user-circle,
+.user-wrapper svg {
+  cursor: pointer;
+  font-size: 22px;
+  color: #333;
+}
+
+/* dropdown box */
+.dropdown-content {
+  position: absolute;
+  right: 0;                    /* align to the right of icon */
+  top: 40px;                   /* distance under the icon */
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+  border-radius: 8px;
+  min-width: 200px;
+  padding: 8px;
+  z-index: 1500;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform .12s ease, opacity .12s ease;
+  transform-origin: top right;
+}
+
+/* small email / heading inside dropdown */
+.dropdown-content .dropdown-email,
+.dropdown-content p {
+  margin: 0;
+  padding: 6px 8px;
+  font-size: 13px;
+  color: #111827;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
+/* each link / action row */
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  font-size: 14px;
+  color: #0b5cff;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  border-radius: 6px;
+}
+
+/* hover/focus state */
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background: rgba(11,92,255,0.06);
+  color: #003bb3;
+  outline: none;
+}
+
+/* logout button style (if inside dropdown) */
+.logout-btn {
+  color: #ef4444;
+}
+
+/* Hide dropdown by default if you use CSS-only hover:
+   .user-wrapper:hover .dropdown-content { display:flex; }
+   But in your React you toggle visibility — so keep it controlled by JS. */
+
+
+/* ---------- SEARCH DROPDOWN (autocomplete results) ---------- */
+.search-dropdown {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-top: 6px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 10px 30px rgba(2,6,23,0.06);
+  border-radius: 8px;
+  z-index: 1400;
+  max-height: 320px;
+  overflow: auto;
+  padding: 6px;
+}
+
+/* individual result row */
+.search-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #111827;
+  border-radius: 6px;
+}
+
+/* product thumbnail inside search result */
+.search-item img {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+/* result text */
+.search-item span {
+  font-size: 14px;
+  line-height: 1.1;
+  color: #0f172a;
+}
+
+/* hover for each search row */
+.search-item:hover {
+  background: rgba(2,6,23,0.04);
+}
+
+/* empty state */
+.search-dropdown .search-item:last-child {
+  color: #6b7280;
+  justify-content: center;
+}
+
+/* small scrollbar styling (optional) */
+.search-dropdown::-webkit-scrollbar { width: 8px; }
+.search-dropdown::-webkit-scrollbar-thumb {
+  background: rgba(15,23,42,0.08);
+  border-radius: 8px;
+}
+
+/* ---------- RESPONSIVE TWEAKS ---------- */
+@media (max-width: 720px) {
+  .dropdown-content { right: 8px; left: auto; min-width: 160px; top: 36px; }
+  .search-dropdown { max-height: 240px; }
+  .search-item img { width: 40px; height: 40px; }
+}
+
 
 /* Responsive for tablets and mobile */
 @media (max-width: 1024px) {

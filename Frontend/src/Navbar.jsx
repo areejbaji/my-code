@@ -1,17 +1,232 @@
 
+
+
+// import React, { useState, useEffect } from 'react';
+// import { Link, useNavigate } from 'react-router-dom';
+// import { FaUserCircle, FaShoppingCart, FaUser, FaLock, FaTruck, FaSignOutAlt } from 'react-icons/fa';
+// import { AiOutlineSearch } from 'react-icons/ai';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { fetchProducts } from './redux/productsSlice';
+// import './Navbar.css';
+// import logo from './assets/logo.png';
+
+// const Navbar = () => {
+//   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+//   const [searchText, setSearchText] = useState('');
+//   const [showDropdown, setShowDropdown] = useState(false);
+//   const [user, setUser] = useState(null);  // ✅ add user state
+
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
+
+//   const cartItems = useSelector((state) => state.cart.items || []);
+//   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+//   const products = useSelector((state) => state.products?.items || []);
+
+  
+
+//   // ✅ Check user from localStorage
+//   useEffect(() => {
+//     const storedUser = localStorage.getItem("user");
+//     if (storedUser) {
+//       setUser(JSON.parse(storedUser));
+//     }
+//   }, []);
+
+//   const handleLogout = () => {
+//     localStorage.removeItem('user');
+//     localStorage.removeItem('accessToken');
+//     setUser(null);   // ✅ reset user state
+//     navigate('/login');
+//   };
+
+//   useEffect(() => {
+//     if (searchText.trim() !== '') {
+//       dispatch(fetchProducts(searchText));
+//       setShowDropdown(true);
+//     } else {
+//       setShowDropdown(false);
+//     }
+//   }, [searchText, dispatch]);
+
+//   const handleSearch = () => {
+//     if (searchText.trim() !== '') {
+//       navigate(`/search?query=${encodeURIComponent(searchText)}`);
+//       setSearchText('');
+//       setShowDropdown(false);
+//     }
+//   };
+
+//   const handleKeyPress = (e) => {
+//     if (e.key === 'Enter') handleSearch();
+//   };
+
+//   return (
+//     <nav className="navbar">
+//       {/* Logo */}
+//       <div className="nav-logo">
+//         <img src={logo} alt="Logo" />
+//         <h1>StyleHub</h1>
+//       </div>
+
+//       {/* Links */}
+//       <ul className="nav-links">
+//         <li><Link to="/">Home</Link></li>
+//         <li><Link to="/women">Women</Link></li>
+//         <li><Link to="/men">Men</Link></li>
+//         <li><Link to="/aboutus">About Us</Link></li>
+//       </ul>
+
+//       {/* Search */}
+//       <div className="search-container">
+//         <AiOutlineSearch className="search-icon" onClick={handleSearch} />
+//         <input
+//           type="text"
+//           placeholder="Search..."
+//           value={searchText}
+//           onChange={(e) => setSearchText(e.target.value)}
+//           onKeyPress={handleKeyPress}
+//         />
+//         {showDropdown && (
+//           <div className="search-dropdown">
+//             {products.length > 0 ? products.map(p => (
+//               <Link key={p._id} to={`/product/${p._id}`} className="search-item">
+//                 {p.image && <img src={p.image} alt={p.name} />}
+//                 <span>{p.name}</span>
+//               </Link>
+//             )) : (
+//               <div className="search-item">No products found</div>
+//             )}
+//           </div>
+//         )}
+//       </div>
+
+//       {/* Icons */}
+//       <div className="nav-icons">
+//         {/* Cart */}
+//         <Link to="/cart" className="cart-link">
+//           <FaShoppingCart />
+//           {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
+//         </Link>
+
+//         {/* ✅ Profile/User */}
+//         <div className="user-wrapper">
+//           <FaUserCircle onClick={() => setUserDropdownOpen(!userDropdownOpen)} />
+//           {userDropdownOpen && (
+//             <div className="dropdown-content">
+//               {user ? (
+//                 <>
+//                   <p className="dropdown-email">{user.email}</p>
+//                   <Link to="/myProfile" className="dropdown-item"><FaUser /> My Profile</Link>
+//                   <Link to="/myOrders" className="dropdown-item"><FaTruck /> My Orders</Link>
+//                   <Link to="/cart" className="dropdown-item"><FaShoppingCart /> My Cart</Link>
+//                   <button className="dropdown-item logout-btn" onClick={handleLogout}>
+//                     <FaSignOutAlt /> Logout
+//                   </button>
+//                 </>
+//               ) : (
+//                 <>
+//                   <Link to="/login" className="dropdown-item"><FaUser /> Login</Link>
+//                   <Link to="/register" className="dropdown-item"><FaLock /> Register</Link>
+//                 </>
+//               )}
+//             </div>
+//           )}
+//         </div>
+
+//         {/* Deliver / Currency */}
+//         <div className="deliver-currency-wrapper">
+//           <div className="deliver-to">
+//             <span className="label">Deliver To</span>
+//             <div className="flag-with-code">
+//               <div className="flag-circle">
+//                 <img
+//                   src="https://upload.wikimedia.org/wikipedia/commons/3/32/Flag_of_Pakistan.svg"
+//                   alt="Pakistan Flag"
+//                 />
+//               </div>
+//               <span className="code">PK</span>
+//             </div>
+//           </div>
+//           <div className="divider"></div>
+//           <div className="currency">
+//             <span className="label">Currency</span>
+//             <span className="code">PKR</span>
+//           </div>
+//         </div>
+//       </div>
+//     </nav>
+//   );
+// };
+
+// export default Navbar;
+
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaUserCircle, FaShoppingCart, FaUser, FaLock, FaTruck, FaSignOutAlt } from 'react-icons/fa';
+import { FaUserCircle, FaShoppingCart, FaUser, FaLock, FaTruck, FaSignOutAlt, FaBell } from 'react-icons/fa';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from './redux/productsSlice';
+import axios from 'axios';
 import './Navbar.css';
 import logo from './assets/logo.png';
+
+const Notifications = ({ userId }) => {
+  const [notifications, setNotifications] = useState([]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    if (!userId) return;
+    const fetchNotifications = async () => {
+      try {
+        const res = await axios.get(`http://localhost:4000/api/notifications/${userId}`);
+        setNotifications(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchNotifications();
+  }, [userId]);
+
+  const markAsRead = async (id) => {
+    try {
+      await axios.put(`http://localhost:4000/api/notifications/read/${id}`);
+      setNotifications(prev => prev.map(n => n._id === id ? { ...n, read: true } : n));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return (
+    <div className="notifications-wrapper">
+      <FaBell className="bell-icon" onClick={() => setDropdownOpen(!dropdownOpen)} />
+      {dropdownOpen && (
+        <div className="notifications-dropdown">
+          {notifications.length === 0 ? <p>No notifications</p> :
+            notifications.map(n => (
+              <div
+                key={n._id}
+                className={`notification-item ${n.read ? 'read' : 'unread'}`}
+                onClick={() => markAsRead(n._id)}
+              >
+                {n.message}
+                <small>{new Date(n.createdAt).toLocaleString()}</small>
+              </div>
+            ))
+          }
+        </div>
+      )}
+    </div>
+  );
+};
 
 const Navbar = () => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
+  const [user, setUser] = useState(null);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -20,9 +235,15 @@ const Navbar = () => {
 
   const products = useSelector((state) => state.products?.items || []);
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) setUser(JSON.parse(storedUser));
+  }, []);
+
   const handleLogout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('accessToken');
+    setUser(null);
     navigate('/login');
   };
 
@@ -30,9 +251,7 @@ const Navbar = () => {
     if (searchText.trim() !== '') {
       dispatch(fetchProducts(searchText));
       setShowDropdown(true);
-    } else {
-      setShowDropdown(false);
-    }
+    } else setShowDropdown(false);
   }, [searchText, dispatch]);
 
   const handleSearch = () => {
@@ -59,7 +278,6 @@ const Navbar = () => {
         <li><Link to="/women">Women</Link></li>
         <li><Link to="/men">Men</Link></li>
         <li><Link to="/aboutus">About Us</Link></li>
-        <li><Link to="/register">Register</Link></li>
       </ul>
 
       <div className="search-container">
@@ -78,64 +296,69 @@ const Navbar = () => {
                 {p.image && <img src={p.image} alt={p.name} />}
                 <span>{p.name}</span>
               </Link>
-            )) : (
-              <div className="search-item">No products found</div>
-            )}
+            )) : <div className="search-item">No products found</div>}
           </div>
         )}
       </div>
 
       <div className="nav-icons">
+        {/* Cart */}
         <Link to="/cart" className="cart-link">
           <FaShoppingCart />
           {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
         </Link>
 
+        {/* Notifications */}
+        {user && <Notifications userId={user._id} />}
+
+        {/* Profile */}
         <div className="user-wrapper">
           <FaUserCircle onClick={() => setUserDropdownOpen(!userDropdownOpen)} />
           {userDropdownOpen && (
             <div className="dropdown-content">
-              <Link to="/myProfile" className="dropdown-item"><FaUser /> My Profile</Link>
-              <Link to="/changePassword" className="dropdown-item"><FaLock /> Change Password</Link>
-              <Link to="/myOrders" className="dropdown-item"><FaTruck /> My Orders</Link>
-              <Link to="/myCart" className="dropdown-item"><FaShoppingCart /> My Cart</Link>
-              <button className="dropdown-item logout-btn" onClick={handleLogout}>
-                <FaSignOutAlt /> Logout
-              </button>
+              {user ? (
+                <>
+                  <p className="dropdown-email">{user.email}</p>
+                  <Link to="/myProfile" className="dropdown-item"><FaUser /> My Profile</Link>
+                  <Link to="/myOrders" className="dropdown-item"><FaTruck /> My Orders</Link>
+                  <Link to="/cart" className="dropdown-item"><FaShoppingCart /> My Cart</Link>
+                  <button className="dropdown-item logout-btn" onClick={handleLogout}>
+                    <FaSignOutAlt /> Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" className="dropdown-item"><FaUser /> Login</Link>
+                  <Link to="/register" className="dropdown-item"><FaLock /> Register</Link>
+                </>
+              )}
             </div>
           )}
         </div>
-                <div className="deliver-currency-wrapper">
-  {/* Left: Deliver To */}
-  <div className="deliver-to">
-    <span className="label">Deliver To</span>
-    <div className="flag-with-code">
-      <div className="flag-circle">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/3/32/Flag_of_Pakistan.svg"
-          alt="Pakistan Flag"
-        />
+        
       </div>
-      <span className="code">PK</span>
-    </div>
-  </div>
-
-  {/* Divider */}
-  <div className="divider"></div>
-
-  {/* Right: Currency */}
-  <div className="currency">
-    <span className="label">Currency</span>
-    <span className="code">PKR</span>
-  </div>
-</div>
-
-      </div>
+       {/* Deliver / Currency */}
+    <div className="deliver-currency-wrapper">
+          <div className="deliver-to">
+           <span className="label">Deliver To</span>
+             <div className="flag-with-code">
+               <div className="flag-circle">
+                 <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/3/32/Flag_of_Pakistan.svg"
+                  alt="Pakistan Flag"
+                />
+              </div>
+              <span className="code">PK</span>
+            </div>
+          </div>
+          <div className="divider"></div>
+          <div className="currency">
+            <span className="label">Currency</span>
+            <span className="code">PKR</span>
+          </div>
+        </div>
     </nav>
   );
 };
 
 export default Navbar;
-
-
-

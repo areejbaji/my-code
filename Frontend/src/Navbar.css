@@ -301,4 +301,97 @@
   width: 1px;
   height: 40px;
   background-color: #ccc;
+
+/* Notifications wrapper */
+.notifications-wrapper {
+  position: relative;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.bell-icon {
+  font-size: 22px;
+  color: #fff;
+  position: relative;
+}
+
+/* Red dot for unread notifications */
+.bell-icon::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  display: none; /* default hidden */
+}
+
+/* Show red dot if there are unread notifications */
+.notifications-wrapper .unread-dot {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  border: 1px solid #fff;
+}
+
+/* Dropdown */
+.notifications-dropdown {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: #fff;
+  color: #333;
+  border-radius: 6px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  z-index: 1000;
+  padding: 10px 0;
+}
+
+/* Single notification item */
+.notification-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item:hover {
+  background-color: #f5f5f5;
+}
+
+.notification-item.unread {
+  font-weight: 600;
+  background-color: #f0f8ff;
+}
+
+.notification-item small {
+  display: block;
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* Scrollbar */
+.notifications-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notifications-dropdown::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
 }

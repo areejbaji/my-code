@@ -28,6 +28,7 @@ router.get("/dashboard", verifyTokenAndAdmin, (req, res) => {
 });
 
 // ---------------- STATS ----------------
+// ---------------- STATS ----------------
 router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
   try {
     const usersCount = await User.countDocuments();
@@ -36,28 +37,62 @@ router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
     const categoriesCount = await Product.distinct("category");
     const subcategoriesCount = await Product.distinct("subCategory");
 
+    // ✅ Order status counts
+    const pendingOrders = await Order.countDocuments({ status: "Pending" });
+    const deliveredOrders = await Order.countDocuments({ status: "Delivered" });
+    const cancelledOrders = await Order.countDocuments({ status: "Cancelled" });
+    const returnedOrders = await Order.countDocuments({ returnStatus: "Returned" });
+
     res.json({
       users: usersCount,
       products: productsCount,
       orders: ordersCount,
       categories: categoriesCount.length,
-      subcategories: subcategoriesCount.length
+      subcategories: subcategoriesCount.length,
+      pendingOrders,
+      deliveredOrders,
+      cancelledOrders,
+      returnedOrders,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Error fetching stats" });
   }
 });
 
+// router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
+//   try {
+//     const usersCount = await User.countDocuments();
+//     const productsCount = await Product.countDocuments();
+//     const ordersCount = await Order.countDocuments();
+//     const categoriesCount = await Product.distinct("category");
+//     const subcategoriesCount = await Product.distinct("subCategory");
+
+//     res.json({
+//       users: usersCount,
+//       products: productsCount,
+//       orders: ordersCount,
+//       categories: categoriesCount.length,
+//       subcategories: subcategoriesCount.length
+//     });
+//   } catch (error) {
+//     res.status(500).json({ message: "Error fetching stats" });
+//   }
+// });
+
 // ---------------- USERS ----------------
+// GET all users
+// GET all users
 router.get("/users", verifyTokenAndAdmin, async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find(); // fetch all users
     res.status(200).json(users);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
+// DELETE user by ID
 router.delete("/users/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
@@ -66,6 +101,7 @@ router.delete("/users/:id", verifyTokenAndAdmin, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
 
 // ---------------- ORDERS ----------------
 router.get("/orders", verifyTokenAndAdmin, async (req, res) => {

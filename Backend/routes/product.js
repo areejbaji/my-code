@@ -90,10 +90,6 @@ router.get("/category/:category", async (req, res) => {
 
 
 
-
-
-
-
 // 🔹 UPDATE PRODUCT
 router.put("/:id", parser.array("images", 5), async (req, res) => {
   try {

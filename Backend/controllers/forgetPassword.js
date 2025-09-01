@@ -32,7 +32,9 @@ const forgetPasswordHandler = async (req, res, next) => {
     }
 
     findUser.otp.otp = otp;
-    findUser.otp.sendTime = new Date().getTime() +1 * 60 * 1000; // Set send time to 1 minute from now
+    // findUser.otp.sendTime = new Date().getTime() +1 * 60 * 1000; // Set send time to 1 minute from now
+    findUser.otp.sendTime = new Date().getTime(); // abhi ka time
+
     findUser.otp.token = token;
 
     await findUser.save();

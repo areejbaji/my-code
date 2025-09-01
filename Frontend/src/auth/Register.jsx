@@ -31,10 +31,32 @@ const Register = () => {
       console.log(result);
       setLoading(false);
 
+      // if (response.ok && result.status) {
+      //   toast.success(result.message || 'Registered successfully');
+      //    localStorage.setItem('accessToken', result.token);
+      //     if (result.user) {
+      //   localStorage.setItem('user', JSON.stringify(result.user));
+      //    }
+      //   navigate('/');
+
+      // } 
       if (response.ok && result.status) {
-        toast.success(result.message || 'Registered successfully');
-        navigate('/');
-      } else {
+  toast.success(result.message || 'Registered successfully');
+
+  if (result.role === 'admin') {
+    localStorage.setItem('adminToken', result.token);
+  } else {
+    localStorage.setItem('userToken', result.token);
+  }
+
+  if (result.user) {
+    localStorage.setItem('user', JSON.stringify(result.user));
+  }
+
+  navigate('/');
+}
+
+      else {
         toast.error(result.message || 'Registration failed');
       }
     } catch (error) {

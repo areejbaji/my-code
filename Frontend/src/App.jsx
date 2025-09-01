@@ -12,13 +12,13 @@ import ProductDetailPage from './ProductDetailPage';
 import AboutUs from './AboutUs';
 import Men from './Men';
 import CartPage from './CartPage';
-import DeliveryDetails from './DeliveryDetail';
+
 import Register from './auth/Register';
 import Login from './auth/Login';
 import UpdatePassword from './auth/UpdatePassword';
 import VerifyOTP from './auth/VerifyOTP';
 import ForgetPassword from './auth/ForgetPassword';
-import MyOrders from './auth/myOrders';
+
 import CheckoutPage from './Checkout';
 import SearchResults from './SearchResults';
 import Receipt from './Receipt';
@@ -37,6 +37,11 @@ import AdminRoute from './admin/AdminRoute';
 import EditProduct from './admin/EditProduct';
 import AddProduct from './admin/AddProduct';
 import AdminProfile from './admin/AdminProfile';
+import ProfilePage from './ProfilePage';
+import MyOrders from './MyOrders';
+import AdminUsers from './admin/AdminUser';
+import Notifications from './admin/Notifications';
+
 
 // import Super from './auth/Super';
 
@@ -69,17 +74,18 @@ const App = () => {
         <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/deliverydetail" element={<DeliveryDetails />} />
+      
           <Route path="/receipt" element={<Receipt/>} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
          <Route path="/checkout" element={<CheckoutPage/>} />
         <Route path="/forget/password" element={<ForgetPassword />} />
          {/* <Route path="myOrders" element={<MyOrders/>} /> */}
-        <Route path="/myOrders" element={<MyOrders />} />
+         <Route path="/myOrders" element={<MyOrders />} />
               <Route path="/search" element={<SearchResults />} />
          {/* <Route element={<Super/>}> */}
          <Route path="/Updatepassword" element={<UpdatePassword />} />
+         <Route path="/myprofile" element={<ProfilePage />} />
         <Route path="/VerifyOTP" element={<VerifyOTP />} />
          {/* </Route> */}
          <Route 
@@ -90,9 +96,11 @@ const App = () => {
             </AdminRoute>
           }
         >
-           
+          
+            <Route path="users" element={<AdminUsers />} />
           <Route index element={<AdminDashboard />} />
-          <Route path="users" element={<User/>} />
+          <Route path='notifications' element={<Notifications/>}/>
+         <Route path="users" element={<AdminUsers />} />
            <Route path="products" element={<ViewAllProducts />} />
                  <Route path="products/new" element={<AddProduct />} />
          <Route path="products/edit/:id" element={<EditProduct />} />

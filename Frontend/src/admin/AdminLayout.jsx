@@ -145,7 +145,8 @@
 // export default AdminLayout;
 import React, { useState, useEffect } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { FiHome, FiPackage, FiUsers, FiSettings, FiChevronDown, FiLogOut } from "react-icons/fi";
+import Notifications from "./Notifications";
+import { FiHome, FiPackage, FiUsers, FiSettings, FiChevronDown, FiLogOut,FiBell} from "react-icons/fi";
 import { MdCategory, MdOutlineAddBox, MdViewList } from "react-icons/md";
 import "./Admin.css";
 
@@ -234,6 +235,10 @@ const AdminLayout = () => {
         <header className="admin-header">
           <div className="header-left">Online StyleHUB Shop - Admin</div>
           <div className="header-right">
+            <div className="notifications">
+    <FiBell className="bell-icon" />
+    <Notifications />
+  </div>
             <div className="profile-dropdown">
               <span onClick={() => setProfileDropdown(!profileDropdown)}>Hi, Admin <FiChevronDown /></span>
               {profileDropdown && (
