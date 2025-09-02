@@ -1,23 +1,32 @@
-
 import React, { useEffect, useState } from 'react';
 import apis from '../utils/apis';
-import './AdminProfile.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './Admin.css';
 
 const AdminProfile = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [showAvatarPage, setShowAvatarPage] = useState(false);
   const [updating, setUpdating] = useState(false);
-  
-  // Form data for editing
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    avatar: null
+    avatar: '',
   });
-  
+
   const [previewImage, setPreviewImage] = useState('');
+
+  const avatarOptions = [
+    "https://cdn-icons-png.flaticon.com/512/194/194938.png",
+    "https://cdn-icons-png.flaticon.com/512/194/194935.png",
+    "https://cdn-icons-png.flaticon.com/512/3006/3006878.png",
+    "https://cdn-icons-png.flaticon.com/512/1999/1999625.png",
+    "https://cdn-icons-png.flaticon.com/512/2922/2922506.png",
+  ];
 
   useEffect(() => {
     fetchProfile();
@@ -27,21 +36,15 @@ const AdminProfile = () => {
     try {
       const token = localStorage.getItem('adminToken');
       const response = await fetch(apis().getAdminProfile, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers: { 'Authorization': `Bearer ${token}` }
       });
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch profile');
-      }
-      
+      if (!response.ok) throw new Error('Failed to fetch profile');
       const data = await response.json();
       setProfile(data);
       setFormData({
         name: data.name || '',
         email: data.email || '',
-        avatar: null
+        avatar: data.avatar || '',
       });
       setPreviewImage(data.avatar || '');
     } catch (err) {
@@ -51,64 +54,44 @@ const AdminProfile = () => {
     }
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = e => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData(prev => ({
-        ...prev,
-        avatar: file
-      }));
-      
-      // Preview image
-      const reader = new FileReader();
-      reader.onload = (e) => setPreviewImage(e.target.result);
-      reader.readAsDataURL(file);
-    }
+  const handleAvatarSelect = url => {
+    setFormData(prev => ({ ...prev, avatar: url }));
+    setPreviewImage(url);
+    setShowAvatarPage(false);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setUpdating(true);
-    
     try {
       const token = localStorage.getItem('adminToken');
-      const submitData = new FormData();
-      
-      submitData.append('name', formData.name);
-      submitData.append('email', formData.email);
-      
-      if (formData.avatar) {
-        submitData.append('avatar', formData.avatar);
-      }
-
+      const submitData = {
+        name: formData.name,
+        avatar: formData.avatar,
+      };
       const response = await fetch(apis().updateAdminProfile, {
         method: 'PUT',
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
-        body: submitData
+        body: JSON.stringify(submitData)
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to update profile');
       }
-
       const result = await response.json();
       setProfile(result.profile);
       setIsEditing(false);
-      alert('Profile updated successfully!');
-      
+      toast.success('Profile updated successfully!');
     } catch (err) {
-      alert('Error: ' + err.message);
+      toast.error('Error: ' + err.message);
     } finally {
       setUpdating(false);
     }
@@ -119,7 +102,7 @@ const AdminProfile = () => {
     setFormData({
       name: profile.name || '',
       email: profile.email || '',
-      avatar: null
+      avatar: profile.avatar || '',
     });
     setPreviewImage(profile.avatar || '');
   };
@@ -141,7 +124,6 @@ const AdminProfile = () => {
         </div>
 
         {!isEditing ? (
-          // View Mode
           <div className="profile-view">
             <div className="avatar-section">
               <div className="avatar">
@@ -154,31 +136,43 @@ const AdminProfile = () => {
                 )}
               </div>
             </div>
-            
+
             <div className="profile-details">
               <div className="detail-item">
                 <label>Name:</label>
                 <span>{profile?.name || 'Not set'}</span>
               </div>
-              
               <div className="detail-item">
                 <label>Email:</label>
                 <span>{profile?.email || 'Not set'}</span>
               </div>
-              
               <div className="detail-item">
                 <label>Role:</label>
                 <span className="role-badge">Admin</span>
               </div>
-              
-              <div className="field">
+              <div className="detail-item">
                 <label>Joined:</label>
                 <span>{profile?.createdAt ? new Date(profile.createdAt).toLocaleDateString() : 'Unknown'}</span>
               </div>
             </div>
           </div>
+        ) : showAvatarPage ? (
+          <div className="avatar-page">
+            <h3>Select an Avatar</h3>
+            <div className="avatar-options">
+              {avatarOptions.map(url => (
+                <img
+                  key={url}
+                  src={url}
+                  alt="avatar option"
+                  onClick={() => handleAvatarSelect(url)}
+                  className={formData.avatar === url ? 'selected' : ''}
+                />
+              ))}
+            </div>
+            <button className="cancel-btn" onClick={() => setShowAvatarPage(false)}>Back</button>
+          </div>
         ) : (
-          // Edit Mode
           <form onSubmit={handleSubmit} className="profile-edit">
             <div className="avatar-section">
               <div className="avatar">
@@ -190,18 +184,9 @@ const AdminProfile = () => {
                   </div>
                 )}
               </div>
-              <div className="avatar-upload">
-                <input
-                  type="file"
-                  id="avatar"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="file-input"
-                />
-                <label htmlFor="avatar" className="upload-btn">
-                  Change Avatar
-                </label>
-              </div>
+              <button type="button" className="change-avatar-btn" onClick={() => setShowAvatarPage(true)}>
+                Change Avatar
+              </button>
             </div>
 
             <div className="form-fields">
@@ -223,26 +208,16 @@ const AdminProfile = () => {
                   type="email"
                   name="email"
                   value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="Enter your email"
-                  required
+                  readOnly
+                  placeholder="Email cannot be changed"
                 />
               </div>
 
               <div className="form-actions">
-                <button 
-                  type="submit" 
-                  className="save-btn"
-                  disabled={updating}
-                >
+                <button type="submit" className="save-btn" disabled={updating}>
                   {updating ? 'Updating...' : 'Save Changes'}
                 </button>
-                <button 
-                  type="button" 
-                  onClick={cancelEdit}
-                  className="cancel-btn"
-                  disabled={updating}
-                >
+                <button type="button" onClick={cancelEdit} className="cancel-btn" disabled={updating}>
                   Cancel
                 </button>
               </div>
@@ -250,6 +225,7 @@ const AdminProfile = () => {
           </form>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };

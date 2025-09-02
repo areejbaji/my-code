@@ -8,25 +8,25 @@ const Order = require("../models/Order");
 const upload = require("../config/multer");
 const cloudinary = require("../config/cloudinary");
 const { getAdminProfile, updateAdminProfile } = require('../controllers/adminProfile');
+const { getMainCategories,getSubcategoriesByParent, updateCategory, deleteCategory, toggleCategoryStatus,getCategoryStats } = require("../controllers/categoryController");
 
 
 
 
 router.get("/profile", verifyTokenAndAdmin, getAdminProfile);
-router.put("/profile/update", verifyTokenAndAdmin, upload.single("avatar"), updateAdminProfile);
-// router.get("/profile", (req, res) => {
-//   res.json({ message: "Admin profile fetched" });
-// });
+router.put("/profile/update", verifyTokenAndAdmin, updateAdminProfile);
 
-// // Admin Profile UPDATE
-// router.put("/profile/update", (req, res) => {
-//   res.json({ message: "Admin profile updated" });
-// });
 // ---------------- DASHBOARD ----------------
 router.get("/dashboard", verifyTokenAndAdmin, (req, res) => {
   res.json({ message: "Welcome to Admin Dashboard", user: req.user });
 });
 
+router.get("/categories/main", getMainCategories);
+router.get("/categories/parent/:parentId", getSubcategoriesByParent);
+router.put("/categories/:id", verifyTokenAndAdmin, upload.single("image"), updateCategory);
+router.delete("/categories/:id", verifyTokenAndAdmin, deleteCategory);
+router.patch("/categories/:id/toggle", verifyTokenAndAdmin, toggleCategoryStatus);
+router.get("/categories/stats", verifyTokenAndAdmin, getCategoryStats);
 // ---------------- STATS ----------------
 // ---------------- STATS ----------------
 router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
@@ -34,8 +34,11 @@ router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
     const usersCount = await User.countDocuments();
     const productsCount = await Product.countDocuments();
     const ordersCount = await Order.countDocuments();
-    const categoriesCount = await Product.distinct("category");
-    const subcategoriesCount = await Product.distinct("subCategory");
+    
+    // Get categories from database instead of products
+    const Category = require("../models/Category");
+    const categoriesCount = await Category.countDocuments({ level: 0 }); // Main categories only
+    const subcategoriesCount = await Category.countDocuments({ level: { $gt: 0 } }); // All subcategories
 
     // ✅ Order status counts
     const pendingOrders = await Order.countDocuments({ status: "Pending" });
@@ -47,8 +50,8 @@ router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
       users: usersCount,
       products: productsCount,
       orders: ordersCount,
-      categories: categoriesCount.length,
-      subcategories: subcategoriesCount.length,
+      categories: categoriesCount,
+      subcategories: subcategoriesCount,
       pendingOrders,
       deliveredOrders,
       cancelledOrders,

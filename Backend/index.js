@@ -8,11 +8,12 @@ require('dotenv').config();
 const getConnection = require('./utils/getConnection');
 const productRoutes = require('./routes/product');
 const userRoutes = require('./routes/user');
-const sizeChartRoutes = require('./routes/sizeChartRoutes');
+
 const uploadRoutes = require("./routes/upload");
 const orderRoute = require("./routes/order");
 const adminRoutes = require("./routes/admin");
 const notificationRoutes = require("./routes/notifications");
+
 const app = express();
 
 app.use(cors());
@@ -21,12 +22,13 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.json({ limit: '50mb' }));
 
 //Routes
-app.use('/api/sizecharts', sizeChartRoutes);
+
 app.use("/api/products", require("./routes/product"));
 app.use("/api/upload", uploadRoutes);
 app.use("/api/orders", orderRoute);
 app.use("/api/admin", adminRoutes);
 app.use("/api/notifications", notificationRoutes);
+
 // app.use('/product', productRoutes);
 app.use('/user', userRoutes);
 

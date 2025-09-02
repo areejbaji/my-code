@@ -41,6 +41,7 @@ import ProfilePage from './ProfilePage';
 import MyOrders from './MyOrders';
 import AdminUsers from './admin/AdminUser';
 import Notifications from './admin/Notifications';
+import NotFound from './Notfound';
 
 
 // import Super from './auth/Super';
@@ -66,6 +67,7 @@ const App = () => {
       {showLayout && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="*" element={<NotFound />} />
         <Route path="/termsandcondition" element={<TermsAndConditions />} />
         <Route path="/shippingpolicy" element={<ShippingPolicy />} />
         <Route path="/contactus" element={<ContactForm />} />
