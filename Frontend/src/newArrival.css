@@ -1,293 +1,60 @@
-/* .new-arrival {
-  padding: 40px 20px;
-  background-color: #f9f9f9;
+/* newArrival.css */
+
+.new-arrival {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
   text-align: center;
 }
 
 .new-arrival h2 {
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   margin-bottom: 10px;
-  font-weight: bold;
+  color: #333;
 }
 
 .new-arrival p {
   font-size: 1.1rem;
-  color: #555;
+  color: #666;
   margin-bottom: 30px;
 }
 
-.arrival-list {
+.arrival-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 25px;
-  justify-content: center;
-  align-items: stretch;
-  padding: 0 10px;
+  gap: 20px;
 }
 
 .arrival-item {
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
-  overflow: hidden;
-  transition: transform 0.2s ease;
-}
-
-.arrival-item:hover {
-  transform: scale(1.03);
-}
-
-.arrival-item img {
-  width: 100%;
-  height: 280px;
-  object-fit: cover;
-  border-bottom: 1px solid #eee;
-}
-
-.arrival-item p {
-  padding: 15px;
-  font-size: 1rem;
-  color: #333;
-  line-height: 1.5;
-}
-
-.price {
-  font-weight: bold;
-  color: #e91e63;
-  font-size: 1.1rem;
-}
-
-.buy-btn {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  background-color: #e91e63;
-  color: white;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  border-top: 1px solid #eee;
-  transition: background-color 0.3s ease;
-}
-
-.buy-btn:hover {
-  background-color: #c2185b;
-} */
- .new-arrival {
-  padding: 2rem;
-  text-align: center;
-}
-
-.new-arrival h2 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.new-arrival p {
-  margin-bottom: 1.5rem;
-  color: #555;
-}
-
-.arrival-list {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 items per row */
-  gap: 1rem; /* spacing between items */
-  justify-items: center;
-}
-
-.arrival-item {
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  width: 100%;
-}
-
-.arrival-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
-}
-
-.arrival-item img {
-  width: 100%;
-  height: 510px; /* bigger images */
-  object-fit: contain;
+  background-color: #fff;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+  padding: 10px;
+}
+
+.arrival-item:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.product-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 12px;
 }
 
 .product-info {
   font-size: 1rem;
-  color: #333;
-  line-height: 1.3;
-}
-
-.product-info .price {
-  font-weight: bold;
-  color: #000;
-  display: block;
-  margin-top: 0.2rem;
-}
-/* ---------- USER / PROFILE DROPDOWN ---------- */
-.user-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-/* icon (click area) styling */
-.user-wrapper .fa-user-circle,
-.user-wrapper svg {
-  cursor: pointer;
-  font-size: 22px;
-  color: #333;
-}
-
-/* dropdown box */
-.dropdown-content {
-  position: absolute;
-  right: 0;                    /* align to the right of icon */
-  top: 40px;                   /* distance under the icon */
-  background: #ffffff;
-  border: 1px solid rgba(0,0,0,0.08);
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
-  border-radius: 8px;
-  min-width: 200px;
-  padding: 8px;
-  z-index: 1500;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  transition: transform .12s ease, opacity .12s ease;
-  transform-origin: top right;
-}
-
-/* small email / heading inside dropdown */
-.dropdown-content .dropdown-email,
-.dropdown-content p {
-  margin: 0;
-  padding: 6px 8px;
-  font-size: 13px;
-  color: #111827;
+  color: #222;
   font-weight: 600;
-  border-bottom: 1px solid rgba(0,0,0,0.04);
 }
 
-/* each link / action row */
-.dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px;
-  font-size: 14px;
-  color: #0b5cff;
-  text-decoration: none;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
-  border-radius: 6px;
-}
-
-/* hover/focus state */
-.dropdown-item:hover,
-.dropdown-item:focus {
-  background: rgba(11,92,255,0.06);
-  color: #003bb3;
-  outline: none;
-}
-
-/* logout button style (if inside dropdown) */
-.logout-btn {
-  color: #ef4444;
-}
-
-/* Hide dropdown by default if you use CSS-only hover:
-   .user-wrapper:hover .dropdown-content { display:flex; }
-   But in your React you toggle visibility — so keep it controlled by JS. */
-
-
-/* ---------- SEARCH DROPDOWN (autocomplete results) ---------- */
-.search-dropdown {
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin-top: 6px;
-  background: #fff;
-  border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 10px 30px rgba(2,6,23,0.06);
-  border-radius: 8px;
-  z-index: 1400;
-  max-height: 320px;
-  overflow: auto;
-  padding: 6px;
-}
-
-/* individual result row */
-.search-item {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  padding: 8px;
-  cursor: pointer;
-  text-decoration: none;
-  color: #111827;
-  border-radius: 6px;
-}
-
-/* product thumbnail inside search result */
-.search-item img {
-  width: 44px;
-  height: 44px;
-  object-fit: cover;
-  border-radius: 6px;
-  flex-shrink: 0;
-}
-
-/* result text */
-.search-item span {
-  font-size: 14px;
-  line-height: 1.1;
-  color: #0f172a;
-}
-
-/* hover for each search row */
-.search-item:hover {
-  background: rgba(2,6,23,0.04);
-}
-
-/* empty state */
-.search-dropdown .search-item:last-child {
-  color: #6b7280;
-  justify-content: center;
-}
-
-/* small scrollbar styling (optional) */
-.search-dropdown::-webkit-scrollbar { width: 8px; }
-.search-dropdown::-webkit-scrollbar-thumb {
-  background: rgba(15,23,42,0.08);
-  border-radius: 8px;
-}
-
-/* ---------- RESPONSIVE TWEAKS ---------- */
-@media (max-width: 720px) {
-  .dropdown-content { right: 8px; left: auto; min-width: 160px; top: 36px; }
-  .search-dropdown { max-height: 240px; }
-  .search-item img { width: 40px; height: 40px; }
-}
-
-
-/* Responsive for tablets and mobile */
-@media (max-width: 1024px) {
-  .arrival-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .arrival-list {
-    grid-template-columns: 1fr;
-  }
-
-  .arrival-item img {
-    height: 250px;
-  }
+.price {
+  color: #e63946;
+  font-weight: 700;
+  font-size: 1.1rem;
 }

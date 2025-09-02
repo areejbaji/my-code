@@ -42,6 +42,10 @@ import MyOrders from './MyOrders';
 import AdminUsers from './admin/AdminUser';
 import Notifications from './admin/Notifications';
 import NotFound from './Notfound';
+import ViewAllCategories from './admin/ViewAllCategories';
+import AddCategory from './admin/AddCategory';
+import Catagory from './Catagory';
+import CategoryPage from './CategoryPage';
 
 
 // import Super from './auth/Super';
@@ -68,6 +72,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
+            <Route path="/category/:slug" element={<CategoryPage />} />
         <Route path="/termsandcondition" element={<TermsAndConditions />} />
         <Route path="/shippingpolicy" element={<ShippingPolicy />} />
         <Route path="/contactus" element={<ContactForm />} />
@@ -76,7 +81,7 @@ const App = () => {
         <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/cart" element={<CartPage />} />
-      
+         
           <Route path="/receipt" element={<Receipt/>} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
@@ -110,6 +115,8 @@ const App = () => {
           <Route path="orders/:orderId" element={<OrderDetailPage />} />
           <Route path="profile" element={<AdminProfile />} />
         <Route path="stock" element={<StockManagement />} />
+         <Route path="Categories" element={<ViewAllCategories />} />
+          <Route path="categories/new" element={<AddCategory />} />
         </Route>
       </Routes>
       {showLayout && <Footer />}

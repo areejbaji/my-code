@@ -43,7 +43,6 @@ const AdminDashboard = () => {
     { label: "Subcategories", value: stats.subcategories, icon: <AiOutlineAppstoreAdd />, color: "#f368e0" },
     { label: "Orders", value: stats.orders, icon: <FiShoppingCart />, color: "#ff9f43" },
     { label: "Delivered", value: stats.deliveredOrders, icon: <MdLocalShipping />, color: "#00d2d3" },
-    { label: "Returned", value: stats.returnedOrders, icon: <BiArrowBack />, color: "#576574" },
     { label: "Cancelled", value: stats.cancelledOrders, icon: <AiOutlineStop />, color: "#ee5253" },
     { label: "Pending", value: stats.pendingOrders, icon: <AiOutlineClockCircle />, color: "#ffbe76" },
   ];

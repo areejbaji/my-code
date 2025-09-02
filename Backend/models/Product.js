@@ -52,7 +52,7 @@ const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
-
+  slug: { type: String, unique: true },
   category: { type: String, required: true }, // Example: "Men"
   subCategory: { type: String, required: true }, // Example: "Suit"
 

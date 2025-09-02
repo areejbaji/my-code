@@ -7,8 +7,8 @@ require('dotenv').config();
 
 const getConnection = require('./utils/getConnection');
 const productRoutes = require('./routes/product');
+const categoryRoutes = require("./routes/category");
 const userRoutes = require('./routes/user');
-
 const uploadRoutes = require("./routes/upload");
 const orderRoute = require("./routes/order");
 const adminRoutes = require("./routes/admin");
@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.json({ limit: '50mb' }));
 
 //Routes
-
+app.use("/api/categories", categoryRoutes);
 app.use("/api/products", require("./routes/product"));
 app.use("/api/upload", uploadRoutes);
 app.use("/api/orders", orderRoute);

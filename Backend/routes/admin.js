@@ -8,8 +8,18 @@ const Order = require("../models/Order");
 const upload = require("../config/multer");
 const cloudinary = require("../config/cloudinary");
 const { getAdminProfile, updateAdminProfile } = require('../controllers/adminProfile');
-const { getMainCategories,getSubcategoriesByParent, updateCategory, deleteCategory, toggleCategoryStatus,getCategoryStats } = require("../controllers/categoryController");
-
+const {
+  getMainCategories,
+  getSubcategoriesByParent,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+  toggleCategoryStatus,
+  addSubcategory,
+  updateSubcategory,
+  deleteSubcategory,
+  getCategoryStats
+} = require("../controllers/categoryController");
 
 
 
@@ -21,11 +31,18 @@ router.get("/dashboard", verifyTokenAndAdmin, (req, res) => {
   res.json({ message: "Welcome to Admin Dashboard", user: req.user });
 });
 
+// ---------------- CATEGORIES ----------------
 router.get("/categories/main", getMainCategories);
 router.get("/categories/parent/:parentId", getSubcategoriesByParent);
+router.post("/categories", verifyTokenAndAdmin, upload.single("image"), createCategory);
 router.put("/categories/:id", verifyTokenAndAdmin, upload.single("image"), updateCategory);
 router.delete("/categories/:id", verifyTokenAndAdmin, deleteCategory);
-router.patch("/categories/:id/toggle", verifyTokenAndAdmin, toggleCategoryStatus);
+router.put("/categories/:id/toggle-status", verifyTokenAndAdmin, toggleCategoryStatus);
+
+// Subcategories
+router.post("/categories/:id/sub", verifyTokenAndAdmin, upload.single("image"), addSubcategory);
+router.put("/categories/:id/sub/:subId", verifyTokenAndAdmin, upload.single("image"), updateSubcategory);
+router.delete("/categories/:id/sub/:subId", verifyTokenAndAdmin, deleteSubcategory);
 router.get("/categories/stats", verifyTokenAndAdmin, getCategoryStats);
 // ---------------- STATS ----------------
 // ---------------- STATS ----------------
@@ -34,11 +51,8 @@ router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
     const usersCount = await User.countDocuments();
     const productsCount = await Product.countDocuments();
     const ordersCount = await Order.countDocuments();
-    
-    // Get categories from database instead of products
-    const Category = require("../models/Category");
-    const categoriesCount = await Category.countDocuments({ level: 0 }); // Main categories only
-    const subcategoriesCount = await Category.countDocuments({ level: { $gt: 0 } }); // All subcategories
+    const categoriesCount = await Product.distinct("category");
+    const subcategoriesCount = await Product.distinct("subCategory");
 
     // ✅ Order status counts
     const pendingOrders = await Order.countDocuments({ status: "Pending" });
@@ -50,8 +64,8 @@ router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
       users: usersCount,
       products: productsCount,
       orders: ordersCount,
-      categories: categoriesCount,
-      subcategories: subcategoriesCount,
+      categories: categoriesCount.length,
+      subcategories: subcategoriesCount.length,
       pendingOrders,
       deliveredOrders,
       cancelledOrders,
@@ -63,29 +77,7 @@ router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
-// router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
-//   try {
-//     const usersCount = await User.countDocuments();
-//     const productsCount = await Product.countDocuments();
-//     const ordersCount = await Order.countDocuments();
-//     const categoriesCount = await Product.distinct("category");
-//     const subcategoriesCount = await Product.distinct("subCategory");
-
-//     res.json({
-//       users: usersCount,
-//       products: productsCount,
-//       orders: ordersCount,
-//       categories: categoriesCount.length,
-//       subcategories: subcategoriesCount.length
-//     });
-//   } catch (error) {
-//     res.status(500).json({ message: "Error fetching stats" });
-//   }
-// });
-
 // ---------------- USERS ----------------
-// GET all users
-// GET all users
 router.get("/users", verifyTokenAndAdmin, async (req, res) => {
   try {
     const users = await User.find(); // fetch all users

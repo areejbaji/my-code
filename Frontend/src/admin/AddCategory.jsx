@@ -1,118 +1,123 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import "./AddCategory.css";
+
+const API = "http://localhost:4000/api/admin/categories";
 
 const AddCategory = () => {
-  const [categoryName, setCategoryName] = useState("");
-  const [categoryImage, setCategoryImage] = useState(null);
+  const [name, setName] = useState("");
+  const [image, setImage] = useState(null);
   const [subcategories, setSubcategories] = useState([]);
+  const [subName, setSubName] = useState("");
+  const [subImage, setSubImage] = useState(null);
 
-  // Handle category image upload (Cloudinary)
-  const handleImageUpload = async (file) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "your_upload_preset");
-
-    const res = await axios.post(
-      "https://api.cloudinary.com/v1_1/your_cloud_name/image/upload",
-      formData
-    );
-
-    return res.data.secure_url;
-  };
-
+  // Add subcategory to list
   const addSubcategory = () => {
-    setSubcategories([...subcategories, { name: "", image: null }]);
+    if (!subName) return toast.error("Enter subcategory name");
+    setSubcategories([...subcategories, { name: subName, image: subImage }]);
+    setSubName("");
+    setSubImage(null);
   };
 
-  const handleSubcategoryChange = (index, field, value) => {
+  // Remove subcategory
+  const removeSubcategory = (index) => {
     const updated = [...subcategories];
-    updated[index][field] = value;
+    updated.splice(index, 1);
     setSubcategories(updated);
   };
 
-  const submitHandler = async (e) => {
+  // Submit category
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!name) return toast.error("Category name is required");
 
-    // Upload category image
-    const categoryImgUrl = categoryImage
-      ? await handleImageUpload(categoryImage)
-      : "";
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      if (image) formData.append("image", image);
 
-    // Upload subcategories images
-    const subcategoriesWithUrls = await Promise.all(
-      subcategories.map(async (sub) => {
-        let imgUrl = "";
-        if (sub.image) {
-          imgUrl = await handleImageUpload(sub.image);
-        }
-        return { name: sub.name, image: imgUrl };
-      })
-    );
+      const res = await axios.post(`${API}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
 
-    // Send to backend
-    await axios.post("http://localhost:4000/api/categories", {
-      name: categoryName,
-      image: categoryImgUrl,
-      subcategories: subcategoriesWithUrls,
-    });
+      const catId = res.data.category._id;
 
-    alert("✅ Category with subcategories added!");
-    setCategoryName("");
-    setCategoryImage(null);
-    setSubcategories([]);
+      // Add subcategories one by one
+      for (let sub of subcategories) {
+        const subForm = new FormData();
+        subForm.append("name", sub.name);
+        if (sub.image) subForm.append("image", sub.image);
+        await axios.post(`${API}/${catId}/sub`, subForm, {
+          headers: { "Content-Type": "multipart/form-data" }
+        });
+      }
+
+      toast.success("Category added successfully!");
+      setName("");
+      setImage(null);
+      setSubcategories([]);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to add category");
+    }
   };
 
   return (
-    <div className="add-category">
+    <div className="add-cat-container">
+      <ToastContainer />
       <h2>Add New Category</h2>
-      <form onSubmit={submitHandler}>
-        <div>
-          <label>Category Name</label>
+      <form onSubmit={handleSubmit} className="add-cat-form">
+        <div className="form-group">
+          <label>Category Name:</label>
           <input
             type="text"
-            value={categoryName}
-            onChange={(e) => setCategoryName(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter category name"
             required
           />
         </div>
-
-        <div>
-          <label>Category Image</label>
+        <div className="form-group">
+          <label>Category Image:</label>
           <input
             type="file"
-            onChange={(e) => setCategoryImage(e.target.files[0])}
-            required
+            onChange={(e) => setImage(e.target.files[0])}
           />
         </div>
 
-        <h3>Subcategories</h3>
-        {subcategories.map((sub, index) => (
-          <div key={index} style={{ marginBottom: "10px" }}>
+        {/* Subcategory Section */}
+        <div className="subcat-section">
+          <h3>Add Subcategories</h3>
+          <div className="subcat-inputs">
             <input
               type="text"
-              placeholder="Subcategory Name"
-              value={sub.name}
-              onChange={(e) =>
-                handleSubcategoryChange(index, "name", e.target.value)
-              }
-              required
+              value={subName}
+              onChange={(e) => setSubName(e.target.value)}
+              placeholder="Subcategory name"
             />
             <input
               type="file"
-              onChange={(e) =>
-                handleSubcategoryChange(index, "image", e.target.files[0])
-              }
-              required
+              onChange={(e) => setSubImage(e.target.files[0])}
             />
+            <button type="button" onClick={addSubcategory}>Add Subcategory</button>
           </div>
-        ))}
 
-        <button type="button" onClick={addSubcategory}>
-          ➕ Add Subcategory
-        </button>
+          {/* List of added subcategories */}
+          {subcategories.length > 0 && (
+            <ul className="subcat-list">
+              {subcategories.map((sub, index) => (
+                <li key={index}>
+                  {sub.name} {sub.image && <span>(Image attached)</span>}
+                  <button type="button" onClick={() => removeSubcategory(index)}>Remove</button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
-        <br />
-        <button type="submit">Save Category</button>
+        <button type="submit" className="submit-btn">Add Category</button>
       </form>
     </div>
   );
