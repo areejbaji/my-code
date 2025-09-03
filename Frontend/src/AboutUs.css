@@ -1,4 +1,4 @@
-/* Main container */
+
 .about-container {
   display: flex;
   align-items: flex-start;
@@ -8,7 +8,6 @@
   position: relative;
 }
 
-/* Back Button */
 .back-btn {
   position: absolute;
   top: 20px;
@@ -29,7 +28,6 @@
   transform: translateY(-2px);
 }
 
-/* Left text */
 .about-text {
   flex: 1;
   min-width: 300px;
@@ -49,7 +47,6 @@
   margin-bottom: 20px;
 }
 
-/* Highlight Boxes */
 .about-highlights {
   margin-top: 20px;
 }
@@ -80,7 +77,6 @@
   line-height: 1.5;
 }
 
-/* Right side image */
 .about-image {
   flex: 1;
   min-width: 280px;
@@ -94,9 +90,6 @@
   box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
 
-/* Responsive */
-
-/* Tablet */
 @media (max-width: 992px) {
   .about-container {
     flex-direction: column;
@@ -113,7 +106,6 @@
   }
 }
 
-/* Mobile */
 @media (max-width: 600px) {
   .animated-heading {
     font-size: 1.8rem;
@@ -138,7 +130,6 @@
   }
 }
 
-/* Extra Small Phones (≤ 400px) */
 @media (max-width: 400px) {
   .about-container {
     padding: 30px 4%;

@@ -9,12 +9,10 @@ const AboutUs = () => {
     <div className="about-container split-layout">
      
 
-      {/* Left side - text */}
       <div className="about-text">
         <h1 className="animated-heading">Welcome to StyleHub</h1>
         <p className="about-tagline">"Your Fashion, Your Identity"</p>
 
-        {/* Boxes with text inside */}
         <div className="about-highlights">
           <div className="highlight-box">
             <h3>Premium Quality</h3>
@@ -43,7 +41,6 @@ const AboutUs = () => {
         </div>
       </div>
 
-      {/* Right side - hero image */}
       <div className="about-image">
         <img src="assets/herowo.webp" alt="Hero" />
       </div>

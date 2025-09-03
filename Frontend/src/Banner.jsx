@@ -5,9 +5,7 @@ import data from "./data/banner.json";
 
 const PromoBanner = () => {
   const navigate = useNavigate();
-  const { heading, paragraph, img, size } = data[0]; // Get first banner
-
-  // Parse size string like "1920x600" → [width, height]
+  const { heading, paragraph, img, size } = data[0]; 
   const [width, height] = size.split("x");
 
   return (
@@ -16,7 +14,7 @@ const PromoBanner = () => {
       style={{
         backgroundImage: `url(${img})`,
         width: `${width}px`,
-        height: `${height}px`, // override default CSS height
+        height: `${height}px`, 
       }}
     >
       <div className="promo-overlay">

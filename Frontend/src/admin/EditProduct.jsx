@@ -14,9 +14,7 @@ const EditProduct = () => {
     images: [],
   });
   const [loading, setLoading] = useState(true);
-  const [updating, setUpdating] = useState(false); // added for button spinner
-
-  // Fetch product data
+  const [updating, setUpdating] = useState(false);
   useEffect(() => {
     if (!id) return;
     const fetchProduct = async () => {
@@ -41,7 +39,6 @@ const EditProduct = () => {
     fetchProduct();
   }, [id]);
 
-  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setUpdating(true);
@@ -57,7 +54,7 @@ const EditProduct = () => {
           updatedData.append("images", img);
         }
       });
-       // Send remaining old images
+   
     const existingImages = formData.images.filter(img => typeof img === "string");
     updatedData.append("existingImages", JSON.stringify(existingImages));
     

@@ -32,14 +32,14 @@ const ForgetPassword = () => {
         toast.success(result.message);
         console.log("✅ Email sent:", result);
       }
-        // ✅ Save correct token
+      
         if (result.token) {
-          localStorage.setItem('passToken', result.token); // ✅ This is now correct
+          localStorage.setItem('passToken', result.token); 
 
         localStorage.setItem('email',email)
 
 
-        navigate('/VerifyOTP'); // ✅ Go to OTP screen
+        navigate('/VerifyOTP');
       }
     
     } catch (error) {
@@ -73,9 +73,7 @@ const ForgetPassword = () => {
             <Button type="submit">
               <LoadingButton loading={loading} title="Send OTP" />
             </Button>
-            {/* <div className='auth_option'>
-              <Link to="/login">Back to login</Link>
-            </div> */}
+           
             
               <BackToLogin/>
           

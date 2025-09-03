@@ -9,8 +9,8 @@ export default function Catagory() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/api/categories"); // your backend endpoint
-        setCategories(res.data); // assume backend returns array of { _id, name, image, slug }
+        const res = await axios.get("http://localhost:4000/api/categories"); 
+        setCategories(res.data); 
       } catch (err) {
         console.error("Failed to fetch categories:", err);
       }
@@ -20,10 +20,10 @@ export default function Catagory() {
 
   return (
     <div>
-      {/* Heading */}
+  
       <h2 className="category-heading">Shop By Categories</h2>
 
-      {/* Categories container */}
+      
       <div className="categories-container">
         {categories.length > 0 ? (
           categories.map(({ _id, name, image, slug }) => (

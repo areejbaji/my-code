@@ -13,7 +13,7 @@
 .auth_header {
   display: flex;
   flex-direction: column;
-  align-items: center;       /* ✅ horizontal center for icon + text */
+  align-items: center;       
   justify-content: center;
   gap: 1rem;
   text-align: center;

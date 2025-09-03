@@ -9,11 +9,9 @@ const AdminCategories = () => {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState("");
 
-  // Add form state
   const [catName, setCatName] = useState("");
   const [subs, setSubs] = useState([""]);
 
-  // Edit state
   const [editId, setEditId] = useState(null);
   const [editName, setEditName] = useState("");
   const [editSubs, setEditSubs] = useState([""]);
@@ -29,7 +27,7 @@ const AdminCategories = () => {
       setLoading(true);
       const res = await fetch(apis().getCategories, { headers: headers() });
       if (!res.ok) throw new Error("Failed to load categories");
-      const data = await res.json(); // expect: [{_id, name, subcategories:[{_id,name}]}]
+      const data = await res.json();
       setCategories(data);
     } catch (e) {
       setError(e.message);
@@ -40,7 +38,6 @@ const AdminCategories = () => {
 
   useEffect(() => { fetchCategories(); }, []);
 
-  // ---------- Add ----------
   const addSubField = () => setSubs((p) => [...p, ""]);
   const removeSubField = (i) => setSubs((p) => p.filter((_, idx) => idx !== i));
   const updateSubVal = (i, val) => setSubs((p) => p.map((s, idx) => (idx === i ? val : s)));
@@ -73,7 +70,6 @@ const AdminCategories = () => {
     }
   };
 
-  // ---------- Edit ----------
   const startEdit = (cat) => {
     setEditId(cat._id);
     setEditName(cat.name || "");
@@ -117,7 +113,6 @@ const AdminCategories = () => {
     }
   };
 
-  // ---------- Delete ----------
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this category?")) return;
     try {
@@ -143,7 +138,6 @@ const AdminCategories = () => {
         <h2>Manage Categories</h2>
       </header>
 
-      {/* Add Card */}
       <section className="card">
         <h3>Add Category</h3>
         <form onSubmit={handleAdd} className="cat-form">
@@ -190,7 +184,6 @@ const AdminCategories = () => {
         </form>
       </section>
 
-      {/* List Card */}
       <section className="card">
         <h3>All Categories</h3>
 
@@ -222,7 +215,6 @@ const AdminCategories = () => {
                       )}
                     </td>
 
-                    {/* Subcategories cell */}
                     <td>
                       {!isEditing ? (
                         <div className="badges">
@@ -261,7 +253,6 @@ const AdminCategories = () => {
                       )}
                     </td>
 
-                    {/* Actions */}
                     <td className="actions">
                       {!isEditing ? (
                         <>

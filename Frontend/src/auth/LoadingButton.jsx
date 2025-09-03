@@ -3,11 +3,7 @@ import Spinner from "./Spinner";
 
 const LoadingButton = ({ loading, title }) => {
   return (
-    <div className='auth_inner'
-    //  style={{ display: 'flex', alignItems: 'center', gap: '8px'
-
-      // }}
-      >
+    <div className='auth_inner'>
       <span>{loading ? 'Please wait...' : title}</span>
       {loading && <Spinner />}
     </div>

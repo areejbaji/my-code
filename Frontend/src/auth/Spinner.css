@@ -2,19 +2,17 @@
     width: 1rem;
     height: 1rem;
     border: 2px solid #f3f3f3;
-    border-top: 1px solid #5f87a3; /* Soft pink */
+    border-top: 1px solid #5f87a3; 
     border-radius: 50%;
     animation: spin 0.5s linear infinite;
     margin: 10px auto;
 
-    /* animation: loading 1s infinite linear; */
+    
 }
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-    /* to {
-        transform: rotate(1turn);
-    } */
+    
 }
  

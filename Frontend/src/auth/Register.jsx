@@ -30,16 +30,7 @@ const Register = () => {
       const result = await response.json();
       console.log(result);
       setLoading(false);
-
-      // if (response.ok && result.status) {
-      //   toast.success(result.message || 'Registered successfully');
-      //    localStorage.setItem('accessToken', result.token);
-      //     if (result.user) {
-      //   localStorage.setItem('user', JSON.stringify(result.user));
-      //    }
-      //   navigate('/');
-
-      // } 
+ 
       if (response.ok && result.status) {
   toast.success(result.message || 'Registered successfully');
 

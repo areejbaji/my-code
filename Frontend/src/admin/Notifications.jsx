@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import "./Notifications.css"; // optional styling
+import "./Notifications.css"; 
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -10,13 +10,12 @@ const Notifications = () => {
   useEffect(() => {
     axios.get("/api/admin/notifications")
       .then(res => {
-        // backend should return an array of notifications
+       
         setNotifications(res.data.notifications || []);
       })
       .catch(err => console.error(err));
   }, []);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {

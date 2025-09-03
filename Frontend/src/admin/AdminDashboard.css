@@ -1,15 +1,4 @@
 
-/* 
-/* Colors for each card 
-.stat-card.users { background: #ff6b6b; }
-.stat-card.products { background: #54a0ff; }
-.stat-card.categories { background: #1dd1a1; }
-.stat-card.subcategories { background: #f368e0; }
-.stat-card.orders { background: #ff9f43; }
-.stat-card.delivered { background: #00d2d3; }
-.stat-card.returned { background: #576574; }
-.stat-card.cancelled { background: #ee5253; }
-.stat-card.pending { background: #ffbe76; } */
 .dashboard-container {
   padding: 30px;
   font-family: 'Arial', sans-serif;

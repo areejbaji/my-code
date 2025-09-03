@@ -13,7 +13,6 @@ const AdminLayout = () => {
   const [categoryDropdown, setCategoryDropdown] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
 
-  // ✅ Check adminToken on mount
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
     if (!token) {
@@ -29,7 +28,7 @@ const AdminLayout = () => {
 
   return (
     <div className="admin-container">
-      {/* Sidebar */}
+   
       <aside className="admin-sidebar">
         <div className="sidebar-logo">
           <img src="./assets/logo.png" alt="logo" className="logo-img" />
@@ -86,7 +85,7 @@ const AdminLayout = () => {
         </ul>
       </aside>
 
-      {/* Main content */}
+   
       <main className="admin-main">
         <header className="admin-header">
           <div className="header-left">

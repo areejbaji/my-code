@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./AdminUsers.css"; // apni CSS file
+import "./AdminUsers.css"; 
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);

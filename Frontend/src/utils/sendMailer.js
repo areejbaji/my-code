@@ -11,12 +11,12 @@ const sendMailer = (otp, email) => {
       }
     });
 
-    // Check SMTP connection
+  
     transporter.verify((error, success) => {
       if (error) {
-        console.log('❌ SMTP connection failed:', error);
+        console.log(' SMTP connection failed:', error);
       } else {
-        console.log('✅ SMTP server is ready to send emails');
+        console.log(' SMTP server is ready to send emails');
       }
     });
 
@@ -34,15 +34,15 @@ const sendMailer = (otp, email) => {
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.error('❌ SendMail error:', error);
+        console.error(' SendMail error:', error);
         throw new Error('Failed to send email');
       } else {
-        console.log('✅ Email sent successfully:', info.response);
+        console.log('Email sent successfully:', info.response);
       }
     });
 
   } catch (error) {
-    console.log('📛 Error in sendMailer:', error.message);
+    console.log(' Error in sendMailer:', error.message);
   }
 };
 

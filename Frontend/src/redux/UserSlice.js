@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  userInfo: null, // login info
-  measurements: {} // store last used measurements
+  userInfo: null, 
+  measurements: {} 
 };
 
 const userSlice = createSlice({
@@ -17,7 +17,7 @@ const userSlice = createSlice({
       state.measurements = {};
     },
     saveMeasurements: (state, action) => {
-      state.measurements = action.payload; // payload = measurements object
+      state.measurements = action.payload; 
     }
   }
 });

@@ -17,7 +17,6 @@ const VerifyOTP = () => {
   const navigate = useNavigate();
   const [IsExpire, setIsExpire] = useState(false);
 
-  // Handle OTP input
   const handleInput = (e, index) => {
     let value = e.target.value;
     if (!/^\d*$/.test(value)) return;
@@ -32,12 +31,10 @@ const VerifyOTP = () => {
     }
   };
 
-  // Focus first box on mount
   useEffect(() => {
     refs.current[0]?.focus();
   }, []);
 
-  // Submit OTP
   const submitHandler = async (event) => {
     event.preventDefault();
     const finalOTP = otp.join('').trim();
@@ -69,7 +66,7 @@ const VerifyOTP = () => {
 
       if (result?.status) {
         toast.success('✅ OTP Verified Successfully');
-        setOtpTimer(result?.sendTime); // optional
+        setOtpTimer(result?.sendTime); 
         navigate("/Updatepassword");
       }
     } catch (error) {
@@ -78,7 +75,6 @@ const VerifyOTP = () => {
     }
   };
 
-  // Get OTP time from backend
   useEffect(() => {
     const getTime = async () => {
       try {
@@ -110,7 +106,6 @@ const VerifyOTP = () => {
     getTime();
   }, []);
 
-  // ✅ Resend Handler (FIXED)
   const resendHandler = async () => {
     try {
       const response = await fetch(apis().forgetPassword, {
@@ -126,7 +121,7 @@ const VerifyOTP = () => {
         toast.success(result?.message);
         localStorage.setItem('passToken', result?.token);
 
-        // ✅ Correct time format
+
         setOtpTimer(new Date(Date.now() + 60000).toISOString());
         setIsExpire(false);
       }

@@ -24,14 +24,14 @@ const SearchResults = () => {
       <h2>Search Results for: "{query}"</h2>
 
       {products.length === 0 ? (
-        <p>No products match your search.</p> // ✅ if nothing found
+        <p>No products match your search.</p> 
       ) : (
         <div className="products-container">
           {products.map(p => (
             <div key={p._id} className="search-product">
               {p.images && p.images.length > 0 && (
                    <img src={p.images[0]} alt={p.name} /> 
-                // <img src={`http://localhost:4000/${p.images[0]}`} alt={p.name} />
+               
               )}
               <h4>{p.name}</h4>
               <p>{p.category} / {p.subcategory}</p>

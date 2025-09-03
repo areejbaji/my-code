@@ -70,7 +70,7 @@ const UpdatePassword = () => {
           <p className='auth_title'>Enter at least 6-digit long password</p>
         </div>
 
-        {/* ✅ Wrapped in auth_container for spacing */}
+       
         <div className='auth_container'>
           <div className='auth_item'>
             <label>Password *</label>

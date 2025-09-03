@@ -1,6 +1,6 @@
 .back-button {
-  background-color: #111; /* Dark background */
-  color: #fff;            /* White text */
+  background-color: #111; 
+  color: #fff;            
   border: none;
   padding: 10px 20px;
   border-radius: 8px;
@@ -14,7 +14,7 @@
 }
 
 .back-button:hover {
-  background-color: #e50914; /* Red Netflix-style hover */
+  background-color: #e50914; 
   color: #fff;
   transform: translateY(-2px);
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);

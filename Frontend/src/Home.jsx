@@ -1,6 +1,6 @@
 
 import { useNavigate } from "react-router-dom";
-import "./Home.css";
+
 
 import NewArrivals from "./NewArrival";
 import Catagory from "./Catagory";

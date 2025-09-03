@@ -10,7 +10,7 @@ const Hero = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % heroData.length);
-    }, 6000); // Slower carousel
+    }, 6000); 
     return () => clearInterval(interval);
   }, []);
 
@@ -26,13 +26,7 @@ const Hero = () => {
           <h2>{current.heading}</h2>
           
           <p>{current.paragraph}</p>
-          
-          
-          <button className="shop-btn" onClick={() => navigate("/shop")}>
-            Shop Now
-          </button>
-
-          {/* Dot Navigation */}
+         
           <div className="dots">
             {heroData.map((_, i) => (
               <span

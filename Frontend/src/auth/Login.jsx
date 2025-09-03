@@ -11,7 +11,7 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate(); // ✅ React Router navigation hook
+  const navigate = useNavigate(); 
 
   const emailChange = (e) => setEmail(e.target.value);
   const passwordChange = (e) => setPassword(e.target.value);
@@ -20,8 +20,8 @@ export default function Login() {
   const submitHandler = async (event) => {
     event.preventDefault();
     console.clear();
-    console.log("🚀 submitHandler TRIGGERED");
-    console.log("📤 Sending payload:", { email, password });
+    console.log(" submitHandler TRIGGERED");
+    console.log(" Sending payload:", { email, password });
 
     if (!email || !password) {
       toast.error("Please fill all required fields");
@@ -32,7 +32,7 @@ export default function Login() {
       setLoading(true);
 
       const apiUrl = apis().loginUser;
-      console.log("🌐 API Endpoint:", apiUrl);
+      console.log(" API Endpoint:", apiUrl);
 
       const response = await fetch(apiUrl, {
         method: 'POST',
@@ -40,20 +40,20 @@ export default function Login() {
         body: JSON.stringify({ email, password })
       });
 
-      console.log("📩 Response status:", response.status, response.statusText);
+      console.log(" Response status:", response.status, response.statusText);
 
       const rawText = await response.text();
-      console.log("📜 Raw Response Text:", rawText);
+      console.log(" Raw Response Text:", rawText);
 
       let result;
       try {
         result = JSON.parse(rawText);
       } catch (parseError) {
-        console.error("❌ JSON Parse Error:", parseError);
+        console.error(" JSON Parse Error:", parseError);
         throw new Error("Invalid JSON from server");
       }
 
-      console.log("✅ Parsed JSON:", result);
+      console.log(" Parsed JSON:", result);
 
       if (!response.ok) {
         throw new Error(result?.message || "Login failed");
@@ -61,7 +61,6 @@ export default function Login() {
 
       if (result?.status) {
         toast.success(result.message);
-        // localStorage.setItem('accessToken', result.token);
           if (result.role === 'admin') {
               localStorage.setItem('adminToken', result.token);
              navigate('/admin');
@@ -77,7 +76,7 @@ export default function Login() {
       }
 
     } catch (error) {
-      console.error("🔥 Error in submitHandler:", error);
+      console.error(" Error in submitHandler:", error);
       toast.error(error.message || "Something went wrong");
     } finally {
       setLoading(false);

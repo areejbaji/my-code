@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+
+import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,8 +13,8 @@ const AddCategory = () => {
   const [subcategories, setSubcategories] = useState([]);
   const [subName, setSubName] = useState("");
   const [subImage, setSubImage] = useState(null);
+  const token = localStorage.getItem("adminToken"); 
 
-  // Add subcategory to list
   const addSubcategory = () => {
     if (!subName) return toast.error("Enter subcategory name");
     setSubcategories([...subcategories, { name: subName, image: subImage }]);
@@ -21,46 +22,52 @@ const AddCategory = () => {
     setSubImage(null);
   };
 
-  // Remove subcategory
   const removeSubcategory = (index) => {
     const updated = [...subcategories];
     updated.splice(index, 1);
     setSubcategories(updated);
   };
 
-  // Submit category
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name) return toast.error("Category name is required");
 
     try {
+      // 1️⃣ Add main category
       const formData = new FormData();
       formData.append("name", name);
       if (image) formData.append("image", image);
 
       const res = await axios.post(`${API}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" }
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       const catId = res.data.category._id;
 
-      // Add subcategories one by one
+      // 2️⃣ Add subcategories
       for (let sub of subcategories) {
         const subForm = new FormData();
         subForm.append("name", sub.name);
         if (sub.image) subForm.append("image", sub.image);
+
         await axios.post(`${API}/${catId}/sub`, subForm, {
-          headers: { "Content-Type": "multipart/form-data" }
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
         });
       }
 
-      toast.success("Category added successfully!");
+      toast.success("Category and subcategories added successfully!");
       setName("");
       setImage(null);
       setSubcategories([]);
     } catch (error) {
-      console.error(error);
-      toast.error("Failed to add category");
+      console.error("AxiosError", error);
+      toast.error(error.response?.data?.message || "Failed to add category");
     }
   };
 
@@ -87,7 +94,6 @@ const AddCategory = () => {
           />
         </div>
 
-        {/* Subcategory Section */}
         <div className="subcat-section">
           <h3>Add Subcategories</h3>
           <div className="subcat-inputs">
@@ -104,7 +110,6 @@ const AddCategory = () => {
             <button type="button" onClick={addSubcategory}>Add Subcategory</button>
           </div>
 
-          {/* List of added subcategories */}
           {subcategories.length > 0 && (
             <ul className="subcat-list">
               {subcategories.map((sub, index) => (

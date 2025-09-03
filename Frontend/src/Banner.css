@@ -1,4 +1,4 @@
-/* Main banner wrapper */
+
 .promo-banner {
   background-size: cover;
   background-position: center;
@@ -11,11 +11,10 @@
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   animation: zoomIn 12s ease-in-out infinite alternate;
-  width: 100%; /* Keeps full width */
+  width: 100%; 
   max-width: 100%;
 }
 
-/* Zoom animation */
 @keyframes zoomIn {
   0% {
     background-size: 100%;
@@ -25,7 +24,6 @@
   }
 }
 
-/* Dark overlay on image */
 .promo-overlay {
   background-color: rgba(0, 0, 0, 0.4);
   width: 100%;
@@ -36,7 +34,6 @@
   padding: 1rem;
 }
 
-/* Text content styling */
 .promo-content {
   text-align: center;
   color: white;
@@ -57,7 +54,6 @@
   font-weight: 400;
 }
 
-/* Button style */
 .shop-btn {
   padding: 0.8rem 2rem;
   font-size: 1.05rem;
@@ -75,7 +71,6 @@
   transform: translateY(-2px);
 }
 
-/* Responsive (tablet & mobile) */
 @media (max-width: 768px) {
   .promo-content h1 {
     font-size: 2.2rem;
@@ -91,7 +86,6 @@
   }
 }
 
-/* Mobile extra small screens */
 @media (max-width: 480px) {
   .promo-content {
     padding: 1rem;

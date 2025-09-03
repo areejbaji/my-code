@@ -6,7 +6,7 @@ import axios from "axios";
 import { clearCart } from "./redux/cartSlice";
 import "./Checkout.css";
 
-// Toast notification component
+
 const Toast = ({ message, type, onClose }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -54,7 +54,6 @@ const CheckoutPage = () => {
   const [errors, setErrors] = useState({});
   const [toast, setToast] = useState(null);
 
-  // Regex patterns for validation
   const patterns = {
     name: /^[a-zA-Z\s]{2,15}$/,
     email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -64,12 +63,12 @@ const CheckoutPage = () => {
     address: /^.{5,100}$/
   };
 
-  // Show toast notification
+
   const showToast = (message, type = "error") => {
     setToast({ message, type });
   };
 
-  // Validate individual field
+
   const validateField = (name, value) => {
     if (!value.trim() && ["name", "email", "address", "city", "phone"].includes(name)) {
       return `${name.charAt(0).toUpperCase() + name.slice(1)} is required`;
@@ -112,7 +111,6 @@ const CheckoutPage = () => {
     return "";
   };
 
-  // Validate all fields
   const validateForm = () => {
     const newErrors = {};
     const requiredFields = ["name", "email", "address", "city", "phone"];
@@ -122,7 +120,6 @@ const CheckoutPage = () => {
       if (error) newErrors[field] = error;
     });
 
-    // Validate optional fields if they have values
     if (formData.postalCode) {
       const postalError = validateField("postalCode", formData.postalCode);
       if (postalError) newErrors.postalCode = postalError;
@@ -132,7 +129,6 @@ const CheckoutPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // ✅ Autofill if user is logged in
   useEffect(() => {
     const userData = localStorage.getItem("user");
     if (userData && userData !== "undefined") {
@@ -153,8 +149,7 @@ const CheckoutPage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
-    // Input length restrictions
+  
     const maxLengths = {
       name: 15,
       email: 50,
@@ -165,14 +160,12 @@ const CheckoutPage = () => {
       note: 200
     };
     
-    // Prevent entering more characters than allowed
     if (maxLengths[name] && value.length > maxLengths[name]) {
       return;
     }
     
     setFormData({ ...formData, [name]: value });
-    
-    // Clear error when user starts typing
+   
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
     }
@@ -200,13 +193,12 @@ const CheckoutPage = () => {
       return;
     }
 
-    // Check if cart is empty
+  
     if (cartItems.length === 0) {
       showToast("Your cart is empty!", "error");
       return;
     }
 
-    // Check stock availability
     for (let item of cartItems) {
       if (item.quantity > item.stock) {
         showToast(`Only ${item.stock} items available for ${item.name} (${item.size})`, "error");
@@ -233,9 +225,9 @@ const CheckoutPage = () => {
       };
 
       const res = await axios.post("http://localhost:4000/api/orders", order);
-      console.log("✅ Order saved:", res.data);
+      console.log("Order saved:", res.data);
 
-      showToast("Order placed successfully! 🎉", "success");
+      showToast("Order placed successfully! ", "success");
       
       // Clear cart and navigate after a short delay
       setTimeout(() => {
@@ -244,7 +236,7 @@ const CheckoutPage = () => {
       }, 1500);
 
     } catch (err) {
-      console.error("❌ Order placement error:", err.response?.data || err.message);
+      console.error(" Order placement error:", err.response?.data || err.message);
       showToast("Failed to place order. Please try again.", "error");
     }
   };
@@ -380,7 +372,6 @@ const CheckoutPage = () => {
           <div className="char-counter">{formData.note.length}/200</div>
         </div>
 
-        {/* Payment Method */}
         <div className="payment-section">
           <h3 className="payment-heading">Payment Method</h3>
           <div className="payment-circle">{formData.paymentMethod}</div>
@@ -391,7 +382,7 @@ const CheckoutPage = () => {
         </button>
       </div>
 
-      {/* Right: Order Summary */}
+     
       <div className="checkout-summary">
         <h2>Order Summary</h2>
         {cartItems.map((item, index) => (
@@ -404,45 +395,54 @@ const CheckoutPage = () => {
               </p>
               <p>Size: {item.size}</p>
 
-              {/* Measurements */}
-              {item.measurements && (
-                <div className="measurement-section">
-                  <div>
-                    <h5>Shirt</h5>
-                    <div className="measurements-boxes">
-                      {[
-                        "Length",
-                        "Shoulder",
-                        "Armhole",
-                        "Chest",
-                        "Waist",
-                        "Hip",
-                        "Sleeve Length",
-                        "Wrist",
-                        "Bottom/Damman"
-                      ]
-                        .filter((f) => item.measurements[f])
-                        .map((f) => (
-                          <div key={f} className="measure-box">
-                            {f}: {item.measurements[f]}
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                  <div>
-                    <h5>Trouser</h5>
-                    <div className="measurements-boxes">
-                      {["Length", "Waist", "Knee", "Thigh", "Hip", "Bottom"]
-                        .filter((f) => item.measurements[f])
-                        .map((f) => (
-                          <div key={f} className="measure-box">
-                            {f}: {item.measurements[f]}
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                </div>
-              )}
+                 {/* Measurements */}
+{item.measurements && (
+  <div className="measurement-section">
+    <div>
+      <h5>Shirt</h5>
+      <div className="measurements-boxes">
+        {[
+          "Length",
+          "Shoulder",
+          "Armhole",
+          "Chest",
+          "Waist",
+          "Hip",
+          "Sleeve Length",
+          "Wrist",
+          "Bottom/Damman"
+        ]
+          .filter(
+            (f) =>
+              (item.measurements && item.measurements[f]) ||
+              (item.measurements && item.measurements[`S.${f}`])
+          )
+          .map((f) => (
+            <div key={f} className="measure-box">
+              {f}: {item.measurements[f] || item.measurements[`S.${f}`]}
+            </div>
+          ))}
+      </div>
+    </div>
+    <div>
+      <h5>Trouser</h5>
+      <div className="measurements-boxes">
+        {["Length", "Waist", "Knee", "Thigh", "Hip", "Bottom"]
+          .filter(
+            (f) =>
+              (item.measurements && item.measurements[f]) ||
+              (item.measurements && item.measurements[`T.${f}`])
+          )
+          .map((f) => (
+            <div key={f} className="measure-box">
+              {f}: {item.measurements[f] || item.measurements[`T.${f}`]}
+            </div>
+          ))}
+      </div>
+    </div>
+  </div>
+)}
+
             </div>
             <p>Rs {item.price * item.quantity}</p>
           </div>

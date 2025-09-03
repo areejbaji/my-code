@@ -4,7 +4,7 @@ const verifyOTPHandler = async (req, res, next) => {
   const { otp } = req.body;
 
   try {
-    const otpString = otp.toString(); // Ensure string match
+    const otpString = otp.toString(); 
     const findUser = await User.findOne({ 'otp.otp': otpString });
 
     if (!findUser) {
