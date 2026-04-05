@@ -18,4 +18,4 @@ const getAccess = async (req, res, next) => {
   }
 };
 
-module.exports = getAccess;   // ✅ export a function instead of an object
+module.exports = getAccess;  

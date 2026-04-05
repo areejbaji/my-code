@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Notifications from "./Notifications";
+import logo from '../assets/logo.png'; 
 import { FiHome, FiPackage, FiUsers, FiSettings, FiChevronDown, FiLogOut} from "react-icons/fi";
 import { MdCategory, MdOutlineAddBox, MdViewList } from "react-icons/md";
 import "./Admin.css";
@@ -31,7 +32,7 @@ const AdminLayout = () => {
    
       <aside className="admin-sidebar">
         <div className="sidebar-logo">
-          <img src="./assets/logo.png" alt="logo" className="logo-img" />
+          <img src={logo} alt="logo" className="logo-img" />
           <span className="logo-text">StyleHUB</span>
         </div>
 
@@ -94,7 +95,8 @@ const AdminLayout = () => {
           <div className="header-right">
             <div className="notifications">
               
-              <Notifications />
+              <Notifications isAdmin={true} />
+
             </div>
             <div className="profile-dropdown">
               <span onClick={() => setProfileDropdown(!profileDropdown)}>
@@ -103,7 +105,12 @@ const AdminLayout = () => {
               {profileDropdown && (
                 <ul className="profile-menu">
                   <li><Link to="/admin/profile"><MdViewList /> My Profile</Link></li>
-                  <li><Link to="/admin/change-password"><MdOutlineAddBox /> Change Password</Link></li>
+                 <li>
+  <Link to="/forget/password">
+    <MdOutlineAddBox /> Forget Password
+  </Link>
+</li>
+
                   <li onClick={handleLogout}><FiLogOut /> Logout</li>
                 </ul>
               )}

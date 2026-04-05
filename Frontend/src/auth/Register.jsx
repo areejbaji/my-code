@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import apis from '../utils/apis';
 import toast from 'react-hot-toast';
 import LoadingButton from './LoadingButton';
-import Input from './ui/Input';
-import Spinner from './Spinner';
+
+
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -30,22 +30,36 @@ const Register = () => {
       const result = await response.json();
       console.log(result);
       setLoading(false);
- 
+
       if (response.ok && result.status) {
-  toast.success(result.message || 'Registered successfully');
-
-  if (result.role === 'admin') {
-    localStorage.setItem('adminToken', result.token);
-  } else {
-    localStorage.setItem('userToken', result.token);
-  }
-
+        toast.success(result.message || 'Registered successfully');
+          if (result.role === 'admin') {
+  localStorage.setItem('adminToken', result.token);
+} else {
+  // ✅ Use accessToken as the key
+  localStorage.setItem('accessToken', result.token);
+  
   if (result.user) {
     localStorage.setItem('user', JSON.stringify(result.user));
   }
-
-  navigate('/');
+  
+  // Clean up old keys
+  localStorage.removeItem('token');
+  localStorage.removeItem('userToken');
 }
+        // if (result.role === 'admin') {
+        //   localStorage.setItem('adminToken', result.token);
+        // } else {
+        //   localStorage.setItem('userToken', result.token);
+        // }
+
+        // if (result.user) {
+        //   localStorage.setItem('token', result.token); // ✅ single key use karo
+        //   localStorage.setItem('user', JSON.stringify(result.user));
+        // }
+
+        navigate('/');
+      }
 
       else {
         toast.error(result.message || 'Registration failed');
@@ -112,7 +126,6 @@ const Register = () => {
             <div>
               <BackToLogin />
               <div></div>
-             
             </div>
           </div>
         </div>

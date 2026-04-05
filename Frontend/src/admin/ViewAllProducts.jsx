@@ -40,7 +40,7 @@ const ViewAllProducts = () => {
 
     try {
       const token = localStorage.getItem("adminToken");
-      await axios.delete(`http://localhost:4000/api/products/${id}`, {
+      await axios.delete(`http://localhost:4000/api/admin/products/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProducts(products.filter((product) => product._id !== id));

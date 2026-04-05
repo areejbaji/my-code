@@ -1,60 +1,11 @@
 
-// const mongoose = require("mongoose");
-
-// const productSchema = new mongoose.Schema({
-//   name: { type: String, required: true },
-
-//   category: { 
-//     type: String, 
-//     required: true,
-//     enum: ["men", "women"]
-//   },
-
-//   subCategory: { 
-//     type: String, 
-//     required: true,
-
-//   },
-
-//   images: [{ type: String, required: true }],
-//   new_price: { type: Number, required: true },
-//   old_price: { type: Number },
-
-//   available: { type: Boolean, default: true },
-
-//   description: { type: [String] },
-
-//   // Size-wise stock
-//   stock: {
-//     S: { type: Number, default: 0 },
-//     M: { type: Number, default: 0 },
-//     L: { type: Number, default: 0 },
-//     XL: { type: Number, default: 0 },
-//     XXL: { type: Number, default: 0 }
-//   },
-
-//   // Optional: custom size max quantity
-//   customStock: { type: Number, default: 10 },
-
-//   dateAdded: { type: Date, default: Date.now }
-// });
-
-// // Middleware: auto-update availability
-// productSchema.pre("save", function(next) {
-//   const sizes = Object.values(this.stock);
-//   const totalStock = sizes.reduce((a,b) => a + b, 0);
-//   this.available = totalStock > 0 || this.customStock > 0; // available if any size or custom >0
-//   next();
-// });
-
-// module.exports = mongoose.model("Product", productSchema);
 const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
   slug: { type: String, unique: true },
-  category: { type: String, required: true }, // Example: "Men"
-  subCategory: { type: String, required: true }, // Example: "Suit"
+  category: { type: String, required: true }, 
+  subCategory: { type: String, required: true }, 
 
   images: [{ type: String, required: true }],
   new_price: { type: Number, required: true },
@@ -72,7 +23,52 @@ const productSchema = new mongoose.Schema({
   },
 
   customStock: { type: Number, default: 10 },
-  dateAdded: { type: Date, default: Date.now }
+  dateAdded: { type: Date, default: Date.now },
+
+ averageRating: {
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 5,
+  },
+   totalReviews: {
+    type: Number,
+    default: 0,
+  },
+  ratingDistribution: {
+    5: { type: Number, default: 0 },
+    4: { type: Number, default: 0 },
+    3: { type: Number, default: 0 },
+    2: { type: Number, default: 0 },
+    1: { type: Number, default: 0 },
+  },
+
+  
 });
+productSchema.methods.updateRatingStats = async function() {
+  const Review = require('./Review');
+  
+  const reviews = await Review.find({ 
+    productId: this._id, 
+    status: 'approved' 
+  });
+  this.totalReviews = reviews.length;
+  
+  if (reviews.length === 0) {
+    this.averageRating = 0;
+    this.ratingDistribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+  } else {
+    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
+    this.averageRating = (sum / reviews.length).toFixed(1);
+    
+    // Calculate distribution
+    this.ratingDistribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+    reviews.forEach(review => {
+      this.ratingDistribution[review.rating]++;
+    });
+  }
+  
+  await this.save();
+};
 
 module.exports = mongoose.model("Product", productSchema);

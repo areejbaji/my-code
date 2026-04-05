@@ -1,10 +1,9 @@
-const Order = require('../models/Order'); // Your Mongoose Order model
+const Order = require('../models/Order'); 
 
-// Get orders for logged-in user
+
 const getUserOrders = async (req, res, next) => {
   try {
-    const userId = req.user.userId; // Comes from JWT verifyToken middleware
-
+    const userId = req.user.userId; 
     const orders = await Order.find({ order_userID: userId }).sort({ order_date: -1 });
 
     res.status(200).json({

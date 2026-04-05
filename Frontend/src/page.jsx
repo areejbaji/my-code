@@ -7,9 +7,6 @@ import { addToCart } from "./redux/cartSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./ProductDetailPage.css";
-import ProductReviews from "./ProductReviews";
-import { FaStar } from "react-icons/fa";
-
 
 const sizeRanges = {
   S: {
@@ -120,7 +117,7 @@ const ProductDetailPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.userInfo);
-  const [selectedStock, setSelectedStock] = useState(null);
+  // const [selectedStock, setSelectedStock] = useState(null);
 
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
@@ -268,13 +265,73 @@ const handleNext = () => {
       );
     });
 
- const handleAddToCart = async () => {
+  // const handleAddToCart = () => {
+  //   const allRequired = [...shirtFields, ...trouserFields];
+  //      if (!selectedSize && !showCustom) {
+  //     toast.error("⚠️ Please select a size before adding to cart.");
+  //     return;
+  //   }
+
+  //   // 🔎 Stock check
+  //   if (!showCustom) {
+  //     if (product.stock[selectedSize] === 0) {
+  //       toast.error(" Sorry, this size is out of stock.");
+  //       return;
+  //     }
+  //   } else {
+  //     if (product.customStock === 0) {
+  //       toast.error(" Sorry, this custom size is out of stock.");
+  //       return;
+  //     }
+  //   }
+  //   if (Object.keys(errors).length > 0) {
+  //     toast.error("Please fix errors before adding to cart");
+  //     return;
+  //   }
+
+  //   const newErrors = {};
+  //   let hasEmpty = false;
+  //   for (let f of allRequired) {
+  //     if (!measurements[f] || measurements[f] === "") {
+  //       newErrors[f] = "This field is required";
+  //       hasEmpty = true;
+  //     }
+  //   }
+  //   if (hasEmpty) {
+  //     setErrors(newErrors);
+  //     toast.error("Please fill all measurement fields");
+  //     return;
+  //   }
+
+  //   if (quantity < 1 || quantity > 5) {
+  //     toast.error("Quantity must be between 1 and 5");
+  //     return;
+  //   }
+
+  //   dispatch(
+  //     addToCart({
+  //       // id: Date.now(),
+  //        id: product._id,
+  //           productId: product._id, 
+  //       name: product.name,
+  //       price: product.new_price,
+  //       image: selectedImage,
+  //       size: selectedSize,
+  //       measurements,
+  //       quantity,
+  //        stock: product.stock
+  //     })
+  //   );
+
+  //    toast.success("Item added to cart!");
+  //   setTimeout(() => {
+  //     navigate("/cart"); 
+  //   }, 1000);
+  // };
+const handleAddToCart = async () => {
   const allRequired = [...shirtFields, ...trouserFields];
 
-  // ✅ Ensure size is set - either from selection or "Custom"
-  const finalSize = showCustom ? "Custom" : selectedSize;
-  
-  if (!finalSize) {
+  if (!selectedSize && !showCustom) {
     toast.error("⚠️ Please select a size before adding to cart.");
     return;
   }
@@ -310,87 +367,37 @@ const handleNext = () => {
     return;
   }
 
-  // ✅ Add to cart with guaranteed size value
-  dispatch(
-    addToCart({
-      id: product._id,
-      productId: product._id,
-      name: product.name,
-      price: product.new_price,
-      image: selectedImage,
-      size: finalSize, // ✅ Now always has a value (either "S", "M", "L", "XL", "XXL", or "Custom")
-      measurements,
+  try {
+    // Backend stock update
+    await axios.post(`http://localhost:4000/api/products/${product._id}/update-stock`, {
       quantity,
-      stock: availableStock,
-    })
-  );
+      size: selectedSize,
+      custom: showCustom,
+    });
+
+    // Add to cart in Redux
+    dispatch(
+      addToCart({
+        id: product._id,
+        productId: product._id,
+        name: product.name,
+        price: product.new_price,
+        image: selectedImage,
+        size: selectedSize,
+        measurements,
+        quantity,
+        stock: availableStock,
+      })
+    );
       
-  toast.success("Item added to cart!");
-  setTimeout(() => navigate("/cart"), 1000);
+
+    toast.success("Item added to cart!");
+    setTimeout(() => navigate("/cart"), 1000);
+
+  } catch (err) {
+    toast.error(err.response?.data?.message || "Error updating stock");
+  }
 };
-// const handleAddToCart = async () => {
-//   const allRequired = [...shirtFields, ...trouserFields];
-
-//   if (!selectedSize && !showCustom) {
-//     toast.error("⚠️ Please select a size before adding to cart.");
-//     return;
-//   }
-
-//   const availableStock = showCustom ? product.customStock : product.stock[selectedSize] || 0;
-
-//   if (availableStock === 0) {
-//     toast.error("Sorry, this size is out of stock.");
-//     return;
-//   }
-
-//   if (quantity > availableStock) {
-//     toast.error(`Only ${availableStock} piece${availableStock > 1 ? "s" : ""} available`);
-//     return;
-//   }
-
-//   if (Object.keys(errors).length > 0) {
-//     toast.error("Please fix errors before adding to cart");
-//     return;
-//   }
-
-//   const newErrors = {};
-//   let hasEmpty = false;
-//   for (let f of allRequired) {
-//     if (!measurements[f] || measurements[f] === "") {
-//       newErrors[f] = "This field is required";
-//       hasEmpty = true;
-//     }
-//   }
-//   if (hasEmpty) {
-//     setErrors(newErrors);
-//     toast.error("Please fill all measurement fields");
-//     return;
-//   }
-
- 
-  
-
-//     // Add to cart in Redux
-//     dispatch(
-//       addToCart({
-//         id: product._id,
-//         productId: product._id,
-//         name: product.name,
-//         price: product.new_price,
-//         image: selectedImage,
-//         size: selectedSize,
-//         measurements,
-//         quantity,
-//         stock: availableStock,
-//       })
-//     );
-      
-
-//     toast.success("Item added to cart!");
-//     setTimeout(() => navigate("/cart"), 1000);
-
- 
-// };
 
     
 
@@ -448,14 +455,6 @@ const handleNext = () => {
                 )}
                 <span className="new-price">Rs {product.new_price}</span>
               </p>
-              <div className="product-rating">
-  <FaStar className="star-icon" />
-  <span>{product.averageRating || 0}</span>
-  <span className="review-count">
-    ({product.totalReviews || 0} reviews)
-  </span>
-</div>
-
             </div>
                           {/* {selectedSize && !showCustom && (
   <p className="stock-info">
@@ -506,7 +505,7 @@ const handleNext = () => {
                   className={showCustom ? "selected" : ""}
                   onClick={() => {
                     setShowCustom(true);
-                    setSelectedSize("Custom");
+                    setSelectedSize("");
                     setMeasurements(user?.measurements || {});
                     setErrors({});
                   }}
@@ -590,7 +589,7 @@ const handleNext = () => {
           </div>
         )}
         </div>
-       <ProductReviews  productId={id} />
+
        
       </div>
     </div>

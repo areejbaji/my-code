@@ -15,7 +15,7 @@ const {
   getCategoryBySlug 
 } = require("../controllers/categoryController");
 
-// Main categories
+
 router.get("/", getMainCategories);
 router.get("/parent/:parentId", getSubcategoriesByParent);
 
@@ -23,7 +23,7 @@ router.post("/", verifyTokenAndAdmin, upload.single("image"), createCategory);
 router.put("/:id", verifyTokenAndAdmin, upload.single("image"), updateCategory);
 router.delete("/:id", verifyTokenAndAdmin, deleteCategory);
 
-// Subcategories
+
 router.post("/:id/sub", verifyTokenAndAdmin, upload.single("image"), addSubcategory);
 router.put("/:id/sub/:subId", verifyTokenAndAdmin, upload.single("image"), updateSubcategory);
 router.delete("/:id/sub/:subId", verifyTokenAndAdmin, deleteSubcategory);

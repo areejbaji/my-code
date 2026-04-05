@@ -1,95 +1,66 @@
 
+const jwt = require("jsonwebtoken"); 
+const User = require("../models/User"); 
 
-// const jwt = require("jsonwebtoken");
-// const User = require("../models/User");
-
-// // Protect routes
-// const protect = async (req, res, next) => {
-//   let token;
-
-//   if (
-//     req.headers.authorization &&
-//     req.headers.authorization.startsWith("Bearer")
-//   ) {
-//     try {
-//       token = req.headers.authorization.split(" ")[1];
-
-//       // ✅ Use the correct secret key from .env
-//       const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_KEY);
-
-//       req.user = await User.findById(decoded.userId).select("-password");
-
-//       if (!req.user) {
-//         return res.status(401).json({ message: "User not found" });
-//       }
-
-//       next();
-//     } catch (error) {
-//       console.error(error);
-//       return res.status(401).json({ message: "Not authorized, token failed" });
-//     }
-//   }
-
-//   if (!token) {
-//     return res.status(401).json({ message: "Not authorized, no token" });
-//   }
-// };
-
-// // Admin middleware
-// const admin = (req, res, next) => {
-//   if (req.user && req.user.role.toLowerCase() === "admin") {
-//     next();
-//   } else {
-//     res.status(403).json({ message: "Not authorized as admin" });
-//   }
-// };
-
-// module.exports = { protect, admin };
-// Backend/middlewares/authMiddleware.js
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
-
-// Protect routes
-const protect = async (req, res, next) => {
-  let token;
-
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    try {
-      token = req.headers.authorization.split(" ")[1];
-
-      const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_KEY);
-
-      req.user = await User.findById(decoded.userId).select("-password");
-
-      if (!req.user) {
-        return res.status(401).json({ message: "User not found" });
-      }
-
-      next();
-    } catch (error) {
-      console.error(error);
-      return res.status(401).json({ message: "Not authorized, token failed" });
+const verifyTokenAndAdmin = async (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "No token provided" });
     }
-  }
 
-  if (!token) {
-    return res.status(401).json({ message: "Not authorized, no token" });
-  }
-};
+    const token = authHeader.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ message: "Invalid token format" });
+    }
 
-// Admin middleware
-const admin = (req, res, next) => {
-  if (req.user && req.user.role.toLowerCase() === "admin") {
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_KEY);
+    
+    if (!decoded.role || decoded.role !== "admin") {
+      return res.status(403).json({ message: "Admin access required" });
+    }
+
+    req.user = decoded;
     next();
-  } else {
-    res.status(403).json({ message: "Not authorized as admin" });
+
+  } catch (error) {
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token expired" });
+    }
+    return res.status(401).json({ message: "Token verification failed" });
+  }
+};
+const protect = async (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_KEY);
+    
+    // ✅ FIX: Check both 'id' and 'userId' since your tokens use 'id'
+    const userId = decoded.id || decoded.userId;
+    
+    if (!userId) {
+      return res.status(401).json({ message: "Invalid token payload" });
+    }
+    
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    console.error("Protect middleware error:", error.message);
+    return res.status(401).json({ message: "Token verification failed" });
   }
 };
 
-// Alias for admin-only routes
-const verifyTokenAndAdmin = [protect, admin];
-
-module.exports = { protect, admin, verifyTokenAndAdmin };
+module.exports = { protect, verifyTokenAndAdmin };

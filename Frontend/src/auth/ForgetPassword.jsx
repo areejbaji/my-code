@@ -12,7 +12,7 @@ const ForgetPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(" Forget Password Submit ");
+    console.log("🟢 Forget Password Submit Triggered");
 
     try {
       setLoading(true);
@@ -26,25 +26,25 @@ const ForgetPassword = () => {
       const result = await response.json();
       setLoading(false);
 
-      if (!response.ok) {throw new Error(result?.message || 'Request failed');}
+      if (!response.ok) throw new Error(result?.message || 'Request failed');
 
       if (result?.status) {
         toast.success(result.message);
         console.log("✅ Email sent:", result);
       }
-      
+        // ✅ Save correct token
         if (result.token) {
-          localStorage.setItem('passToken', result.token); 
+          localStorage.setItem('passToken', result.token); // ✅ This is now correct
 
         localStorage.setItem('email',email)
 
 
-        navigate('/VerifyOTP');
+        navigate('/VerifyOTP'); // ✅ Go to OTP screen
       }
     
     } catch (error) {
       setLoading(false);
-       toast.error(error.message || 'Something went wrong');
+      toast.error(error.message || 'Something went wrong');
     }
   };
 
@@ -73,7 +73,9 @@ const ForgetPassword = () => {
             <Button type="submit">
               <LoadingButton loading={loading} title="Send OTP" />
             </Button>
-           
+            {/* <div className='auth_option'>
+              <Link to="/login">Back to login</Link>
+            </div> */}
             
               <BackToLogin/>
           

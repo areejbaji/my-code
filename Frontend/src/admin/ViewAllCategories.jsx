@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import "./ViewAllCategories.css";
 
-// ✅ Axios instance with admin token
+//  Axios instance with admin token
 const token = localStorage.getItem("adminToken"); // Admin JWT token
 const API = axios.create({
   baseURL: "http://localhost:4000/api/admin",
@@ -53,7 +53,7 @@ const ViewAllCategories = () => {
     setExpandedCat(expandedCat === catId ? null : catId);
   };
 
-  // ------------------- CATEGORY -------------------
+  // CATEGORY 
   const addCategory = async () => {
     if (!newCatName) return toast.error("Enter category name");
     try {
@@ -112,7 +112,7 @@ const ViewAllCategories = () => {
     }
   };
 
-  // ------------------- SUBCATEGORY -------------------
+  //  SUBCATEGORY 
   const addSubcategory = async (catId) => {
     if (!newSubName) return toast.error("Enter subcategory name");
     try {
@@ -176,12 +176,12 @@ const ViewAllCategories = () => {
       <ToastContainer />
       <h2 className="text-2xl font-bold mb-4">Manage Categories</h2>
 
-      {/* Add New Category */}
+      {/* Add New Category
       <div className="add-category">
         <input type="text" placeholder="New category name" value={newCatName} onChange={(e) => setNewCatName(e.target.value)} />
         <input type="file" onChange={(e) => setNewCatImage(e.target.files[0])} />
         <button onClick={addCategory}>Add Category</button>
-      </div>
+      </div> */}
 
       <table className="category-table">
         <thead>

@@ -2,7 +2,7 @@ const Category = require("../models/Category");
 const slugify = require("slugify");
 const cloudinary = require("../config/cloudinary");
 
-// Get all main categories
+
 exports.getMainCategories = async (req, res) => {
   try {
     const categories = await Category.find();
@@ -12,7 +12,6 @@ exports.getMainCategories = async (req, res) => {
   }
 };
 
-// Get subcategories by parent ID
 exports.getSubcategoriesByParent = async (req, res) => {
   try {
     const category = await Category.findById(req.params.parentId);
@@ -23,7 +22,6 @@ exports.getSubcategoriesByParent = async (req, res) => {
   }
 };
 
-// Create a new category
 exports.createCategory = async (req, res) => {
   try {
     const { name } = req.body;
@@ -48,7 +46,6 @@ exports.createCategory = async (req, res) => {
   }
 };
 
-// Update category
 exports.updateCategory = async (req, res) => {
   try {
     const { name } = req.body;
@@ -73,7 +70,6 @@ exports.updateCategory = async (req, res) => {
   }
 };
 
-// Delete category
 exports.deleteCategory = async (req, res) => {
   try {
     const category = await Category.findByIdAndDelete(req.params.id);
@@ -84,7 +80,6 @@ exports.deleteCategory = async (req, res) => {
   }
 };
 
-// Toggle category active/inactive
 exports.toggleCategoryStatus = async (req, res) => {
   try {
     const category = await Category.findById(req.params.id);
@@ -99,7 +94,6 @@ exports.toggleCategoryStatus = async (req, res) => {
   }
 };
 
-// Add subcategory
 exports.addSubcategory = async (req, res) => {
   try {
     const { name } = req.body;
@@ -125,7 +119,6 @@ exports.addSubcategory = async (req, res) => {
   }
 };
 
-// Update subcategory
 exports.updateSubcategory = async (req, res) => {
   try {
     const { name } = req.body;
@@ -153,7 +146,6 @@ exports.updateSubcategory = async (req, res) => {
   }
 };
 
-// Delete subcategory
 exports.deleteSubcategory = async (req, res) => {
   try {
     const { subId } = req.params;
@@ -169,7 +161,6 @@ exports.deleteSubcategory = async (req, res) => {
   }
 };
 
-// Get category stats
 exports.getCategoryStats = async (req, res) => {
   try {
     const totalCategories = await Category.countDocuments();
@@ -179,7 +170,7 @@ exports.getCategoryStats = async (req, res) => {
     res.status(500).json({ message: "Error fetching category stats", error: err.message });
   }
 };
-// controllers/categoryController.js
+
 exports.getCategoryBySlug = async (req, res) => {
   try {
     const category = await Category.findOne({ slug: req.params.slug });

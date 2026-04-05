@@ -1,8 +1,9 @@
+
 import React, { useEffect, useState } from 'react';
 import apis from '../utils/apis';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './Admin.css';
+import './AdminProfile.css';
 
 const AdminProfile = () => {
   const [profile, setProfile] = useState(null);
@@ -19,6 +20,7 @@ const AdminProfile = () => {
   });
 
   const [previewImage, setPreviewImage] = useState('');
+  const [uploadFile, setUploadFile] = useState(null);
 
   const avatarOptions = [
     "https://cdn-icons-png.flaticon.com/512/194/194938.png",
@@ -26,6 +28,10 @@ const AdminProfile = () => {
     "https://cdn-icons-png.flaticon.com/512/3006/3006878.png",
     "https://cdn-icons-png.flaticon.com/512/1999/1999625.png",
     "https://cdn-icons-png.flaticon.com/512/2922/2922506.png",
+    "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+    "https://cdn-icons-png.flaticon.com/512/3135/3135789.png",
+    "https://cdn-icons-png.flaticon.com/512/3135/3135768.png",
+    "https://cdn-icons-png.flaticon.com/512/3135/3135823.png",
   ];
 
   useEffect(() => {
@@ -63,6 +69,16 @@ const AdminProfile = () => {
     setFormData(prev => ({ ...prev, avatar: url }));
     setPreviewImage(url);
     setShowAvatarPage(false);
+    setUploadFile(null);
+  };
+
+  const handleFileChange = e => {
+    const file = e.target.files[0];
+    if (file) {
+      setUploadFile(file);
+      setPreviewImage(URL.createObjectURL(file));
+      setFormData(prev => ({ ...prev, avatar: "" }));
+    }
   };
 
   const handleSubmit = async e => {
@@ -70,22 +86,26 @@ const AdminProfile = () => {
     setUpdating(true);
     try {
       const token = localStorage.getItem('adminToken');
-      const submitData = {
-        name: formData.name,
-        avatar: formData.avatar,
-      };
+      const submitData = new FormData();
+      submitData.append("name", formData.name);
+
+      if (uploadFile) {
+        submitData.append("avatar", uploadFile);
+      } else if (formData.avatar) {
+        submitData.append("avatar", formData.avatar);
+      }
+
       const response = await fetch(apis().updateAdminProfile, {
         method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(submitData)
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: submitData,
       });
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to update profile');
       }
+
       const result = await response.json();
       setProfile(result.profile);
       setIsEditing(false);
@@ -105,28 +125,55 @@ const AdminProfile = () => {
       avatar: profile.avatar || '',
     });
     setPreviewImage(profile.avatar || '');
+    setUploadFile(null);
   };
 
-  if (loading) return <div className="loading">Loading profile...</div>;
-  if (error) return <div className="error">Error: {error}</div>;
-  if (!profile) return <div className="error">No profile data found</div>;
+  if (loading) {
+    return (
+      <div className="admin-profile">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="admin-profile">
+        <div className="error-container">
+          <div className="error-icon">⚠️</div>
+          <p>Error: {error}</p>
+          <button onClick={fetchProfile} className="retry-btn">Try Again</button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <div className="admin-profile">
+        <div className="error-container">
+          <div className="error-icon">📄</div>
+          <p>No profile data found</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-profile">
       <div className="profile-container">
         <div className="profile-header">
-          <h2>Admin Profile</h2>
-          {!isEditing && (
-            <button onClick={() => setIsEditing(true)} className="edit-btn">
-              Edit Profile
-            </button>
-          )}
+          <h1 className="profile-title">Admin Profile</h1>
+          <p className="profile-subtitle">Manage your account information</p>
         </div>
 
-        {!isEditing ? (
+        {!isEditing && !showAvatarPage ? (
           <div className="profile-view">
-            <div className="avatar-section">
-              <div className="avatar">
+            <div className="profile-avatar-section">
+              <div className="profile-avatar">
                 {profile?.avatar ? (
                   <img src={profile.avatar} alt="Admin Avatar" />
                 ) : (
@@ -135,97 +182,178 @@ const AdminProfile = () => {
                   </div>
                 )}
               </div>
+              <h2 className="profile-name">{profile?.name || 'Admin'}</h2>
+              <span className="profile-role">Administrator</span>
             </div>
 
-            <div className="profile-details">
-              <div className="detail-item">
-                <label>Name:</label>
-                <span>{profile?.name || 'Not set'}</span>
+            <div className="profile-info">
+              <div className="info-grid">
+                <div className="info-item">
+                  <span className="info-label">Full Name</span>
+                  <span className="info-value">{profile?.name || 'Not set'}</span>
+                </div>
+                <div className="info-item">
+                  <span className="info-label">Email Address</span>
+                  <span className="info-value">{profile?.email || 'Not set'}</span>
+                </div>
+                <div className="info-item">
+                  <span className="info-label">Role</span>
+                  <span className="info-value">
+                    <span className="role-badge">Admin</span>
+                  </span>
+                </div>
+                <div className="info-item">
+                  <span className="info-label">Member Since</span>
+                  <span className="info-value">
+                    {profile?.createdAt ? new Date(profile.createdAt).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    }) : 'Unknown'}
+                  </span>
+                </div>
               </div>
-              <div className="detail-item">
-                <label>Email:</label>
-                <span>{profile?.email || 'Not set'}</span>
-              </div>
-              <div className="detail-item">
-                <label>Role:</label>
-                <span className="role-badge">Admin</span>
-              </div>
-              <div className="detail-item">
-                <label>Joined:</label>
-                <span>{profile?.createdAt ? new Date(profile.createdAt).toLocaleDateString() : 'Unknown'}</span>
-              </div>
+            </div>
+
+            <div className="profile-actions">
+              <button onClick={() => setIsEditing(true)} className="edit-profile-btn">
+                Edit Profile
+              </button>
             </div>
           </div>
         ) : showAvatarPage ? (
-          <div className="avatar-page">
-            <h3>Select an Avatar</h3>
-            <div className="avatar-options">
-              {avatarOptions.map(url => (
-                <img
+          <div className="avatar-selection-page">
+            <div className="avatar-header">
+              <button className="back-btn" onClick={() => setShowAvatarPage(false)}>
+                ← Back
+              </button>
+              <h2>Choose Your Avatar</h2>
+              <p>Select from professional avatars</p>
+            </div>
+            
+            <div className="avatar-grid">
+              {avatarOptions.map((url, index) => (
+                <div
                   key={url}
-                  src={url}
-                  alt="avatar option"
+                  className={`avatar-option ${formData.avatar === url ? 'selected' : ''}`}
                   onClick={() => handleAvatarSelect(url)}
-                  className={formData.avatar === url ? 'selected' : ''}
-                />
+                >
+                  <img src={url} alt={`Avatar ${index + 1}`} />
+                  {formData.avatar === url && (
+                    <div className="selected-indicator">✓</div>
+                  )}
+                </div>
               ))}
             </div>
-            <button className="cancel-btn" onClick={() => setShowAvatarPage(false)}>Back</button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="profile-edit">
-            <div className="avatar-section">
-              <div className="avatar">
-                {previewImage ? (
-                  <img src={previewImage} alt="Preview" />
-                ) : (
-                  <div className="avatar-placeholder">
-                    {formData.name ? formData.name.charAt(0).toUpperCase() : 'A'}
-                  </div>
-                )}
-              </div>
-              <button type="button" className="change-avatar-btn" onClick={() => setShowAvatarPage(true)}>
-                Change Avatar
+          <div className="profile-edit-form">
+            <div className="form-header">
+              <button className="back-btn" onClick={cancelEdit}>
+                ← Back
               </button>
+              <h2>Edit Profile</h2>
+              <p>Update your information</p>
             </div>
 
-            <div className="form-fields">
-              <div className="field">
-                <label>Name:</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  placeholder="Enter your name"
-                  required
-                />
+            <form onSubmit={handleSubmit}>
+              <div className="form-avatar-section">
+                <div className="current-avatar">
+                  {previewImage ? (
+                    <img src={previewImage} alt="Preview" />
+                  ) : (
+                    <div className="avatar-placeholder">
+                      {formData.name ? formData.name.charAt(0).toUpperCase() : 'A'}
+                    </div>
+                  )}
+                </div>
+                
+                <div className="avatar-controls">
+                  <button
+                    type="button"
+                    className="choose-avatar-btn"
+                    onClick={() => setShowAvatarPage(true)}
+                  >
+                    Choose Avatar
+                  </button>
+                  
+                  <div className="file-upload-wrapper">
+                    <input
+                      type="file"
+                      id="avatar-upload"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      className="file-input"
+                    />
+                    <label htmlFor="avatar-upload" className="upload-btn">
+                      Upload Image
+                    </label>
+                  </div>
+                </div>
               </div>
 
-              <div className="field">
-                <label>Email:</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  readOnly
-                  placeholder="Email cannot be changed"
-                />
+              <div className="form-fields">
+                <div className="field-group">
+                  <label className="field-label">Full Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="Enter your name"
+                    className="field-input"
+                    required
+                  />
+                </div>
+
+                <div className="field-group">
+                  <label className="field-label">Email Address</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    className="field-input disabled"
+                    readOnly
+                    placeholder="Email cannot be changed"
+                  />
+                  <small className="field-note">Email cannot be modified</small>
+                </div>
               </div>
 
               <div className="form-actions">
-                <button type="submit" className="save-btn" disabled={updating}>
-                  {updating ? 'Updating...' : 'Save Changes'}
+                <button
+                  type="submit"
+                  className={`save-btn ${updating ? 'loading' : ''}`}
+                  disabled={updating}
+                >
+                  {updating ? 'Saving...' : 'Save Changes'}
                 </button>
-                <button type="button" onClick={cancelEdit} className="cancel-btn" disabled={updating}>
+                <button
+                  type="button"
+                  onClick={cancelEdit}
+                  className="cancel-btn"
+                  disabled={updating}
+                >
                   Cancel
                 </button>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         )}
       </div>
-      <ToastContainer />
+      
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };
