@@ -5,6 +5,7 @@ import Home from './Home';
 import Navbar from './Navbar';
 import TermsAndConditions from './Footer/Termsandcondition';
 import ShippingPolicy from './Footer/Shippingpolicy';
+import faq from './Footer/Faq';
 import Footer from './Footer/Footer';
 import ProductDetailPage from './ProductDetailPage';
 import AboutUs from './AboutUs';
@@ -36,6 +37,8 @@ import ViewAllCategories from './admin/ViewAllCategories';
 import AddCategory from './admin/AddCategory';
 import CategoryPage from './CategoryPage';
 import ScrollToTop from './ScrolltoTop';
+import { FaQq } from 'react-icons/fa';
+import Faq from './Footer/Faq';
 
 
 
@@ -64,6 +67,7 @@ const App = () => {
             <Route path="/category/:slug" element={<CategoryPage />} />
         <Route path="/termsandcondition" element={<TermsAndConditions />} />
         <Route path="/shippingpolicy" element={<ShippingPolicy />} />
+        <Route path="/faq" element={<Faq />} />
         <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/cart" element={<CartPage />} />

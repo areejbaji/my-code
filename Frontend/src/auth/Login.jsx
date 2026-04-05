@@ -64,14 +64,31 @@ export default function Login() {
           if (result.role === 'admin') {
               localStorage.setItem('adminToken', result.token);
              navigate('/admin');
-                } else {
-               localStorage.setItem('userToken', result.token);
-    localStorage.setItem('user', JSON.stringify(result.user));
-            navigate('/');
-              }
+          } else {
+  // ✅ Use accessToken as the key
+  localStorage.setItem('accessToken', result.token);
+  localStorage.setItem('user', JSON.stringify(result.user));
+  
+  // Clean up old keys
+  localStorage.removeItem('token');
+  localStorage.removeItem('userToken');
+  
+  navigate('/');
+}
+  //               } else {
+  //   //            localStorage.setItem('userToken', result.token);
+  //   // localStorage.setItem('user', JSON.stringify(result.user));
+  //     localStorage.setItem('token', result.token);
+  // localStorage.setItem('user', JSON.stringify(result.user));
+  //           navigate('/');
+            
+  //             }
+            }
+
 
       
-      } else {
+      
+       else {
         throw new Error(result?.message || "Login failed");
       }
 

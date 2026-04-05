@@ -1,4 +1,4 @@
-// 
+
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
@@ -13,21 +13,19 @@ const passwordUpdateHandler = async (req, res, next) => {
             throw error;
         }
 
-        // Check OTP expiration (5 minutes)
+
         if (new Date(findUser.otp.sendTime).getTime() + 5 * 60 * 1000 < new Date().getTime()) {
             const error = new Error('OTP has expired');
             error.statusCode = 400;
             throw error;
         }
 
-        // Check if passwords match
         if (password !== confirmPassword) {
             const error = new Error('Passwords do not match');
             error.statusCode = 400;
             throw error;
         }
 
-        // Hash and update password
         const hashedPassword = await bcrypt.hash(password, 10);
         findUser.password = hashedPassword;
         findUser.otp.sendTime = null;

@@ -6,7 +6,6 @@ import axios from "axios";
 import { clearCart } from "./redux/cartSlice";
 import "./Checkout.css";
 
-
 const Toast = ({ message, type, onClose }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -16,11 +15,8 @@ const Toast = ({ message, type, onClose }) => {
   }, [onClose]);
 
   const getIcon = () => {
-    if (type === "success") {
-      return "✅";
-    } else if (type === "error") {
-      return "❌";
-    }
+    if (type === "success") return "✅";
+    if (type === "error") return "❌";
     return "ℹ️";
   };
 
@@ -53,6 +49,7 @@ const CheckoutPage = () => {
 
   const [errors, setErrors] = useState({});
   const [toast, setToast] = useState(null);
+  const [loading, setLoading] = useState(false); // 🔹 Loading state
 
   const patterns = {
     name: /^[a-zA-Z\s]{2,15}$/,
@@ -63,11 +60,9 @@ const CheckoutPage = () => {
     address: /^.{5,100}$/
   };
 
-
   const showToast = (message, type = "error") => {
     setToast({ message, type });
   };
-
 
   const validateField = (name, value) => {
     if (!value.trim() && ["name", "email", "address", "city", "phone"].includes(name)) {
@@ -76,34 +71,22 @@ const CheckoutPage = () => {
 
     switch (name) {
       case "name":
-        if (!patterns.name.test(value)) {
-          return "Name must contain only letters and spaces (2-15 characters)";
-        }
+        if (!patterns.name.test(value)) return "Name must contain only letters and spaces (2-15 characters)";
         break;
       case "email":
-        if (value && !patterns.email.test(value)) {
-          return "Please enter a valid email address";
-        }
+        if (value && !patterns.email.test(value)) return "Please enter a valid email address";
         break;
       case "phone":
-        if (!patterns.phone.test(value)) {
-          return "Phone number must be 10-11 digits (e.g., 03001234567)";
-        }
+        if (!patterns.phone.test(value)) return "Phone number must be 10-11 digits (e.g., 03001234567)";
         break;
       case "postalCode":
-        if (value && !patterns.postalCode.test(value)) {
-          return "Postal code must be 5 digits";
-        }
+        if (value && !patterns.postalCode.test(value)) return "Postal code must be 5 digits";
         break;
       case "city":
-        if (!patterns.city.test(value)) {
-          return "City must contain only letters and spaces (2-15 characters)";
-        }
+        if (!patterns.city.test(value)) return "City must contain only letters and spaces (2-15 characters)";
         break;
       case "address":
-        if (!patterns.address.test(value)) {
-          return "Address must be between 5-100 characters";
-        }
+        if (!patterns.address.test(value)) return "Address must be between 5-100 characters";
         break;
       default:
         return "";
@@ -149,7 +132,7 @@ const CheckoutPage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
+
     const maxLengths = {
       name: 15,
       email: 50,
@@ -159,16 +142,12 @@ const CheckoutPage = () => {
       address: 100,
       note: 200
     };
-    
-    if (maxLengths[name] && value.length > maxLengths[name]) {
-      return;
-    }
-    
+
+    if (maxLengths[name] && value.length > maxLengths[name]) return;
+
     setFormData({ ...formData, [name]: value });
-   
-    if (errors[name]) {
-      setErrors({ ...errors, [name]: "" });
-    }
+
+    if (errors[name]) setErrors({ ...errors, [name]: "" });
   };
 
   const handleBlur = (e) => {
@@ -186,64 +165,195 @@ const CheckoutPage = () => {
   const user = userData && userData !== "undefined" ? JSON.parse(userData) : null;
   const userId = user?._id;
 
-  const handlePlaceOrder = async () => {
-    // Validate form
-    if (!validateForm()) {
-      showToast("Please fix the errors in the form", "error");
-      return;
-    }
+  // const handlePlaceOrder = async () => {
+  //   if (loading) return; // Prevent multiple clicks
 
-  
-    if (cartItems.length === 0) {
-      showToast("Your cart is empty!", "error");
-      return;
-    }
+  //   if (!validateForm()) {
+  //     showToast("Please fix the errors in the form", "error");
+  //     return;
+  //   }
 
-    for (let item of cartItems) {
-      if (item.quantity > item.stock) {
-        showToast(`Only ${item.stock} items available for ${item.name} (${item.size})`, "error");
-        return;
-      }
-    }
+  //   if (cartItems.length === 0) {
+  //     showToast("Your cart is empty!", "error");
+  //     return;
+  //   }
 
-    try {
-      const order = {
-        userId,
-        items: cartItems.map((item) => ({
-          productId: item.productId,
+  //   for (let item of cartItems) {
+  //     if (item.quantity > item.stock) {
+  //       showToast(`Only ${item.stock} items available for ${item.name} (${item.size})`, "error");
+  //       return;
+  //     }
+  //   }
+
+  //   try {
+  //     setLoading(true); // Start loading
+  //     const order = {
+  //       userId,
+  //       items: cartItems.map((item) => ({
+  //         productId: item.productId,
+  //         name: item.name,
+  //         price: item.price,
+  //         image: item.image,
+  //         quantity: item.quantity,
+  //         size: item.size,
+  //         measurements: item.measurements
+  //       })),
+  //       shipping: formData,
+  //       totalAmount,
+  //       paymentMethod: formData.paymentMethod,
+  //       country: formData.country
+  //     };
+
+  //     const res = await axios.post("http://localhost:4000/api/orders", order);
+  //     console.log("Order saved:", res.data);
+
+  //     showToast("Order placed successfully!", "success");
+
+  //     setTimeout(() => {
+  //       dispatch(clearCart());
+  //       navigate("/receipt", { state: { order: res.data } });
+  //     }, 1500);
+  //   } catch (err) {
+  //     console.error("Order placement error:", err.response?.data || err.message);
+  //     showToast("Failed to place order. Please try again.", "error");
+  //   } finally {
+  //     setLoading(false); // Stop loading
+  //   }
+  // };
+//   const handlePlaceOrder = async () => {
+//   if (loading) return;
+
+//   if (!validateForm()) {
+//     showToast("Please fix the errors in the form", "error");
+//     return;
+//   }
+
+//   if (cartItems.length === 0) {
+//     showToast("Your cart is empty!", "error");
+//     return;
+//   }
+
+//   // ✅ Remove frontend stock check - backend will handle it
+
+//   try {
+//     setLoading(true);
+//     const order = {
+//       userId,
+//       items: cartItems.map((item) => ({
+//         productId: item._id,
+//         name: item.name,
+//         price: item.price,
+//         image: item.image,
+//         quantity: item.quantity,
+//         size: item.size,
+//         measurements: item.measurements
+//       })),
+//       shipping: formData,
+//       totalAmount,
+//       paymentMethod: formData.paymentMethod,
+//       country: formData.country
+//     };
+
+//     const res = await axios.post("http://localhost:4000/api/orders", order);
+
+//     showToast("Order placed successfully!", "success");
+//     setTimeout(() => {
+//       dispatch(clearCart());
+//       navigate("/receipt", { state: { order: res.data } });
+//     }, 1500);
+
+//   } catch (err) {
+//     console.error("Order placement error:", err.response?.data || err.message);
+    
+//     // ✅ Show backend error message
+//     const errorMsg = err.response?.data?.message || "Failed to place order. Please try again.";
+//     showToast(errorMsg, "error");
+    
+//   } finally {
+//     setLoading(false);
+//   }
+// };
+const handlePlaceOrder = async () => {
+  if (loading) return;
+ const token = localStorage.getItem('accessToken');
+  if (!validateForm()) {
+    showToast("Please fix the errors in the form", "error");
+    return;
+  }
+
+  if (cartItems.length === 0) {
+    showToast("Your cart is empty!", "error");
+    return;
+  }
+
+  try {
+    setLoading(true);
+    
+    // ✅ Debug: Log cart items to see their structure
+    console.log("Cart items:", cartItems);
+    
+    const order = {
+      userId,
+      items: cartItems.map((item) => {
+        // ✅ Try multiple fields to get productId
+        const productId = item.productId || item._id || item.id;
+        
+        console.log("Item productId:", productId, "from item:", item);
+        
+        return {
+          productId: productId,
           name: item.name,
           price: item.price,
           image: item.image,
           quantity: item.quantity,
           size: item.size,
           measurements: item.measurements
-        })),
-        shipping: formData,
-        totalAmount,
-        paymentMethod: formData.paymentMethod,
-        country: formData.country
-      };
+        };
+      }),
+      shipping: formData,
+      totalAmount,
+      paymentMethod: formData.paymentMethod,
+      country: formData.country
+    };
 
-      const res = await axios.post("http://localhost:4000/api/orders", order);
-      console.log("Order saved:", res.data);
+    console.log("Sending order:", order);
 
-      showToast("Order placed successfully! ", "success");
+    const res = await axios.post("http://localhost:4000/api/orders", order,{
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
       
-      // Clear cart and navigate after a short delay
-      setTimeout(() => {
-        dispatch(clearCart());
-        navigate("/receipt", { state: { order: res.data } });
-      }, 1500);
+    );
 
-    } catch (err) {
-      console.error(" Order placement error:", err.response?.data || err.message);
-      showToast("Failed to place order. Please try again.", "error");
-    }
-  };
+    showToast("Order placed successfully!", "success");
+    
+    // ✅ Dispatch notification event INSIDE the function
+    window.dispatchEvent(new Event("new-notification"));
+    
+    setTimeout(() => {
+      dispatch(clearCart());
+      navigate("/receipt", { state: { order: res.data } });
+    }, 1500);
+
+  } catch (err) {
+    console.error("Order placement error:", err.response?.data || err.message);
+      console.error("❌ Full error object:", err);
+  console.error("❌ Error response:", err.response);
+  console.error("❌ Error data:", err.response?.data);
+  console.error("❌ Error message:", err.response?.data?.message || err.message);
+    const errorMsg = err.response?.data?.message || "Failed to place order. Please try again.";
+    showToast(errorMsg, "error");
+    
+  } finally {
+    setLoading(false);
+  }
+};
+
+  // window.dispatchEvent(new Event("new-notification"));
 
   return (
     <div className="checkout-container">
-      {/* Toast Notification */}
       {toast && (
         <Toast
           message={toast.message}
@@ -252,15 +362,15 @@ const CheckoutPage = () => {
         />
       )}
 
-      {/* Left: Shipping Form */}
       <div className="checkout-form">
         <h2>Shipping Details</h2>
-        
+
+        {/* Name */}
         <div className="form-group">
           <input
             type="text"
             name="name"
-            placeholder="Full Name "
+            placeholder="Full Name"
             value={formData.name}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -271,6 +381,7 @@ const CheckoutPage = () => {
           {errors.name && <span className="error-message">{errors.name}</span>}
         </div>
 
+        {/* Email */}
         <div className="form-group">
           <input
             type="email"
@@ -286,6 +397,7 @@ const CheckoutPage = () => {
           {errors.email && <span className="error-message">{errors.email}</span>}
         </div>
 
+        {/* Address */}
         <div className="form-group">
           <input
             type="text"
@@ -301,6 +413,7 @@ const CheckoutPage = () => {
           {errors.address && <span className="error-message">{errors.address}</span>}
         </div>
 
+        {/* City and Country */}
         <div className="row">
           <div className="form-group">
             <input
@@ -316,7 +429,7 @@ const CheckoutPage = () => {
             <div className="char-counter">{formData.city.length}/15</div>
             {errors.city && <span className="error-message">{errors.city}</span>}
           </div>
-          
+
           <div className="form-group">
             <input
               type="text"
@@ -328,12 +441,13 @@ const CheckoutPage = () => {
           </div>
         </div>
 
+        {/* Postal and Phone */}
         <div className="row">
           <div className="form-group">
             <input
               type="text"
               name="postalCode"
-              placeholder="Postal Code ( Optional)"
+              placeholder="Postal Code (Optional)"
               value={formData.postalCode}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -343,7 +457,7 @@ const CheckoutPage = () => {
             <div className="char-counter">{formData.postalCode.length}/5</div>
             {errors.postalCode && <span className="error-message">{errors.postalCode}</span>}
           </div>
-          
+
           <div className="form-group">
             <input
               type="text"
@@ -360,6 +474,7 @@ const CheckoutPage = () => {
           </div>
         </div>
 
+        {/* Note */}
         <div className="form-group">
           <textarea
             name="note"
@@ -372,17 +487,27 @@ const CheckoutPage = () => {
           <div className="char-counter">{formData.note.length}/200</div>
         </div>
 
+        {/* Payment */}
         <div className="payment-section">
           <h3 className="payment-heading">Payment Method</h3>
           <div className="payment-circle">{formData.paymentMethod}</div>
         </div>
 
-        <button className="place-order-btn" onClick={handlePlaceOrder}>
-          Place Order
+        {/* Place Order Button */}
+        <button
+          className="place-order-btn"
+          onClick={handlePlaceOrder}
+          disabled={loading} // Disable while loading
+        >
+          {loading ? (
+            <span className="spinner"></span>
+          ) : (
+            "Place Order"
+          )}
         </button>
       </div>
 
-     
+      {/* Order Summary */}
       <div className="checkout-summary">
         <h2>Order Summary</h2>
         {cartItems.map((item, index) => (
@@ -390,59 +515,37 @@ const CheckoutPage = () => {
             <img src={item.image} alt={item.name} />
             <div>
               <p>{item.name}</p>
-              <p>
-                PKR {item.price} x {item.quantity}
-              </p>
+              <p>PKR {item.price} x {item.quantity}</p>
               <p>Size: {item.size}</p>
 
-                 {/* Measurements */}
-{item.measurements && (
-  <div className="measurement-section">
-    <div>
-      <h5>Shirt</h5>
-      <div className="measurements-boxes">
-        {[
-          "Length",
-          "Shoulder",
-          "Armhole",
-          "Chest",
-          "Waist",
-          "Hip",
-          "Sleeve Length",
-          "Wrist",
-          "Bottom/Damman"
-        ]
-          .filter(
-            (f) =>
-              (item.measurements && item.measurements[f]) ||
-              (item.measurements && item.measurements[`S.${f}`])
-          )
-          .map((f) => (
-            <div key={f} className="measure-box">
-              {f}: {item.measurements[f] || item.measurements[`S.${f}`]}
-            </div>
-          ))}
-      </div>
-    </div>
-    <div>
-      <h5>Trouser</h5>
-      <div className="measurements-boxes">
-        {["Length", "Waist", "Knee", "Thigh", "Hip", "Bottom"]
-          .filter(
-            (f) =>
-              (item.measurements && item.measurements[f]) ||
-              (item.measurements && item.measurements[`T.${f}`])
-          )
-          .map((f) => (
-            <div key={f} className="measure-box">
-              {f}: {item.measurements[f] || item.measurements[`T.${f}`]}
-            </div>
-          ))}
-      </div>
-    </div>
-  </div>
-)}
-
+              {item.measurements && (
+                <div className="measurement-section">
+                  <div>
+                    <h5>Shirt</h5>
+                    <div className="measurements-boxes">
+                      {["Length","Shoulder","Armhole","Chest","Waist","Hip","Sleeve Length","Wrist","Bottom/Damman"]
+                        .filter(f => (item.measurements[f] || item.measurements[`S.${f}`]))
+                        .map(f => (
+                          <div key={f} className="measure-box">
+                            {f}: {item.measurements[f] || item.measurements[`S.${f}`]}
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                  <div>
+                    <h5>Trouser</h5>
+                    <div className="measurements-boxes">
+                      {["Length","Waist","Knee","Thigh","Hip","Bottom"]
+                        .filter(f => (item.measurements[f] || item.measurements[`T.${f}`]))
+                        .map(f => (
+                          <div key={f} className="measure-box">
+                            {f}: {item.measurements[f] || item.measurements[`T.${f}`]}
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
             <p>Rs {item.price * item.quantity}</p>
           </div>

@@ -1,34 +1,64 @@
 
 .hero-container {
   position: relative;
-  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;     
   text-align: center;
-  padding: 100px 20px;
+  height: 100vh;          
+  padding: 0 20px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  color: white;
 }
 
 .hero-container::before {
   content: "";
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 251, 251, 0); /* dark overlay for contrast */
+  z-index: 1;
 }
 
 .hero-content {
   position: relative;
   z-index: 2;
+  max-width: 800px;
 }
 
 .hero-content h1 {
   font-size: 3rem;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .hero-content p {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: #ddd;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+  .hero-content p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 1.8rem;
+  }
+  .hero-content p {
+    font-size: 1rem;
+  }
 }
 
 
@@ -47,7 +77,7 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 20px;
 }
 
 .subcategory-card {
@@ -95,7 +125,7 @@
 .product-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr); 
-  gap: 20px;
+  gap: 30px;
 }
 
 .product-card {

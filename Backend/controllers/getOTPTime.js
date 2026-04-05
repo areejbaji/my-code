@@ -19,7 +19,7 @@ const getOTPTimeHandler = async (req, res, next) => {
     });
 
   } catch (error) {
-    next(error); // Pass to Express error handler
+    next(error); 
   }
 };
 

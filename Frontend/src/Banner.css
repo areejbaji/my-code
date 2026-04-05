@@ -46,6 +46,7 @@
   margin-bottom: 1rem;
   font-weight: 800;
   letter-spacing: 1px;
+  color: #fff;
 }
 
 .promo-content p {
@@ -54,22 +55,9 @@
   font-weight: 400;
 }
 
-.shop-btn {
-  padding: 0.8rem 2rem;
-  font-size: 1.05rem;
-  background-color: #ff4d6d;
-  color: white;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
-}
 
-.shop-btn:hover {
-  background-color: #e0315b;
-  transform: translateY(-2px);
-}
+
+
 
 @media (max-width: 768px) {
   .promo-content h1 {

@@ -8,25 +8,6 @@
   position: relative;
 }
 
-.back-btn {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  padding: 8px 18px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  background: #ff7b29;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.back-btn:hover {
-  background: #ff9555;
-  transform: translateY(-2px);
-}
 
 .about-text {
   flex: 1;
@@ -43,7 +24,7 @@
 
 .about-tagline {
   font-size: 1.2rem;
-  color: #ff7b29;
+  color: #29caff;
   margin-bottom: 20px;
 }
 
@@ -53,7 +34,7 @@
 
 .highlight-box {
   background: #fff4ec;
-  border-left: 5px solid #ff7b29;
+  border-left: 5px solid #29caff;
   padding: 20px;
   border-radius: 10px;
   margin: 15px 0;
@@ -73,7 +54,7 @@
 
 .highlight-box p {
   font-size: 0.95rem;
-  color: #444;
+  color: #4b4848;
   line-height: 1.5;
 }
 
@@ -85,7 +66,8 @@
 
 .about-image img {
   width: 100%;
-  max-width: 420px;
+  
+  max-width: 520px;
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }

@@ -32,9 +32,18 @@ const orderSchema = new mongoose.Schema({
   paymentMethod: { type: String, default: "Cash on Delivery" },
   status: { type: String, default: "Pending" },
   returnStatus: { type: String, default: "Not Returned" }, 
-  createdAt: { type: Date, default: Date.now }
+  
+  returnStatus: {
+    type: String,
+    enum: ["Not Returned", "Requested", "Returned"],
+    default: "Not Returned",
+  },
+    returnReason: { type: String, default: null },
+  returnComment: { type: String, default: null },
+  returnRequestedAt: { type: Date, default: null },
+  createdAt: { type: Date, default: Date.now },
 });
 
-// ❌ UUID wala pre("save") hata do
+
 
 module.exports = mongoose.model("Order", orderSchema);
